@@ -31,32 +31,33 @@ void Autonomous::Update(){
 		side = false;
 	}
 
+
 	if(a_ButtonBox.GetRawButton(2)&&side&&level){
 		Autonomous::BlueLeft();
 	}else if(!side&&level){
 		Autonomous::RedLeft();
 	}else if(side&&!level){
-		Autonomous::Stupid();
+		Autonomous::StupidBlueLeft();
 	}else if(!side&&!level){
-		Autonomous::Stupid();
+		Autonomous::StupidRedLeft();
 	}
 
-	if(a_ButtonBox.GetRawButton(3)&&side){
+	if(a_ButtonBox.GetRawButton(3)&&side&&level){
 		Autonomous::BlueMiddle();
 	}else if(!side&&level){
 		Autonomous::RedMiddle();
 	}else if(side&&!level){
-		Autonomous::Stupid();
+		Autonomous::StupidBlueMiddle();
 	}else if(!side&&!level){
-		Autonomous::Stupid();
+		Autonomous::StupidRedMiddle();
 	}
 
-	if(a_ButtonBox.GetRawButton(4)&&side){
+	if(a_ButtonBox.GetRawButton(4)&&side&&level){
 		Autonomous::BlueRight();
 	}else if(!side&&level){
 		Autonomous::RedRight();
 	}else if(side&&!level){
-		Autonomous::Stupid();
+		Autonomous::StupidBlueRight();
 	}else if(!side&&!level){
 		Autonomous::Stupid();
 	}
@@ -64,9 +65,10 @@ void Autonomous::Update(){
 }
 
 void Autonomous::MoveToBaseline(int i){
-	driveDistance = a_Drive.GetDistanceX();
+	a_Drive.Zero();
+	driveDistance = a_Drive.GetDistanceY();
 	if (driveDistance < a_BaselineDistances[a_BotPosition]) {
-		a_Drive.Update(.5,0,0,0);
+		a_Drive.Update(0,0.5,0,0);
 	} else {
 		a_NeedsToRun[i] = false;
 	}
@@ -86,9 +88,10 @@ void Autonomous::TurnToPegWait(int i) {
 }
 
 void Autonomous::MoveToPeg(int i){
-	driveDistance = a_Drive.GetDistanceX();
+	a_Drive.Zero();
+	driveDistance = a_Drive.GetDistanceY();
 	if (driveDistance < a_PegDistances[a_BotPosition]) {
-		a_Drive.Update(.5,0,0,0);
+		a_Drive.Update(0,0.5,0,0);
 	} else {
 		a_NeedsToRun[i] = false;
 	}
@@ -102,9 +105,10 @@ void Autonomous::ScoreGear(int i){
 }
 
 void Autonomous::ClearShields(int i){
+	a_Drive.Zero();
 	driveDistance = a_Drive.GetDistanceY();
-	if (driveDistance < a_ShieldsDistances[a_BotPosition]) {
-		a_Drive.Update(-.5,0,0,0);
+	if (driveDistance > a_ShieldsDistances[a_BotPosition]) {
+		a_Drive.Update(0,0.5,0,0);
 	} else {
 		a_NeedsToRun[i] = false;
 	}
@@ -124,9 +128,10 @@ void Autonomous::TurnToBoilerWait(int i) {
 }
 
 void Autonomous::MoveToBoiler(int i){
+	a_Drive.Zero();
 	driveDistance = a_Drive.GetDistanceY();
 	if (driveDistance < 0) {
-		a_Drive.Update(.5,0,0,0);
+		a_Drive.Update(0,0.5,0,0);
 	} else {
 		a_NeedsToRun[i] = false;
 	}
@@ -138,17 +143,20 @@ void Autonomous::ShootFuel(int i){
 }
 
 void Autonomous::AdjustOnWall(int i){
+	a_Drive.Zero();
 	driveDistance = a_Drive.GetDistanceX();
 	if (driveDistance < a_WallDistances[a_BotPosition]) {
-		a_Drive.Update(0,.5,0,0);
+		a_Drive.Update(0.5,0,0,0);
 	} else {
 		a_NeedsToRun[i] = false;
 	}
 }
 
 void Autonomous::ClearBoiler(int i){
-	if (driveDistance < 10) {
-		a_Drive.Update(.5,0,0,0);
+	a_Drive.Zero();
+	driveDistance = a_Drive.GetDistanceY();
+	if (driveDistance > -10) {
+		a_Drive.Update(0,0.5,0,0);
 	} else {
 		a_NeedsToRun[i] = false;
 	}
@@ -431,6 +439,183 @@ void Autonomous::RedMiddle(){
 		}
 	} while (true);
 }
+// --------------------------------------------------------------------------------------------------------------------
+void Autonomous::StupidBlueLeft(){
+	a_BotPosition = kStupidLeft;
+	do {
+		a_Gyro.Update();
+		driveDistance = a_Drive.GetDistanceY();
+		if(a_NeedsToRun[0]) {
+			MoveToBaseline(0);
+			break;
+		}
+		if(a_NeedsToRun[1]) {
+			TurnToPeg(1);
+			break;
+		}
+		if(a_NeedsToRun[2]) {
+			TurnToPegWait(2);
+			break;
+		}
+		if(a_NeedsToRun[3]) {
+			MoveToPeg(3);
+			break;
+		}
+		if(a_NeedsToRun[4]) {
+			ScoreGear(4);
+			break;
+		}
+		if(a_NeedsToRun[5]) {
+			ClearShields(5);
+			break;
+		}
+	} while (true);
+}
+
+void Autonomous::StupidBlueRight(){
+	a_BotPosition = kBlueRight;
+	do {
+		a_Gyro.Update();
+		driveDistance = a_Drive.GetDistanceY();
+		if(a_NeedsToRun[0]) {
+			MoveToBaseline(0);
+			break;
+		}
+		if(a_NeedsToRun[1]) {
+			TurnToPeg(1);
+			break;
+		}
+		if(a_NeedsToRun[2]) {
+			TurnToPegWait(2);
+			break;
+		}
+		if(a_NeedsToRun[3]) {
+			MoveToPeg(3);
+			break;
+		}
+		if(a_NeedsToRun[4]) {
+			ScoreGear(4);
+			break;
+		}
+		if(a_NeedsToRun[5]) {
+			ClearShields(5);
+			break;
+		}
+	} while (true);
+}
+
+void Autonomous::StupidBlueMiddle(){
+	a_BotPosition = kMiddle;
+	do {
+		a_Gyro.Update();
+		driveDistance = a_Drive.GetDistanceY();
+		if(a_NeedsToRun[0]) {
+			MoveToBaseline(0);
+			break;
+		}
+		if(a_NeedsToRun[1]) {
+			ScoreGear(1);
+			break;
+		}
+		if(a_NeedsToRun[2]) {
+			ClearShields(2);
+			break;
+		}
+		if(a_NeedsToRun[3]) {
+			TurnToBoiler(3);
+			break;
+		}
+	} while (true);
+}
+
+void Autonomous::StupidRedLeft(){
+	a_BotPosition = kStupidLeft;
+	do {
+		a_Gyro.Update();
+		driveDistance = a_Drive.GetDistanceY();
+		if(a_NeedsToRun[0]) {
+			MoveToBaseline(0);
+			break;
+		}
+		if(a_NeedsToRun[1]) {
+			TurnToPeg(1);
+			break;
+		}
+		if(a_NeedsToRun[2]) {
+			TurnToPegWait(2);
+			break;
+		}
+		if(a_NeedsToRun[3]) {
+			MoveToPeg(3);
+			break;
+		}
+		if(a_NeedsToRun[4]) {
+			ScoreGear(4);
+			break;
+		}
+		if(a_NeedsToRun[5]) {
+			ClearShields(5);
+			break;
+		}
+	} while (true);
+}
+
+void Autonomous::StupidRedRight(){
+	a_BotPosition = kRedRight;
+	do {
+		a_Gyro.Update();
+		driveDistance = a_Drive.GetDistanceY();
+		if(a_NeedsToRun[0]) {
+			MoveToBaseline(0);
+			break;
+		}
+		if(a_NeedsToRun[1]) {
+			TurnToPeg(1);
+			break;
+		}
+		if(a_NeedsToRun[2]) {
+			TurnToPegWait(2);
+			break;
+		}
+		if(a_NeedsToRun[3]) {
+			MoveToPeg(3);
+			break;
+		}
+		if(a_NeedsToRun[4]) {
+			ScoreGear(4);
+			break;
+		}
+		if(a_NeedsToRun[5]) {
+			ClearShields(5);
+			break;
+		}
+	} while (true);
+}
+
+void Autonomous::StupidRedMiddle(){
+	a_BotPosition = kMiddle;
+	do {
+		a_Gyro.Update();
+		driveDistance = a_Drive.GetDistanceY();
+		if(a_NeedsToRun[0]) {
+			MoveToBaseline(0);
+			break;
+		}
+		if(a_NeedsToRun[1]) {
+			ScoreGear(1);
+			break;
+		}
+		if(a_NeedsToRun[2]) {
+			ClearShields(2);
+			break;
+		}
+		if(a_NeedsToRun[3]) {
+			TurnToBoiler(3);
+			break;
+		}
+	} while (true);
+}
+
 
 void Autonomous::Stupid(){
 	do{

@@ -353,6 +353,13 @@ float SwerveDrive::GetDistanceX()
 	return (a_FrontRight.GetDistanceX() + a_BackRight.GetDistanceX() + a_FrontLeft.GetDistanceX() + a_BackLeft.GetDistanceX()) / 4;
 }
 
+void SwerveDrive::Zero()
+{
+	a_FrontRight.ResetDistances();
+	a_FrontLeft.ResetDistances();
+	a_BackLeft.ResetDistances();
+	a_BackRight.ResetDistances();
+}
 
 void SwerveDrive::SetTwistingMode()
 {

@@ -54,9 +54,9 @@ void Autonomous2::MoveToBaselineandTurnToPeg(int i){
 }
 
 void Autonomous2::MoveToPeg(int i){
-	driveDistance = a_Drive.GetDistanceX();
+	driveDistance = a_Drive.GetDistanceY();
 		if (driveDistance < a_PegDistances[a_BotPosition]) {
-			a_Drive.Update(.5,0,0,0);
+			a_Drive.Update(0,0.5,0,0);
 		} else {
 			a_NeedsToRun[i] = false;
 		}
@@ -72,7 +72,7 @@ void Autonomous2::ClearShieldsandTurnToBoiler(int i){
 	float gyroError = a_BoilerAngles[a_BotPosition] - a_Gyro.GetAngle();
 	float driveError = a_BoilerDistances[a_BotPosition] - a_Drive.GetDistanceY();
 
-	a_Drive.Update(0, driveP * driveError, turnP * gyroError, a_Gyro.GetAngle());
+	a_Drive.Update(0, -driveP * driveError, turnP * gyroError, a_Gyro.GetAngle());
 	if(fabs(gyroError) < acceptableTurnError && fabs(driveError) < acceptableDriveError) {
 		a_NeedsToRun[i] = false;
 	}

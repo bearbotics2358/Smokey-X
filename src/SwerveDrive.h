@@ -37,6 +37,8 @@ public:
 	float GetDistanceY();
 	float GetDistanceX();
 
+	void Zero();
+
 private:
 	static const std::string CONTROL_TYPE_KEY;
 

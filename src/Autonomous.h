@@ -12,7 +12,8 @@ enum BotPosition {
 	kBlueRight,
 	kRedLeft,
 	kRedRight,
-	kMiddle
+	kMiddle,
+	kStupidLeft
 };
 
 class Autonomous {
@@ -61,10 +62,10 @@ private:
 
 	bool  a_NeedsToRun[10] = {true};
 
-	float a_BaselineDistances[6] = {32.308, 105.953, 105.953, 32.308, 93.33, 95};
-	float a_PegAngles[5] = {60,-60, 60, -60, 0};
-	float a_PegDistances[5] = {78.98, 19.39, 19.39, 78.98, 0};
-	float a_ShieldsDistances[5] = {0, 19.39, 19.39, 0, 0};
+	float a_BaselineDistances[6] = {32.308, 105.953, 105.953, 32.308, 93.33, 105.953};
+	float a_PegAngles[6] = {60,-60, 60, -60, 0, 60};
+	float a_PegDistances[6] = {78.98, 19.39, 19.39, 78.98, 0, 19.39};
+	float a_ShieldsDistances[6] = {0, -19.39, -19.39, 0, 0, -19.39};
 	float a_BoilerAngles[5] = {0, -30+24.55, 30-24.55, 0, 27.97};
 	float a_BoilerDistances[5] = {0, 182.83, 182.83, 0, 156.259};
 	float a_WallDistances[5] = {1.25, 0, 0, 1.25, 0};
