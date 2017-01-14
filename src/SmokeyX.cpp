@@ -7,63 +7,117 @@
 #include <SmartDashboard/SendableChooser.h>
 #include <SmartDashboard/SmartDashboard.h>
 
-class Robot: public frc::IterativeRobot {
-public:
-	void RobotInit() {
-		chooser.AddDefault(autoNameDefault, autoNameDefault);
-		chooser.AddObject(autoNameCustom, autoNameCustom);
-		frc::SmartDashboard::PutData("Auto Modes", &chooser);
+#include "SmokeyX.h"
+
+SmokeyX::SmokeyX(void):
+		a_Joystick(JOYSTICK_PORT),
+		a_Joystick2(JOYSTICKTWO_PORT),
+		a_PDP(PDP_PORT),
+		a_Compressor(PCM_PORT),
+		a_FrontRight(FRONT_RIGHT_TURN, FRONT_RIGHT_MOVE),
+		a_FrontLeft(FRONT_LEFT_TURN, FRONT_LEFT_MOVE),
+		a_BackLeft(BACK_LEFT_TURN, BACK_LEFT_MOVE),
+		a_BackRight(BACK_RIGHT_TURN, BACK_RIGHT_MOVE),
+		a_Drive(a_FrontRight, a_FrontLeft, a_BackLeft, a_BackRight, CHASSIS_LENGTH, CHASSIS_WIDTH),
+		a_Roller(ROLLER, ROLLER_SWITCH_PORT),
+		a_Gyro(I2C::kMXP) // Didn't work because we used smartdashboard in the constructor- wait to use it until after RobotInit()
+{
+	tState = 0;
+	shooterStart = -99.0;
+	shooterCurrent = 1000000000;
+	SmartDashboard::init();
+		a_Drive.Init();
+		a_Gyro.Cal();
+		// a_BackLeft.InvertDriveMotor();
+		// a_BackRight.InvertDriveMotor();
+		// a_FrontRight.InvertDriveMotor();
+		// a_FrontLeft.InvertDriveMotor();
+		// a_BackLeft.SetDrivePID(2,0,0);
+}
+
+void SmokeyX::RobotInit()
+{
+
+}
+
+void SmokeyX::DisabledInit()
+{
+
+
+}
+
+void SmokeyX::DisabledPeriodic()
+{
+	SmartDashboard::PutNumber("Front Right Speed", a_FrontRight.GetSpeed());
+	SmartDashboard::PutNumber("Front Left Speed", a_FrontLeft.GetSpeed());
+	SmartDashboard::PutNumber("Back Right Speed", a_BackRight.GetSpeed());
+	SmartDashboard::PutNumber("Back Left Speed", a_BackLeft.GetSpeed());
+
+	SmartDashboard::PutNumber("Front Right Angle", a_FrontRight.GetAngle());
+		SmartDashboard::PutNumber("Front Left Angle", a_FrontLeft.GetAngle());
+		SmartDashboard::PutNumber("Back Right Angle", a_BackRight.GetAngle());
+		SmartDashboard::PutNumber("Back Left Angle", a_BackLeft.GetAngle());
+}
+
+void SmokeyX::AutonomousInit()
+{
+
+}
+
+void SmokeyX::AutonomousPeriodic() {
+
+}
+
+
+
+void SmokeyX::TeleopInit()
+{
+	a_Gyro.Cal();
+	a_Gyro.Zero();
+
+}
+
+void SmokeyX::TeleopPeriodic()
+{
+
+	a_Gyro.Update();
+
+	a_Drive.Update(a_Joystick, a_Gyro.GetAngle());
+
+
+
+	if(a_Joystick.GetRawButton(8)) {
+		a_Roller.Update(0.25);
+	} else if(a_Joystick.GetRawButton(1)) {
+		a_Roller.Update(-0.5);
+	} else {
+		a_Roller.Update(0);
 	}
 
-	/*
-	 * This autonomous (along with the chooser code above) shows how to select
-	 * between different autonomous modes using the dashboard. The sendable
-	 * chooser code works with the Java SmartDashboard. If you prefer the
-	 * LabVIEW Dashboard, remove all of the chooser code and uncomment the
-	 * GetString line to get the auto name from the text box below the Gyro.
-	 *
-	 * You can add additional auto modes by adding additional comparisons to the
-	 * if-else structure below with additional strings. If using the
-	 * SendableChooser make sure to add them to the chooser code above as well.
-	 */
-	void AutonomousInit() override {
-		autoSelected = chooser.GetSelected();
-		// std::string autoSelected = SmartDashboard::GetString("Auto Selector", autoNameDefault);
-		std::cout << "Auto selected: " << autoSelected << std::endl;
+	SmartDashboard::PutNumber("Gyro, yum", a_Gyro.GetAngle());
+	SmartDashboard::PutNumber("Front Right", a_FrontRight.GetSpeed());
+	SmartDashboard::PutNumber("Front Left", a_FrontLeft.GetSpeed());
+	SmartDashboard::PutNumber("Back Right", a_BackRight.GetSpeed());
+	SmartDashboard::PutNumber("Back Left", a_BackLeft.GetSpeed());
 
-		if (autoSelected == autoNameCustom) {
-			// Custom Auto goes here
-		} else {
-			// Default Auto goes here
-		}
-	}
 
-	void AutonomousPeriodic() {
-		if (autoSelected == autoNameCustom) {
-			// Custom Auto goes here
-		} else {
-			// Default Auto goes here
-		}
-	}
+	SmartDashboard::PutNumber("Front Right Angle", a_FrontRight.GetAngle());
+		SmartDashboard::PutNumber("Front Left Angle", a_FrontLeft.GetAngle());
+		SmartDashboard::PutNumber("Back Right Angle", a_BackRight.GetAngle());
+		SmartDashboard::PutNumber("Back Left Angle", a_BackLeft.GetAngle());
 
-	void TeleopInit() {
+}
 
-	}
+void SmokeyX::TestInit()
+{
 
-	void TeleopPeriodic() {
-		SmartDashboard::PutNumber("Hi", 3);
-	}
+}
 
-	void TestPeriodic() {
-		lw->Run();
-	}
+void SmokeyX::TestPeriodic()
+{
 
-private:
-	frc::LiveWindow* lw = LiveWindow::GetInstance();
-	frc::SendableChooser<std::string> chooser;
-	const std::string autoNameDefault = "Default";
-	const std::string autoNameCustom = "My Auto";
-	std::string autoSelected;
-};
 
-START_ROBOT_CLASS(Robot)
+}
+
+START_ROBOT_CLASS(SmokeyX);
+
