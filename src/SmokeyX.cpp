@@ -51,7 +51,7 @@ public:
 	}
 
 	void TeleopPeriodic() {
-
+		SmartDashboard::PutNumber("Hi", 3);
 	}
 
 	void TestPeriodic() {
