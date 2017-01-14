@@ -7,6 +7,7 @@
 
 #include "SwerveDrive.h"
 #include "Joystick.h"
+#include "SmokeyX.h"
 #include "SmartDashboard/SmartDashboard.h"
 #include "SmartDashboard/SendableChooser.h"
 #include "SmartDashboard/NamedSendable.h"

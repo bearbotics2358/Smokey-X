@@ -54,8 +54,6 @@ private:
 	JrimmyGyro a_Gyro;
 
 	double tState;
-	int shooterCurrent;
-	int shooterStart;
 
 };
 

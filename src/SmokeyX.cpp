@@ -23,8 +23,6 @@ SmokeyX::SmokeyX(void):
 		a_Gyro(I2C::kMXP) // Didn't work because we used smartdashboard in the constructor- wait to use it until after RobotInit()
 {
 	tState = 0;
-	shooterStart = -99.0;
-	shooterCurrent = 1000000000;
 	SmartDashboard::init();
 		a_Drive.Init();
 		a_Gyro.Cal();
