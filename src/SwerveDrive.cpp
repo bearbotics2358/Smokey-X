@@ -52,11 +52,11 @@ void SwerveDrive::InitSendableChooser()
 	SmartDashboard::PutData(CONTROL_TYPE_KEY, &a_ControlTypeChooser);
 }
 
-void SwerveDrive::Update(Joystick &stick, float gyroValue)
+void SwerveDrive::Update(float xIn, float yIn, float zIn, float gyroValue)
 {
-	float zInput = stick.GetZ(); // Rotation Clockwise
-	float xInput = stick.GetX(); // Strafe
-	float yInput = -1.0 * stick.GetY(); // Forward
+	float zInput = zIn; // Rotation Clockwise
+	float xInput = xIn; // Strafe
+	float yInput = - 1 * yIn; // Forward
 
 	float temp = yInput * cos(gyroValue) + xInput * sin(gyroValue); // This block of commands SHOULD make this thing field oriented
 	xInput = -yInput * sin(gyroValue) + xInput * cos(gyroValue);

@@ -19,6 +19,17 @@
 #include "SmartDashboard/SmartDashboard.h"
 #include "SmartDashboard/SendableChooser.h"
 
+enum AutoState {
+	kMoveToBaseline=0,
+	kTurnToPeg,
+	kMoveToPeg,
+	kScoreGear,
+	kClearShields,
+	kTurnToBoiler,
+	kMoveToShootingDistance,
+	kAutoIdle
+};
+
 class SmokeyX : public IterativeRobot {
 public:
 	SmokeyX(void);
@@ -35,6 +46,7 @@ public:
 	void AutonomousPeriodicSimple(void);
 
 private:
+
 	Joystick a_Joystick;
 	Joystick a_Joystick2;
 
@@ -52,6 +64,8 @@ private:
 	Roller a_Roller;
 
 	JrimmyGyro a_Gyro;
+
+	AutoState a_AutoState;
 
 	double tState;
 

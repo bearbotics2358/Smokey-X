@@ -29,7 +29,7 @@ public:
 	void Init();
 	void InitSendableChooser();
 
-	void Update(Joystick &stick, float gyroValue);
+	void Update(float xIn, float yIn, float zIn, float gyroValue);
 
 private:
 	static const std::string CONTROL_TYPE_KEY;
