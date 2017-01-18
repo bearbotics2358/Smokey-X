@@ -20,6 +20,7 @@ SmokeyX::SmokeyX(void):
 		a_BackRight(BACK_RIGHT_TURN, BACK_RIGHT_MOVE),
 		a_Drive(a_FrontRight, a_FrontLeft, a_BackLeft, a_BackRight, CHASSIS_LENGTH, CHASSIS_WIDTH),
 		a_Roller(ROLLER, ROLLER_SWITCH_PORT),
+		a_Collector(COLLECTOR_ONE, COLLECTOR_TWO),
 		a_Gyro(I2C::kMXP), // Didn't work because we used smartdashboard in the constructor- wait to use it until after RobotInit()
 		a_AutoState(kAutoIdle)
 {

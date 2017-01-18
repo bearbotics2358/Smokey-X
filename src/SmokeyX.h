@@ -61,6 +61,8 @@ private:
 
 	SwerveDrive a_Drive;
 
+	Collector a_Collector;
+
 	Roller a_Roller;
 
 	JrimmyGyro a_Gyro;
