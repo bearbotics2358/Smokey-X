@@ -203,18 +203,21 @@ void SwerveDrive::Update(float xIn, float yIn, float zIn, float gyroValue)
 				}
 				*/
 	} else {
-		float setAngle = stick.GetDirectionDegrees() * -1;
-				frAngle = setAngle;
-				flAngle = setAngle;
-				blAngle = setAngle;
-				brAngle = setAngle;
 
+		float setAngle = atan2(yInput, xInput) * 180 / M_PI;
+		setAngle -= 90;
 
-				float setSpeed =  stick.GetMagnitude(); // sqrt(pow(xInput,2) + pow(yInput,2)); // find the r of the joystick vector, if you think about it in polar coordinates
-				frSpeed = setSpeed;
-				flSpeed = setSpeed;
-				blSpeed = setSpeed;
-				brSpeed = setSpeed;
+		frAngle = setAngle;
+		flAngle = setAngle;
+		blAngle = setAngle;
+		brAngle = setAngle;
+
+		float setSpeed = sqrt(pow(xInput,2) + pow(yInput,2)); // find the r of the joystick vector, if you think about it in polar coordinates
+
+		frSpeed = setSpeed;
+		flSpeed = setSpeed;
+		blSpeed = setSpeed;
+		brSpeed = setSpeed;
 	}
 
 	SmartDashboard::PutNumber("Front Right Theoretical Speed", frSpeed * 4 * 40 * 4248 /60 / 10);

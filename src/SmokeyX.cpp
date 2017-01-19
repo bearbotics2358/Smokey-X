@@ -19,7 +19,6 @@ SmokeyX::SmokeyX(void):
 		a_BackLeft(BACK_LEFT_TURN, BACK_LEFT_MOVE),
 		a_BackRight(BACK_RIGHT_TURN, BACK_RIGHT_MOVE),
 		a_Drive(a_FrontRight, a_FrontLeft, a_BackLeft, a_BackRight, CHASSIS_LENGTH, CHASSIS_WIDTH),
-		a_Roller(ROLLER, ROLLER_SWITCH_PORT),
 		a_Collector(COLLECTOR_ONE, COLLECTOR_TWO),
 		a_Gyro(I2C::kMXP), // Didn't work because we used smartdashboard in the constructor- wait to use it until after RobotInit()
 		a_AutoState(kAutoIdle)
@@ -75,8 +74,8 @@ void SmokeyX::AutonomousPeriodic()
 {
 	AutoState nextState = a_AutoState;
 
-	// float chasisDistance = getDistance; //getDistance() already converts to inches
-	// SmartDashboard::PutNumber("Chasis Distance", chasisDistance);
+	// float chassisDistance = getDistance; //getDistance() already converts to inches
+	// SmartDashboard::PutNumber("Chasis Distance", chassisDistance);
 
 	const double BASELINE_DISTANCE = 93.3 - CHASSIS_WIDTH;
 	double pegDistance = 31.11;
@@ -198,11 +197,11 @@ void SmokeyX::TeleopPeriodic()
 
 
 	if(a_Joystick.GetRawButton(8)) {
-		a_Roller.Update(0.25);
+		a_Collector.Update(0.25);
 	} else if(a_Joystick.GetRawButton(1)) {
-		a_Roller.Update(-0.5);
+		a_Collector.Update(-0.5);
 	} else {
-		a_Roller.Update(0);
+		a_Collector.Update(0);
 	}
 
 	SmartDashboard::PutNumber("Gyro, yum", a_Gyro.GetAngle());

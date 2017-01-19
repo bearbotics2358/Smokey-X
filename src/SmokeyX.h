@@ -13,11 +13,11 @@
 #include <IterativeRobot.h>
 
 #include "JrimmyGyro.h"
-#include "Roller.h"
 #include "SwerveModule.h"
 #include "SwerveDrive.h"
 #include "SmartDashboard/SmartDashboard.h"
 #include "SmartDashboard/SendableChooser.h"
+#include "Collector.h"
 
 enum AutoState {
 	kMoveToBaseline=0,
@@ -62,8 +62,6 @@ private:
 	SwerveDrive a_Drive;
 
 	Collector a_Collector;
-
-	Roller a_Roller;
 
 	JrimmyGyro a_Gyro;
 

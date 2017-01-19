@@ -15,11 +15,6 @@ Collector::Collector(int TalonPort1, int TalonPort2)
 
 }
 
-Collector::~Collector()
-{
-
-}
-
 void Collector::Update(float val, uint8_t syncGroup)
 {
 	Collector1.Set(val);

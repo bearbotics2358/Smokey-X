@@ -8,17 +8,17 @@
 #ifndef SRC_COLLECTOR_H_
 #define SRC_COLLECTOR_H_
 
-#include "CANTalonSRX.h"
+#include "CANTalon.h"
 
 class Collector
 {
 public:
 	Collector(int TalonPort1, int TalonPort2);
-	~Collector();
+	virtual ~Collector() = default;
 	void Update(float val, uint8_t syncGroup = 0);
 private:
-	CanTalonSRX Collector1;
-	CanTalonSRX Collector2;
+	CANTalon Collector1;
+	CANTalon Collector2;
 };
 
 
