@@ -26,7 +26,7 @@ SwerveModule::SwerveModule(uint32_t turnMotorPort, uint32_t driveMotorPort)
 	a_DriveMotor.SetControlMode(CANTalon::kSpeed);
 	a_DriveMotor.SetFeedbackDevice(CANTalon::QuadEncoder);
 	a_DriveMotor.SetSensorDirection(false);
-	a_DriveMotor.SetP(1);
+	a_DriveMotor.SetP(0);
 	a_DriveMotor.SetI(0);
 	a_DriveMotor.SetD(0);
 	a_DriveMotor.Set(0);
@@ -85,9 +85,10 @@ void SwerveModule::SetTurnPID(float turnP, float turnI, float turnD)
 	a_TurnMotor.SetD(turnD);
 }
 
-void SwerveModule::SetDrivePID(float driveP, float driveI, float driveD)
+void SwerveModule::SetDrivePIDF(float driveP, float driveI, float driveD, float driveF)
 {
 	a_DriveMotor.SetP(driveP);
 	a_DriveMotor.SetI(driveI);
 	a_DriveMotor.SetD(driveD);
+	a_DriveMotor.SetF(driveF);
 }
