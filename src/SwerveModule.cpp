@@ -8,8 +8,8 @@
 #include "SwerveModule.h"
 
 const double ANALOG_CONV_FACTOR = 1024.0 / 360.0;
-const double QUAD_SPEED_CONV_FACTOR = 4 * 40 * 4248 /60 / 10 ; //situational upon bot/ drive type- max rpm is 0 until we have an actual value
-// 4 * encoder cpr * max rpm * 1 minute / 60s / 10 = maximum encoder value delta / .1s
+const double MAX_RPM = /*4 * 40 * */ 4248 /* /60 / 10 */ ;
+// 4 * encoder cpr * max rpm * 1 minute / 60s / 10 = maximum encoder value delta / .1s was used before we added in the encodercodesperrev config command
 SwerveModule::SwerveModule(uint32_t turnMotorPort, uint32_t driveMotorPort)
 : a_TurnMotor(turnMotorPort),
   a_DriveMotor(driveMotorPort)
@@ -25,6 +25,7 @@ SwerveModule::SwerveModule(uint32_t turnMotorPort, uint32_t driveMotorPort)
 
 	a_DriveMotor.SetControlMode(CANTalon::kSpeed);
 	a_DriveMotor.SetFeedbackDevice(CANTalon::QuadEncoder);
+	a_DriveMotor.ConfigEncoderCodesPerRev(40); // cpr is 40 for the cimcoder
 	a_DriveMotor.SetSensorDirection(false);
 	a_DriveMotor.SetP(0);
 	a_DriveMotor.SetI(0);
@@ -45,7 +46,7 @@ void SwerveModule::Set(float angle, float speed, float offset)
 	*/
 
 	a_TurnMotor.Set((angle + offset) * ANALOG_CONV_FACTOR);
-	a_DriveMotor.Set(speed * QUAD_SPEED_CONV_FACTOR); // argument is in encoder value delta / .1s- speed is a percentage of maximum wheel speed
+	a_DriveMotor.Set(speed * MAX_RPM); // argument is in rpms, as we configgurqyetsled the encoder codes per rev
 }
 
 float SwerveModule::GetAngle()

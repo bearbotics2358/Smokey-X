@@ -58,8 +58,8 @@ void SwerveDrive::Update(float xIn, float yIn, float zIn, float gyroValue)
 	float xInput = xIn; // Strafe
 	float yInput = - 1 * yIn; // Forward
 
-	float temp = yInput * cos(gyroValue) + xInput * sin(gyroValue); // This block of commands SHOULD make this thing field oriented
-	xInput = -yInput * sin(gyroValue) + xInput * cos(gyroValue);
+	float temp = yInput * cos(gyroValue * M_PI / 180) + xInput * sin(gyroValue * M_PI / 180); // This block of commands SHOULD make this thing field oriented
+	xInput = -yInput * sin(gyroValue * M_PI / 180) + xInput * cos(gyroValue * M_PI / 180);
 	yInput = temp;
 
 	std::string controlType;
@@ -220,10 +220,10 @@ void SwerveDrive::Update(float xIn, float yIn, float zIn, float gyroValue)
 		brSpeed = setSpeed;
 	}
 
-	SmartDashboard::PutNumber("Front Right Theoretical Speed", frSpeed * 4 * 40 * 4248 /60 / 10);
-	SmartDashboard::PutNumber("Front Left Theoretical Speed", flSpeed * 4 * 40 * 4248 /60 / 10);
-	SmartDashboard::PutNumber("Back Right Theoretical Speed", brSpeed * 4 * 40 * 4248 /60 / 10);
-	SmartDashboard::PutNumber("Back Left Theoretical Speed", blSpeed * 4 * 40 * 4248 /60 / 10);
+	SmartDashboard::PutNumber("Front Right Theoretical Speed", frSpeed);
+	SmartDashboard::PutNumber("Front Left Theoretical Speed", flSpeed);
+	SmartDashboard::PutNumber("Back Right Theoretical Speed", brSpeed);
+	SmartDashboard::PutNumber("Back Left Theoretical Speed", blSpeed);
 
 	SmartDashboard::PutNumber("Front Right Theoretical Angle", frAngle);
 		SmartDashboard::PutNumber("Front Left Theoretical Angle", flAngle);

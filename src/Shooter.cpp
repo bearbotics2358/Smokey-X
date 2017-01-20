@@ -1,8 +1,7 @@
 #include "Shooter.h"
 
-const double ANALOG_CONV_FACTOR = 1024.0 / 360.0;
-const double QUAD_SPEED_CONV_FACTOR = 0; //situational upon bot/ drive type- max rpm is 0 until we have an actual value
-// 4 * encoder cpr * max rpm * 1 minute / 60s / 10 = maximum encoder value delta / .1s
+const double MAX_RPM = 0; //situational upon bot/ drive type- max rpm is 0 until we have an actual value
+
 Shooter::Shooter(int firePort, int anglePort)
 : a_ShooterFire(firePort),
   a_ShooterAngle(anglePort)
@@ -28,8 +27,8 @@ Shooter::Shooter(int firePort, int anglePort)
 
 void Shooter::Set(float speed, float angle, float offset)
 {
-	a_ShooterFire.Set(speed * QUAD_SPEED_CONV_FACTOR);
-	a_ShooterAngle.Set((angle + offset) * ANALOG_CONV_FACTOR);
+	a_ShooterFire.Set(speed * MAX_RPM); // WHEN WE USE A CTRE MAG ENCODER, THE SET FUNCTION IN VELOCITY MODE ACCEPTS RPM'S AS THE ARGUMENT UNITS
+	a_ShooterAngle.Set((angle + offset) / 360); // WHEN WE USE A CTRE MAG ENCODER, THE SET FUNCTION IN POSITION ACCEPTS ROTATIONS AS THE ARGUMENT UNITS
 }
 
 float Shooter::GetAngle()
