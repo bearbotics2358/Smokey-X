@@ -22,16 +22,17 @@ constexpr double JrimmyGyro::kGsPerLSB;
 JrimmyGyro::JrimmyGyro(Port port):
 		I2C(port, 0x68)
 {
+	uint8_t Buff[256];
 	lastUpdate = 0;
 	Init();
 	//m_i2c = new I2C((I2C::Port)port, kAddress);
-	// int ret = Read(0, 1, Buff);
-	// printf("Jake Buff: %2.2X\n", Buff[0] & 0x00ff);
+	int ret = Read(0, 1, Buff);
+	printf("Jake Buff: %2.2X\n", Buff[0] & 0x00ff);
 
 	// Turn on the measurements
-	// Write(kPowerCtlRegister, kPowerCtl_Measure);
+	Write(kPowerMgmRegister, kPowerCtl_Measure);
 	// Specify the data format to read
-	//SetRange(range);
+	// SetRange(range);
 
 	// HALReport(HALUsageReporting::kResourceType_ADXL345, HALUsageReporting::kJrimmyGyro, 0);
 	// LiveWindow::GetInstance()->AddSensor("JrimmyGyro", port, this);

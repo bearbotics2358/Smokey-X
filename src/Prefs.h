@@ -28,13 +28,10 @@
 #define BACK_LEFT_TURN 12
 
 #define COLLECTOR_ONE 18
-#define COLLECTOR_TWO 16
+#define COLLECTOR_TWO 19
 
 #define SHOOTER 17
 #define SHOOTER_ENCODER_PORT 2
-
-#define ROLLER 19
-#define ROLLER_SWITCH_PORT 4
 
 
 #define LEFT_SOL_PORT_ONE 0

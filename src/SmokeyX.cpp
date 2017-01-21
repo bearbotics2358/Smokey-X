@@ -27,7 +27,6 @@ SmokeyX::SmokeyX(void):
 	tState = 0;
 	SmartDashboard::init();
 	a_Drive.Init();
-	a_Gyro.Cal();
 	// a_BackLeft.InvertDriveMotor();
 	// a_BackRight.InvertDriveMotor();
 	// a_FrontRight.InvertDriveMotor();
