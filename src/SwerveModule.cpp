@@ -61,7 +61,7 @@ float SwerveModule::GetSpeed()
 
 float SwerveModule::GetDistance()
 {
-	return a_DriveMotor.GetEncPosition();
+	return a_DriveMotor.GetPosition();
 }
 
 void SwerveModule::InvertQuad()

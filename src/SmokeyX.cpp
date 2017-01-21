@@ -9,6 +9,7 @@
 
 #include "SmokeyX.h"
 
+
 SmokeyX::SmokeyX(void):
 		a_Joystick(JOYSTICK_PORT),
 		a_Joystick2(JOYSTICKTWO_PORT),
@@ -56,6 +57,7 @@ void SmokeyX::DisabledPeriodic()
 	SmartDashboard::PutNumber("Front Left Angle", a_FrontLeft.GetAngle());
 	SmartDashboard::PutNumber("Back Right Angle", a_BackRight.GetAngle());
 	SmartDashboard::PutNumber("Back Left Angle", a_BackLeft.GetAngle());
+
 }
 
 void SmokeyX::AutonomousInit()
@@ -196,14 +198,7 @@ void SmokeyX::TeleopPeriodic()
 	a_Drive.Update(a_Joystick.GetX(), a_Joystick.GetY(), a_Joystick.GetZ() , a_Gyro.GetAngle());
 
 
-
-	if(a_Joystick.GetRawButton(8)) {
-		a_Collector.Update(0.25);
-	} else if(a_Joystick.GetRawButton(1)) {
-		a_Collector.Update(-0.5);
-	} else {
-		a_Collector.Update(0);
-	}
+	a_Collector.Update(a_Joystick2.GetY(), a_Joystick2.GetY());
 
 	SmartDashboard::PutNumber("Gyro, yum", a_Gyro.GetAngle());
 	SmartDashboard::PutNumber("Front Right", a_FrontRight.GetSpeed());
