@@ -79,7 +79,7 @@ void SmokeyX::AutonomousPeriodic()
 
 	const double BASELINE_DISTANCE = 93.3 - CHASSIS_WIDTH;
 	double pegDistance = 31.11;
-	double pegAngle[] = {25.42,27.89,57.996}; //left, right, middle, Goal on left
+	double pegAngle[] = {25.42,27.89,57.996}; // left, right, middle, Goal on left
 	// double shieldsDistance = 20; // only for middle
 
 	/*
@@ -95,6 +95,7 @@ void SmokeyX::AutonomousPeriodic()
 		case kTurnToPeg:
 			int angleSelection;
 			if(position = left){
+				SetTwistingRelAngle(a_Gyro.GetAngle(),kLeftTwistAngle);
 				angleSelection = 0;
 			}else if(position = mid){
 				angleSelection = 1;
