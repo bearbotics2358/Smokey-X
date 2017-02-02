@@ -47,6 +47,7 @@ void SmokeyX::DisabledInit()
 
 void SmokeyX::DisabledPeriodic()
 {
+
 	SmartDashboard::PutNumber("Front Right Speed", a_FrontRight.GetSpeed());
 	SmartDashboard::PutNumber("Front Left Speed", a_FrontLeft.GetSpeed());
 	SmartDashboard::PutNumber("Back Right Speed", a_BackRight.GetSpeed());
