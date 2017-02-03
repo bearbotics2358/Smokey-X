@@ -2,6 +2,7 @@
 #define SRC_IMPELLER_H_
 
 #include "CANTalon.h"
+#include "Prefs.h"
 
 class Impeller
 {

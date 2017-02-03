@@ -34,6 +34,8 @@ public:
 	void DisableTwist();
 	void SetTwistingRelAngle(float gyroAngle, float angle);
 
+	float GetDistance();
+
 private:
 	static const std::string CONTROL_TYPE_KEY;
 
@@ -54,6 +56,8 @@ private:
 	float a_RobotLength;
 	float a_RobotWidth;
 	float a_ChassisRadius;
+
+
 
 	frc::SendableChooser<std::string> a_ControlTypeChooser;
 };

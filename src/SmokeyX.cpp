@@ -20,7 +20,8 @@ SmokeyX::SmokeyX(void):
 		a_BackRight(BACK_RIGHT_TURN, BACK_RIGHT_MOVE),
 		a_Drive(a_FrontRight, a_FrontLeft, a_BackLeft, a_BackRight, CHASSIS_LENGTH, CHASSIS_WIDTH),
 		a_Collector(COLLECTOR_ONE, COLLECTOR_TWO),
-		// a_Gyro(I2C::kMXP), // Didn't work because we used smartdashboard in the constructor- wait to use it until after RobotInit()
+		a_Impeller(IMPELLER_PORT),
+		a_Gyro(I2C::kOnboard),
 		a_AutoState(kAutoIdle)
 
 {
@@ -32,6 +33,8 @@ SmokeyX::SmokeyX(void):
 	// a_FrontRight.InvertDriveMotor();
 	// a_FrontLeft.InvertDriveMotor();
 	// a_BackLeft.SetDrivePID(2,0,0);
+
+
 }
 
 void SmokeyX::RobotInit()
@@ -48,6 +51,7 @@ void SmokeyX::DisabledInit()
 void SmokeyX::DisabledPeriodic()
 {
 
+	/*
 	SmartDashboard::PutNumber("Front Right Speed", a_FrontRight.GetSpeed());
 	SmartDashboard::PutNumber("Front Left Speed", a_FrontLeft.GetSpeed());
 	SmartDashboard::PutNumber("Back Right Speed", a_BackRight.GetSpeed());
@@ -57,6 +61,7 @@ void SmokeyX::DisabledPeriodic()
 	SmartDashboard::PutNumber("Front Left Angle", a_FrontLeft.GetAngle());
 	SmartDashboard::PutNumber("Back Right Angle", a_BackRight.GetAngle());
 	SmartDashboard::PutNumber("Back Left Angle", a_BackLeft.GetAngle());
+	*/
 
 }
 
@@ -75,20 +80,23 @@ void SmokeyX::AutonomousInit()
 void SmokeyX::AutonomousPeriodic()
 {
 	AutoState nextState = a_AutoState;
-
-	// float chassisDistance = getDistance; //getDistance() already converts to inches
-	// SmartDashboard::PutNumber("Chasis Distance", chassisDistance);
+	/*
+	// float driveDistance = a_Drive.GetDistance; // already converts to inches
+	// SmartDashboard::PutNumber("Drive Distance", driveDistance);
 
 	// const double BASELINE_DISTANCE = 93.3 - CHASSIS_WIDTH;
 	// double pegDistance = 31.11;
 	// double pegAngle[] = {25.42,27.89,57.996}; // left, right, middle, Goal on left
 	// double shieldsDistance = 20; // only for middle
 
-	/*
+	a_Gyro.Update();
+	float gyroValue = a_Gyro.GetAngle();
+	SmartDashboard::PutNumber("Gyro, yum", gyroValue);
+
 	switch (a_AutoState) {
 		case kMoveToBaseline:
 			if (chasisDistance < BASELINE_DISTANCE) {
-				// DriveStraightForwardTo BASELINE_DISTANCE
+				a_Drive.Set(.5,0,0);
 			} else {
 				// AutonUpdate?
 				nextState = kTurnToPeg;
@@ -121,7 +129,7 @@ void SmokeyX::AutonomousPeriodic()
 				pegDistance=0;
 			}
 			if (chasisDistance < pegDistance) {
-				// DriveStraightForwardTo pegDistance
+				a_Drive.Set(.5,0,0);
 			} else {
 				// AutonUpdate
 				nextState = kScoreGear;
@@ -193,14 +201,14 @@ void SmokeyX::TeleopInit()
 void SmokeyX::TeleopPeriodic()
 {
 
-	// a_Gyro.Update();
+	a_Gyro.Update();
+	SmartDashboard::PutNumber("Gyro, yum", a_Gyro.GetAngle());
+	/*
+	a_Drive.Update(a_Joystick.GetX(), a_Joystick.GetY(), a_Joystick.GetZ() , a_Gyro.GetAngle());
 
-	// a_Drive.Update(a_Joystick.GetX(), a_Joystick.GetY(), a_Joystick.GetZ() , a_Gyro.GetAngle());
 
+	a_Collector.Update(2*a_Joystick.GetMagnitude()*4248*4/1.25,2*a_Joystick.GetMagnitude()*4248*4/1.25); // Setting the collector tangential velocity to twice as fast as the theoretical linear velocity of the robot
 
-	a_Collector.Update(a_Joystick2.GetY(), a_Joystick2.GetY());
-
-	// SmartDashboard::PutNumber("Gyro, yum", a_Gyro.GetAngle());
 	SmartDashboard::PutNumber("Front Right", a_FrontRight.GetSpeed());
 	SmartDashboard::PutNumber("Front Left", a_FrontLeft.GetSpeed());
 	SmartDashboard::PutNumber("Back Right", a_BackRight.GetSpeed());
@@ -211,6 +219,7 @@ void SmokeyX::TeleopPeriodic()
 	SmartDashboard::PutNumber("Front Left Angle", a_FrontLeft.GetAngle());
 	SmartDashboard::PutNumber("Back Right Angle", a_BackRight.GetAngle());
 	SmartDashboard::PutNumber("Back Left Angle", a_BackLeft.GetAngle());
+	*/
 
 }
 

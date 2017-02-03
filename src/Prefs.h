@@ -37,6 +37,10 @@
 #define COLLECTOR_ONE 18
 #define COLLECTOR_TWO 19
 
+#define IMPELLER_PORT 21
+
+#define MAX_BAG_RPM_FIVE_TO_ONE 2110
+
 #define SHOOTER 17
 
 #define CHASSIS_WIDTH 23

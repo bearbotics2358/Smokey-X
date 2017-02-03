@@ -9,6 +9,7 @@
 #define SRC_COLLECTOR_H_
 
 #include "CANTalon.h"
+#include "Prefs.h"
 
 class Collector
 {
@@ -17,8 +18,8 @@ public:
 	virtual ~Collector() = default;
 	void Update(float val, uint8_t syncGroup = 0);
 private:
-	CANTalon Collector1;
-	CANTalon Collector2;
+	CANTalon a_CollectorOne;
+	CANTalon a_CollectorTwo;
 };
 
 

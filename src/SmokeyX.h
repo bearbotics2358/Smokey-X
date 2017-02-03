@@ -18,6 +18,7 @@
 #include "SmartDashboard/SmartDashboard.h"
 #include "SmartDashboard/SendableChooser.h"
 #include "Collector.h"
+#include "Impeller.h"
 
 enum AutoState {
 	kMoveToBaseline=0,
@@ -63,7 +64,9 @@ private:
 
 	Collector a_Collector;
 
-	// JrimmyGyro a_Gyro;
+	Impeller a_Impeller;
+
+	JrimmyGyro a_Gyro;
 
 	AutoState a_AutoState;
 

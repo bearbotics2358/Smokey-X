@@ -44,12 +44,20 @@ SwerveDrive::SwerveDrive(SwerveModule &FR, SwerveModule &FL, SwerveModule &BL, S
 
 void SwerveDrive::Init()
 {
-	// FR 165.25 FL 254.18 BR 194.766 BL 279.85
 	InitSendableChooser(); // please, please, PLEASE call this first- otherwise our drive mode might not initialize properly, or a function you attempt to call may not work
+	a_FrontRight.SetDrivePIDF(FRONT_RIGHT_DRIVE_PIDF);
+	a_FrontRight.SetTurnPID(FRONT_RIGHT_TURN_PID);
+	a_FrontLeft.SetDrivePIDF(FRONT_LEFT_DRIVE_PIDF);
+	a_FrontLeft.SetTurnPID(FRONT_LEFT_TURN_PID);
+	a_BackRight.SetDrivePIDF(BACK_RIGHT_DRIVE_PIDF);
+	a_BackRight.SetTurnPID(BACK_RIGHT_TURN_PID);
+	a_BackLeft.SetDrivePIDF(BACK_LEFT_DRIVE_PIDF);
+	a_BackLeft.SetTurnPID(BACK_LEFT_TURN_PID);
+
 	a_FrontRight.Set(0,0,0);
 	a_FrontLeft.Set(0,0,0);
-	a_BackLeft.Set(0,0,0);
 	a_BackRight.Set(0,0,0);
+	a_BackLeft.Set(0,0,0);
 }
 
 void SwerveDrive::InitSendableChooser()
@@ -311,6 +319,11 @@ void SwerveDrive::Update(Joystick &stick, float gyroValue)
 	a_FrontLeft.Set(flAngle, flSpeed, FRONT_LEFT_TURN_OFFSET);
 	a_BackLeft.Set(blAngle, blSpeed, BACK_LEFT_TURN_OFFSET);
 	a_BackRight.Set(brAngle, brSpeed, BACK_RIGHT_TURN_OFFSET);
+}
+
+float SwerveDrive::GetDistance()
+{
+	return (4*M_PI/4096*(a_FrontRight.GetDistance()+a_FrontLeft.GetDistance()+a_BackRight.GetDistance()+a_BackLeft.GetDistance())/4);
 }
 
 void SwerveDrive::SetTwistingMode()
