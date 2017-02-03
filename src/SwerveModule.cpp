@@ -7,7 +7,7 @@
 
 #include "SwerveModule.h"
 
-const double ANALOG_CONV_FACTOR = 1024.0 / 360.0;
+
 const double MAX_RPM = /*4 * 40 * */ 4248 /* /60 / 10 */ ;
 // 4 * encoder cpr * max rpm * 1 minute / 60s / 10 = maximum encoder value delta / .1s was used before we added in the encodercodesperrev config command
 SwerveModule::SwerveModule(uint32_t turnMotorPort, uint32_t driveMotorPort)
@@ -15,7 +15,7 @@ SwerveModule::SwerveModule(uint32_t turnMotorPort, uint32_t driveMotorPort)
   a_DriveMotor(driveMotorPort)
 {
 	a_TurnMotor.SetControlMode(CANTalon::kPosition);
-	a_TurnMotor.SetFeedbackDevice(CANTalon::AnalogEncoder);
+	a_TurnMotor.SetFeedbackDevice(TURN_ENCODER_TYPE);
 	a_TurnMotor.SetSensorDirection(false);
 	// a_TurnMotor.SetAnalogPosition(0);
 	a_TurnMotor.SetP(15);
@@ -45,13 +45,13 @@ void SwerveModule::Set(float angle, float speed, float offset)
 	}
 	*/
 
-	a_TurnMotor.Set((angle + offset) * ANALOG_CONV_FACTOR);
+	a_TurnMotor.Set((angle + offset) * ABSOLUTE_CONV_FACTOR);
 	a_DriveMotor.Set(speed * MAX_RPM); // argument is in rpms, as we configgurqyetsled the encoder codes per rev
 }
 
 float SwerveModule::GetAngle()
 {
-	return a_TurnMotor.GetPosition() / ANALOG_CONV_FACTOR;
+	return a_TurnMotor.GetPosition() / ABSOLUTE_CONV_FACTOR;
 }
 
 float SwerveModule::GetSpeed()

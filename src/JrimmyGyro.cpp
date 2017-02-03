@@ -26,7 +26,7 @@ JrimmyGyro::JrimmyGyro(Port port):
 	lastUpdate = 0;
 	Init();
 	//m_i2c = new I2C((I2C::Port)port, kAddress);
-	int ret = Read(0, 1, Buff);
+	// int ret = Read(0, 1, Buff);
 	printf("Jake Buff: %2.2X\n", Buff[0] & 0x00ff);
 
 	// Turn on the measurements

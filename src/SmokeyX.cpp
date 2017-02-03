@@ -9,7 +9,6 @@
 
 #include "SmokeyX.h"
 
-
 SmokeyX::SmokeyX(void):
 		a_Joystick(JOYSTICK_PORT),
 		a_Joystick2(JOYSTICKTWO_PORT),
@@ -21,8 +20,9 @@ SmokeyX::SmokeyX(void):
 		a_BackRight(BACK_RIGHT_TURN, BACK_RIGHT_MOVE),
 		a_Drive(a_FrontRight, a_FrontLeft, a_BackLeft, a_BackRight, CHASSIS_LENGTH, CHASSIS_WIDTH),
 		a_Collector(COLLECTOR_ONE, COLLECTOR_TWO),
-		a_Gyro(I2C::kMXP), // Didn't work because we used smartdashboard in the constructor- wait to use it until after RobotInit()
+		// a_Gyro(I2C::kMXP), // Didn't work because we used smartdashboard in the constructor- wait to use it until after RobotInit()
 		a_AutoState(kAutoIdle)
+
 {
 	tState = 0;
 	SmartDashboard::init();
@@ -62,7 +62,7 @@ void SmokeyX::DisabledPeriodic()
 
 void SmokeyX::AutonomousInit()
 {
-	a_Gyro.Cal();
+	// a_Gyro.Cal();
 	a_AutoState = kMoveToBaseline;
 	//a_Tank.Enable();
 	//a_Left.ResetEncoder();
@@ -79,9 +79,9 @@ void SmokeyX::AutonomousPeriodic()
 	// float chassisDistance = getDistance; //getDistance() already converts to inches
 	// SmartDashboard::PutNumber("Chasis Distance", chassisDistance);
 
-	const double BASELINE_DISTANCE = 93.3 - CHASSIS_WIDTH;
-	double pegDistance = 31.11;
-	double pegAngle[] = {25.42,27.89,57.996}; // left, right, middle, Goal on left
+	// const double BASELINE_DISTANCE = 93.3 - CHASSIS_WIDTH;
+	// double pegDistance = 31.11;
+	// double pegAngle[] = {25.42,27.89,57.996}; // left, right, middle, Goal on left
 	// double shieldsDistance = 20; // only for middle
 
 	/*
@@ -185,22 +185,22 @@ void SmokeyX::AutonomousPeriodic()
 
 void SmokeyX::TeleopInit()
 {
-	a_Gyro.Cal();
-	a_Gyro.Zero();
+	// a_Gyro.Cal();
+	// a_Gyro.Zero();
 
 }
 
 void SmokeyX::TeleopPeriodic()
 {
 
-	a_Gyro.Update();
+	// a_Gyro.Update();
 
-	a_Drive.Update(a_Joystick.GetX(), a_Joystick.GetY(), a_Joystick.GetZ() , a_Gyro.GetAngle());
+	// a_Drive.Update(a_Joystick.GetX(), a_Joystick.GetY(), a_Joystick.GetZ() , a_Gyro.GetAngle());
 
 
 	a_Collector.Update(a_Joystick2.GetY(), a_Joystick2.GetY());
 
-	SmartDashboard::PutNumber("Gyro, yum", a_Gyro.GetAngle());
+	// SmartDashboard::PutNumber("Gyro, yum", a_Gyro.GetAngle());
 	SmartDashboard::PutNumber("Front Right", a_FrontRight.GetSpeed());
 	SmartDashboard::PutNumber("Front Left", a_FrontLeft.GetSpeed());
 	SmartDashboard::PutNumber("Back Right", a_BackRight.GetSpeed());

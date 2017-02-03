@@ -63,7 +63,7 @@ private:
 
 	Collector a_Collector;
 
-	JrimmyGyro a_Gyro;
+	// JrimmyGyro a_Gyro;
 
 	AutoState a_AutoState;
 

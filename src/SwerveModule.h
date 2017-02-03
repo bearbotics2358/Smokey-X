@@ -10,6 +10,7 @@
 #include <WPILib.h>
 #include <SpeedController.h>
 #include <CANTalon.h>
+#include "Prefs.h"
 
 class SwerveModule
 {

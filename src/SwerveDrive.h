@@ -29,7 +29,10 @@ public:
 	void Init();
 	void InitSendableChooser();
 
-	void Update(float xIn, float yIn, float zIn, float gyroValue);
+	void Update(Joystick &stick, float gyroValue);
+	void SetTwistingMode();
+	void DisableTwist();
+	void SetTwistingRelAngle(float gyroAngle, float angle);
 
 private:
 	static const std::string CONTROL_TYPE_KEY;
@@ -38,6 +41,10 @@ private:
 	static const std::string CONTROL_TYPE_SWERVE_KEY;
 	static const int         CONTROL_TYPE_CRAB;
 	static const std::string CONTROL_TYPE_CRAB_KEY;
+	static const int         CONTROL_TYPE_SIMPLE_DRIVE;
+	static const std::string CONTROL_TYPE_SIMPLE_DRIVE_KEY;
+	static const int         CONTROL_TYPE_TURNING_DRIVE;
+	static const std::string CONTROL_TYPE_TURNING_DRIVE_KEY;
 
 	SwerveModule &a_FrontRight; // "1"
 	SwerveModule &a_FrontLeft; // "2"
