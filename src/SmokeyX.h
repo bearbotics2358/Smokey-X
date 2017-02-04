@@ -31,6 +31,14 @@ enum AutoState {
 	kAutoIdle
 };
 
+enum BotPosition {
+	kBlueLeft=0,
+	kBlueRight,
+	kRedLeft,
+	kRedRight,
+	kMiddle
+};
+
 class SmokeyX : public IterativeRobot {
 public:
 	SmokeyX(void);
@@ -69,6 +77,8 @@ private:
 	JrimmyGyro a_Gyro;
 
 	AutoState a_AutoState;
+
+	BotPosition a_BotPosition;
 
 	double tState;
 

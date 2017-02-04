@@ -68,19 +68,14 @@ void SmokeyX::DisabledPeriodic()
 void SmokeyX::AutonomousInit()
 {
 	// a_Gyro.Cal();
-	a_AutoState = kMoveToBaseline;
-	//a_Tank.Enable();
-	//a_Left.ResetEncoder();
-	//a_Right.ResetEncoder();
 	tState = 0;
-	//a_TargetDetector.TurnLRCBright();
-	//a_TargetDetector.StartProcessing();
 }
 
 void SmokeyX::AutonomousPeriodic()
 {
 	AutoState nextState = a_AutoState;
 	/*
+
 	// float driveDistance = a_Drive.GetDistance; // already converts to inches
 	// SmartDashboard::PutNumber("Drive Distance", driveDistance);
 
@@ -95,7 +90,7 @@ void SmokeyX::AutonomousPeriodic()
 
 	switch (a_AutoState) {
 		case kMoveToBaseline:
-			if (chasisDistance < BASELINE_DISTANCE) {
+			if (driveDistance < BASELINE_DISTANCE) {
 				a_Drive.Set(.5,0,0);
 			} else {
 				// AutonUpdate?
@@ -104,31 +99,50 @@ void SmokeyX::AutonomousPeriodic()
 			break;
 		case kTurnToPeg:
 			int angleSelection;
+			switch (a_BotPosition){
+				case kBlueLeft:
+					SetTwistingRelAngle(a_Gyro.GetAngle(),25.42);
+					break;
+				case kBlueRight:
+					SetTwistingRelAngle(a_Gyro.GetAngle(),27.89);
+					break;
+				case kRedLeft:
+					SetTwistingRelAngle(a_Gyro.GetAngle(),27.89);
+					break;
+				case kRedLeft:
+					SetTwistingRelAngle(a_Gyro.GetAngle(),25.42);
+					break;
+			}
 			if(position = left){
 				SetTwistingRelAngle(a_Gyro.GetAngle(),kLeftTwistAngle);
-				angleSelection = 0;
+				// angleSelection = 0;
 			}else if(position = mid){
-				angleSelection = 1;
+				SetTwistingRelAngle(a_Gyro.GetAngle(),kMiddleTwistAngle);
+				// angleSelection = 1;
 			}else if(position = right){
-				angleSelection = 2;
+				SetTwistingRelAngle(a_Gyro.GetAngle(),kRightTwistAngle);
+				// angleSelection = 2;
 			}
 			if(goalSide = right){
 				if(position = left){
-					angleSelection = 2;
+					SetTwistingRelAngle(a_Gyro.GetAngle(),kRightTwistAngle);
+					// angleSelection = 2;
 				}else if(position = mid){
-					angleSelection = 1;
+					SetTwistingRelAngle(a_Gyro.GetAngle(),kMiddleTwistAngle);
+					// angleSelection = 1;
 				}else if(position = right){
-					angleSelection = 0;
+					SetTwistingRelAngle(a_Gyro.GetAngle(),kLeftTwistAngle);
+					// angleSelection = 0;
 				}
 			}
-			TurnToAngle pegAngle[angleSelection];
+			// TurnToAngle pegAngle[angleSelection];
 			nextState = kMoveToPeg;
 			break;
 		case kMoveToPeg:
 			if (position = mid){
 				pegDistance=0;
 			}
-			if (chasisDistance < pegDistance) {
+			if (driveDistance < pegDistance) {
 				a_Drive.Set(.5,0,0);
 			} else {
 				// AutonUpdate
@@ -143,8 +157,8 @@ void SmokeyX::AutonomousPeriodic()
 			if (position = mid){
 				pegDistance = 20;
 			}
-			if (chasisDistance < pegDistance) {
-				// DriveStraightBackwardTo pegDistance
+			if (driveDistance < pegDistance) {
+				a_Drive.set(-.5,0,0);
 			} else {
 				// AutonUpdate
 				nextState = kTurnToBoiler;
@@ -173,8 +187,8 @@ void SmokeyX::AutonomousPeriodic()
 			nextState = kMoveToShootingDistance;
 			break;
 		case kMoveToShootingDistance:
-			if (chasisDistance < SHOOTING_DISTANCE) {
-				// DriveStraightTo SHOOTING_DISTANCE
+			if (driveDistance < SHOOTING_DISTANCE) {
+				a_Drive.set(0.5,0,0);
 			} else {
 				// AutonUpdate
 				nextState = kAutoIdle;
