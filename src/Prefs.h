@@ -13,6 +13,7 @@
 
 #define JOYSTICK_PORT 0
 #define JOYSTICKTWO_PORT 5
+#define BUTTON_BOX_PORT 3
 
 #define PDP_PORT 3
 
@@ -45,5 +46,7 @@
 
 #define CHASSIS_WIDTH 23
 #define CHASSIS_LENGTH 18
+
+#define BASELINE_DISTANCE 93.3 - 23
 
 #endif /* SRC_PREFS_H_ */

@@ -8,7 +8,7 @@
 #ifndef SRC_COLLECTOR_H_
 #define SRC_COLLECTOR_H_
 
-#include "CANTalon.h"
+#include <CANTalon.h>
 #include "Prefs.h"
 
 class Collector

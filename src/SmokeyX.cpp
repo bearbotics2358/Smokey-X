@@ -22,7 +22,8 @@ SmokeyX::SmokeyX(void):
 		a_Collector(COLLECTOR_ONE, COLLECTOR_TWO),
 		a_Impeller(IMPELLER_PORT),
 		a_Gyro(I2C::kOnboard),
-		a_AutoState(kAutoIdle)
+		a_AutoState(kAutoIdle),
+		a_BotPosition(kMiddle)
 
 {
 	tState = 0;
@@ -74,12 +75,11 @@ void SmokeyX::AutonomousInit()
 void SmokeyX::AutonomousPeriodic()
 {
 	AutoState nextState = a_AutoState;
-	/*
 
-	// float driveDistance = a_Drive.GetDistance; // already converts to inches
+/*  float driveDistance = a_Drive.GetDistance; // already converts to inches
 	// SmartDashboard::PutNumber("Drive Distance", driveDistance);
 
-	// const double BASELINE_DISTANCE = 93.3 - CHASSIS_WIDTH;
+	const double BASELINE_DISTANCE = 93.3 - CHASSIS_WIDTH;
 	// double pegDistance = 31.11;
 	// double pegAngle[] = {25.42,27.89,57.996}; // left, right, middle, Goal on left
 	// double shieldsDistance = 20; // only for middle
@@ -198,8 +198,8 @@ void SmokeyX::AutonomousPeriodic()
 			// AutonUpdate
 			// ResetEncoders
 			break;
-		}
-	 */
+		}*/
+
 	a_AutoState = nextState;
 }
 

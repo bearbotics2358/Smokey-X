@@ -29,7 +29,7 @@ public:
 	void Init();
 	void InitSendableChooser();
 
-	void Update(Joystick &stick, float gyroValue);
+	void Update(float XIn, float YIn, float ZIn, float gyroValue);
 	void SetTwistingMode();
 	void DisableTwist();
 	void SetTwistingRelAngle(float gyroAngle, float angle);
