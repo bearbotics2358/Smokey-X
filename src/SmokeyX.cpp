@@ -21,10 +21,7 @@ SmokeyX::SmokeyX(void):
 		a_Drive(a_FrontRight, a_FrontLeft, a_BackLeft, a_BackRight, CHASSIS_LENGTH, CHASSIS_WIDTH),
 		a_Collector(COLLECTOR_ONE, COLLECTOR_TWO),
 		a_Impeller(IMPELLER_PORT),
-		a_Gyro(I2C::kOnboard),
-		a_AutoState(kAutoIdle),
-		a_BotPosition(kMiddle)
-
+		a_Gyro(I2C::kOnboard)
 {
 	tState = 0;
 	SmartDashboard::init();
@@ -74,7 +71,7 @@ void SmokeyX::AutonomousInit()
 
 void SmokeyX::AutonomousPeriodic()
 {
-	AutoState nextState = a_AutoState;
+	// AutoState nextState = a_AutoState;
 
 /*  float driveDistance = a_Drive.GetDistance; // already converts to inches
 	// SmartDashboard::PutNumber("Drive Distance", driveDistance);
@@ -200,7 +197,7 @@ void SmokeyX::AutonomousPeriodic()
 			break;
 		}*/
 
-	a_AutoState = nextState;
+	// a_AutoState = nextState;
 }
 
 

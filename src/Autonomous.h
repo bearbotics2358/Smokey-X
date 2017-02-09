@@ -6,6 +6,14 @@
 #include "SwerveDrive.h"
 #include "JrimmyGyro.h"
 
+enum BotPosition {
+	kBlueLeft=0,
+	kBlueRight,
+	kRedLeft,
+	kRedRight,
+	kMiddle
+};
+
 class Autonomous {
 
 public:
@@ -19,17 +27,19 @@ public:
 	void ClearShields();
 	void TurnToBoiler();
 	void MoveToShootingDistance(float position);
-	void AutoIdle();
+	void ShootFuel();
 
 private:
 	Joystick &a_ButtonBox;
 	SwerveDrive &a_Drive;
 	JrimmyGyro &a_Gyro;
 
-	float driveDistance; // already converts to inches
+	float(SwerveDrive::)() driveDistance; // already converts to inches
 	// double pegDistance = 31.11;
 	// double pegAngle[] = {25.42,27.89,57.996}; // left, right, middle, Goal on left
 	// double shieldsDistance = 20; // only for middle
+
+	BotPosition a_BotPosition;
 
 };
 

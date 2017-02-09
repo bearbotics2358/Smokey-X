@@ -20,7 +20,7 @@
 #include "Collector.h"
 #include "Impeller.h"
 
-enum AutoState {
+/*enum AutoState {
 	kMoveToBaseline=0,
 	kTurnToPeg,
 	kMoveToPeg,
@@ -37,7 +37,7 @@ enum BotPosition {
 	kRedLeft,
 	kRedRight,
 	kMiddle
-};
+};*/
 
 class SmokeyX : public IterativeRobot {
 public:
@@ -76,9 +76,9 @@ private:
 
 	JrimmyGyro a_Gyro;
 
-	AutoState a_AutoState;
+	// AutoState a_AutoState;
 
-	BotPosition a_BotPosition;
+	// BotPosition a_BotPosition;
 
 	double tState;
 

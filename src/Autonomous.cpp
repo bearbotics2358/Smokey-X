@@ -3,30 +3,49 @@
 Autonomous::Autonomous(Joystick &buttonBox, SwerveDrive &Drive, JrimmyGyro &Gyro)
 : a_ButtonBox(buttonBox),
   a_Drive(Drive),
-  a_Gyro(Gyro)
+  a_Gyro(Gyro),
+  a_BotPosition
+
 {
 	driveDistance = 0;
 }
 
-
-/*
-float driveDistance = a_Drive.GetDistance; // already converts to inches
-
+driveDistance = a_Drive.GetDistance; // already converts to inches
 void MoveToBaseline(){
 	if (driveDistance < BASELINE_DISTANCE) {
-		a_Drive.Set(.5,0,0);
-	} else {
-		nextState = kTurnToPeg;
+		a_Drive.Update(.5,0,0,0);
 	}
 }
-void TurnToPeg(float position);
-void MoveToPeg();
-void ScoreGear();
-void ClearShields();
-void TurnToBoiler();
-void MoveToShootingDistance(float position);
-void AutoIdle();
 
+void TurnToPeg(float position){
+
+}
+
+void MoveToPeg(){
+
+}
+
+void ScoreGear(){
+
+}
+
+void ClearShields(){
+
+}
+
+void TurnToBoiler(){
+
+}
+
+void MoveToShootingDistance(float position){
+
+}
+
+void ShootFuel(){
+
+}
+
+/**
 
 
 a_Gyro.Update();
