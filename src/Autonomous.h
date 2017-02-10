@@ -34,12 +34,12 @@ private:
 	SwerveDrive &a_Drive;
 	JrimmyGyro &a_Gyro;
 
-	float(SwerveDrive::)() driveDistance; // already converts to inches
 	// double pegDistance = 31.11;
 	// double pegAngle[] = {25.42,27.89,57.996}; // left, right, middle, Goal on left
 	// double shieldsDistance = 20; // only for middle
 
 	BotPosition a_BotPosition;
+	float driveDistance;
 
 };
 
