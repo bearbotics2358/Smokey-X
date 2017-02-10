@@ -9,40 +9,39 @@ Autonomous::Autonomous(Joystick &buttonBox, SwerveDrive &Drive, JrimmyGyro &Gyro
 	driveDistance = 0;
 }
 
-// driveDistance = a_Drive.GetDistance; // already converts to inches
-void MoveToBaseline(){
-	/*
+void Autonomous::MoveToBaseline(){
+	driveDistance = a_Drive.GetDistance(); // already converts to inches
 	if (driveDistance < BASELINE_DISTANCE) {
 		a_Drive.Update(.5,0,0,0);
 	}
-	*/
-}
-
-void TurnToPeg(float position){
 
 }
 
-void MoveToPeg(){
+void Autonomous::TurnToPeg(float position){
 
 }
 
-void ScoreGear(){
+void Autonomous::MoveToPeg(){
 
 }
 
-void ClearShields(){
+void Autonomous::ScoreGear(){
 
 }
 
-void TurnToBoiler(){
+void Autonomous::ClearShields(){
 
 }
 
-void MoveToShootingDistance(float position){
+void Autonomous::TurnToBoiler(){
 
 }
 
-void ShootFuel(){
+void Autonomous::MoveToShootingDistance(float position){
+
+}
+
+void Autonomous::ShootFuel(){
 
 }
 
