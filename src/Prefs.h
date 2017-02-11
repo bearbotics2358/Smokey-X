@@ -47,6 +47,4 @@
 #define CHASSIS_WIDTH 23
 #define CHASSIS_LENGTH 18
 
-#define BASELINE_DISTANCE 93.3 - 23
-
 #endif /* SRC_PREFS_H_ */
