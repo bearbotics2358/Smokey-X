@@ -1,266 +1,383 @@
 #include "Autonomous.h"
 
-Autonomous::Autonomous(Joystick &buttonBox, SwerveDrive &Drive, JrimmyGyro &Gyro)
+Autonomous::Autonomous(Joystick &buttonBox, SwerveDrive &Drive, JrimmyGyro &Gyro, Shooter &Shooter)
 : a_ButtonBox(buttonBox),
   a_Drive(Drive),
   a_Gyro(Gyro),
+  a_Shooter(Shooter),
   a_BotPosition(kMiddle)
 {
 	driveDistance = 0;
 }
 
-// float baselineDistance = 93.3;
 
-void Autonomous::MoveToBaseline(){
+void Autonomous::MoveToBaseline(int i){
 	driveDistance = a_Drive.GetDistance();
-	switch (a_BotPosition){
-	case kBlueLeft:
-		if (driveDistance < 32.308) {
-			a_Drive.Update(.5,0,0,0);
-		}
-		break;
-	case kBlueRight:
-		if (driveDistance < 105.953) {
-			a_Drive.Update(.5,0,0,0);
-		}
-		break;
-	case kRedLeft:
-		if (driveDistance < 105.953) {
-			a_Drive.Update(.5,0,0,0);
-		}
-		break;
-	case kRedRight:
-		if (driveDistance < 32.308) {
-			a_Drive.Update(.5,0,0,0);
-		}
-		break;
-	case kMiddle:
-		if (driveDistance < 93.33) {
-			a_Drive.Update(.5,0,0,0);
-		}
-		break;
+	if (driveDistance < a_BaselineDistances[a_BotPosition]) {
+		a_Drive.Update(.5,0,0,0);
+	} else {
+		a_NeedsToRun[i] = false;
 	}
 }
 
-void Autonomous::TurnToPeg(){
-	switch (a_BotPosition){
-	case kBlueLeft:
-		a_Drive.SetTwistingRelAngle(a_Gyro.GetAngle(),60);
-		break;
-	case kBlueRight:
-		a_Drive.SetTwistingRelAngle(a_Gyro.GetAngle(),-60);
-		break;
-	case kRedLeft:
-		a_Drive.SetTwistingRelAngle(a_Gyro.GetAngle(),60);
-		break;
-	case kRedRight:
-		a_Drive.SetTwistingRelAngle(a_Gyro.GetAngle(),-60);
-		break;
-	default:
-		break;
+void Autonomous::TurnToPeg(int i){
+	a_Drive.SetTwistingRelAngle(a_Gyro.GetAngle(),a_PegAngles[a_BotPosition]);
+	a_NeedsToRun[i] = false;
+}
+
+void Autonomous::TurnToPegWait(int i) {
+	if(fabs(a_Gyro.GetAngle()) - fabs(a_PegAngles[a_BotPosition]) >3 ) {
+		a_Drive.Update(0,0,0,a_Gyro.GetAngle());
+	} else {
+		a_NeedsToRun[i] = false;
 	}
 }
 
-void Autonomous::MoveToPeg(){
+void Autonomous::MoveToPeg(int i){
 	driveDistance = a_Drive.GetDistance();
-	switch (a_BotPosition){
-	case kBlueLeft:
-		if (driveDistance < 78.98) {
+		if (driveDistance < a_PegDistances[a_BotPosition]) {
 			a_Drive.Update(.5,0,0,0);
+		} else {
+			a_NeedsToRun[i] = false;
 		}
-		break;
-	case kBlueRight:
-		if (driveDistance < 19.39) {
-			a_Drive.Update(.5,0,0,0);
-		}
-		break;
-	case kRedLeft:
-		if (driveDistance < 19.39) {
-			a_Drive.Update(.5,0,0,0);
-		}
-		break;
-	case kRedRight:
-		if (driveDistance < 78.98) {
-			a_Drive.Update(.5,0,0,0);
-		}
-		break;
-	default:
-		break;
-	}
 }
 
-void Autonomous::ScoreGear(){
+void Autonomous::ScoreGear(int i){
 // ???
 }
 
-void Autonomous::ClearShields(){
+void Autonomous::ClearShields(int i){
 	driveDistance = a_Drive.GetDistance();
-	switch (a_BotPosition){
-	case kBlueRight:
-		if (driveDistance < 19.39) {
-			a_Drive.Update(-.5,0,0,0);
-		}
-		break;
-	case kRedLeft:
-		if (driveDistance < 19.39) {
-			a_Drive.Update(-.5,0,0,0);
-		}
-		break;
-	default:
-		break;
+	if (driveDistance < a_ShieldsDistances[a_BotPosition]) {
+		a_Drive.Update(-.5,0,0,0);
+	} else {
+		a_NeedsToRun[i] = false;
 	}
 }
 
-void Autonomous::TurnToBoiler(){
-	switch (a_BotPosition){
-	case kBlueRight:
-		a_Drive.SetTwistingRelAngle(a_Gyro.GetAngle(),-30+24.55);
-		break;
-	case kRedLeft:
-		a_Drive.SetTwistingRelAngle(a_Gyro.GetAngle(),30+24.55);
-		break;
-	case kMiddle:
-		a_Drive.SetTwistingRelAngle(a_Gyro.GetAngle(),27.97);
-		break;
-	default:
-		break;
+void Autonomous::TurnToBoiler(int i){
+		a_Drive.SetTwistingRelAngle(a_Gyro.GetAngle(),a_BoilerAngles[a_BotPosition]);
+		a_NeedsToRun[i] = false;
+}
+
+void Autonomous::TurnToBoilerWait(int i) {
+	if(fabs(a_Gyro.GetAngle()) - fabs(a_BoilerAngles[a_BotPosition]) >3 ) {
+		a_Drive.Update(0,0,0,a_Gyro.GetAngle());
+	} else {
+		a_NeedsToRun[i] = false;
 	}
 }
 
-void Autonomous::MoveToBoiler(){
+void Autonomous::MoveToBoiler(int i){
 	driveDistance = a_Drive.GetDistance();
-	switch (a_BotPosition){
-	case kBlueRight:
-		if (driveDistance < 182.83) {
-			a_Drive.Update(.5,0,0,0);
-		}
-		break;
-	case kRedLeft:
-		if (driveDistance < 182.83) {
-			a_Drive.Update(.5,0,0,0);
-		}
-		break;
-	case kMiddle:
-		if(driveDistance < 182.83){
-			a_Drive.Update(.5,0,0,0);
-		}
-		break;
-	default:
-		break;
+	if (driveDistance < 0) {
+		a_Drive.Update(.5,0,0,0);
+	} else {
+		a_NeedsToRun[i] = false;
 	}
 }
 
-void Autonomous::ShootFuel(){
-// ???
+void Autonomous::ShootFuel(int i){
+	a_Shooter.Set(.5,.5,0); // (float speed, float angle, float offset);???
+	a_NeedsToRun[i];
 }
 
-void Autonomous::AdjustOnWall(){
+void Autonomous::AdjustOnWall(int i){
 	driveDistance = a_Drive.GetDistance();
-	switch(a_BotPosition){
-	case kBlueLeft:
-		if (driveDistance < 1.25) {
+		if (driveDistance < a_WallDistances[a_BotPosition]) {
 			a_Drive.Update(0,.5,0,0);
+		} else {
+			a_NeedsToRun[i] = false;
 		}
-		break;
-	case kRedRight:
-		if (driveDistance < 1.25) {
-			a_Drive.Update(0,-.5,0,0);
-		}
-		break;
-	default:
-		break;
 	}
-}
 
-void Autonomous::ClearBoiler(){
+void Autonomous::ClearBoiler(int i){
 	if (driveDistance < 10) {
 		a_Drive.Update(.5,0,0,0);
+	} else {
+		a_NeedsToRun[i] = false;
 	}
 }
 
-void Autonomous::TurnToFront(){
-	switch(a_BotPosition){
-	case kBlueLeft:
-		a_Drive.SetTwistingRelAngle(a_Gyro.GetAngle(),45);
-		break;
-	case kRedRight:
-		a_Drive.SetTwistingRelAngle(a_Gyro.GetAngle(),-45);
-		break;
-	default:
-		break;
+void Autonomous::TurnToFront(int i){
+	a_Drive.SetTwistingRelAngle(a_Gyro.GetAngle(),a_FrontAngles[a_BotPosition]);
+	a_NeedsToRun[i] = false;
+}
+
+void Autonomous::TurnToFrontWait(int i) {
+	if(fabs(a_Gyro.GetAngle()) - fabs(a_FrontAngles[a_BotPosition]) >3 ) {
+		a_Drive.Update(0,0,0,a_Gyro.GetAngle());
+	} else {
+		a_NeedsToRun[i] = false;
 	}
 }
-// -------------------------------------------------------
+// --------------------------------------------------------------------------------------------------------------
 
 void Autonomous::BlueLeft(){
 	a_BotPosition = kBlueLeft;
-	AdjustOnWall();
-	ShootFuel();
-	ClearBoiler();
-	TurnToFront();
-	MoveToBaseline();
-	TurnToPeg();
-	MoveToPeg();
-	ScoreGear();
+	do {
+		a_Gyro.Update();
+		driveDistance = a_Drive.GetDistance();
+		if(a_NeedsToRun[0]) {
+			AdjustOnWall(0);
+			break;
+		}
+		if(a_NeedsToRun[1]) {
+			ShootFuel(1);
+			break;
+		}
+		if(a_NeedsToRun[2]) {
+			ClearBoiler(2);
+			break;
+		}
+		if(a_NeedsToRun[3]) {
+			TurnToFront(3);
+			break;
+		}
+		if(a_NeedsToRun[4]) {
+			TurnToFrontWait(4);
+			break;
+		}
+		if(a_NeedsToRun[5]) {
+			MoveToBaseline(5);
+			break;
+		}
+		if(a_NeedsToRun[6]) {
+			TurnToPeg(6);
+			break;
+		}
+		if(a_NeedsToRun[7]) {
+			TurnToPegWait(7);
+			break;
+		}
+		if(a_NeedsToRun[8]) {
+			MoveToPeg(8);
+			break;
+		}
+		if(a_NeedsToRun[9]) {
+			ScoreGear(9);
+			break;
+		}
+	} while (true);
 }
 
 void Autonomous::BlueRight(){
 	a_BotPosition = kBlueRight;
-	MoveToBaseline();
-	TurnToPeg();
-	MoveToPeg();
-	ScoreGear();
-	ClearShields();
-	TurnToBoiler();
-	MoveToBoiler();
-	ShootFuel();
+	do {
+		a_Gyro.Update();
+		driveDistance = a_Drive.GetDistance();
+		if(a_NeedsToRun[0]) {
+			MoveToBaseline(0);
+			break;
+		}
+		if(a_NeedsToRun[1]) {
+			TurnToPeg(1);
+			break;
+		}
+		if(a_NeedsToRun[2]) {
+			TurnToPegWait(2);
+			break;
+		}
+		if(a_NeedsToRun[3]) {
+			MoveToPeg(3);
+			break;
+		}
+		if(a_NeedsToRun[4]) {
+			ScoreGear(4);
+			break;
+		}
+		if(a_NeedsToRun[5]) {
+			ClearShields(5);
+			break;
+		}
+		if(a_NeedsToRun[6]) {
+			TurnToBoiler(6);
+			break;
+		}
+		if(a_NeedsToRun[7]) {
+			TurnToBoilerWait(7);
+			break;
+		}
+		if(a_NeedsToRun[8]) {
+			MoveToBoiler(8);
+			break;
+		}
+		if(a_NeedsToRun[9]) {
+			ShootFuel(9);
+			break;
+		}
+	} while (true);
 }
 
 void Autonomous::BlueMiddle(){
 	a_BotPosition = kMiddle;
-	MoveToBaseline();
-	ScoreGear();
-	ClearShields();
-	TurnToBoiler();
-	MoveToBoiler();
-	ShootFuel();
+	do {
+		a_Gyro.Update();
+		driveDistance = a_Drive.GetDistance();
+		if(a_NeedsToRun[0]) {
+			MoveToBaseline(0);
+			break;
+		}
+		if(a_NeedsToRun[1]) {
+			ScoreGear(1);
+			break;
+		}
+		if(a_NeedsToRun[2]) {
+			ClearShields(2);
+			break;
+		}
+		if(a_NeedsToRun[3]) {
+			TurnToBoiler(3);
+			break;
+		}
+		if(a_NeedsToRun[4]) {
+			TurnToBoilerWait(4);
+			break;
+		}
+		if(a_NeedsToRun[5]) {
+			MoveToBoiler(5);
+			break;
+		}
+		if(a_NeedsToRun[6]) {
+			ShootFuel(6);
+			break;
+		}
+	} while (true);
 }
 
 void Autonomous::RedLeft(){
 	a_BotPosition = kRedLeft;
-	AdjustOnWall();
-	ShootFuel();
-	ClearBoiler();
-	TurnToFront();
-	MoveToBaseline();
-	TurnToPeg();
-	MoveToPeg();
-	ScoreGear();
+	do {
+		a_Gyro.Update();
+		driveDistance = a_Drive.GetDistance();
+		if(a_NeedsToRun[0]) {
+			MoveToBaseline(0);
+			break;
+		}
+		if(a_NeedsToRun[1]) {
+			TurnToPeg(1);
+			break;
+		}
+		if(a_NeedsToRun[2]) {
+			TurnToPegWait(2);
+			break;
+		}
+		if(a_NeedsToRun[3]) {
+			MoveToPeg(3);
+			break;
+		}
+		if(a_NeedsToRun[4]) {
+			ScoreGear(4);
+			break;
+		}
+		if(a_NeedsToRun[5]) {
+			ClearShields(5);
+			break;
+		}
+		if(a_NeedsToRun[6]) {
+			TurnToBoiler(6);
+			break;
+		}
+		if(a_NeedsToRun[7]) {
+			TurnToBoilerWait(7);
+			break;
+		}
+		if(a_NeedsToRun[8]) {
+			MoveToBoiler(8);
+			break;
+		}
+		if(a_NeedsToRun[9]) {
+			ShootFuel(9);
+			break;
+		}
+	} while (true);
 }
 
 void Autonomous::RedRight(){
 	a_BotPosition = kRedRight;
-	AdjustOnWall();
-	ShootFuel();
-	ClearBoiler();
-	TurnToFront();
-	TurnToPeg();
-	MoveToPeg();
-	ScoreGear();
+	do {
+		a_Gyro.Update();
+		driveDistance = a_Drive.GetDistance();
+		if(a_NeedsToRun[0]) {
+			AdjustOnWall(0);
+			break;
+		}
+		if(a_NeedsToRun[1]) {
+			ShootFuel(1);
+			break;
+		}
+		if(a_NeedsToRun[2]) {
+			ClearBoiler(2);
+			break;
+		}
+		if(a_NeedsToRun[3]) {
+			TurnToFront(3);
+			break;
+		}
+		if(a_NeedsToRun[4]) {
+			TurnToFrontWait(4);
+			break;
+		}
+		if(a_NeedsToRun[5]) {
+			MoveToBaseline(5);
+			break;
+		}
+		if(a_NeedsToRun[6]) {
+			TurnToPeg(6);
+			break;
+		}
+		if(a_NeedsToRun[7]) {
+			TurnToPegWait(7);
+			break;
+		}
+		if(a_NeedsToRun[8]) {
+			MoveToPeg(8);
+			break;
+		}
+		if(a_NeedsToRun[9]) {
+			ScoreGear(9);
+			break;
+		}
+	} while (true);
 }
 
 void Autonomous::RedMiddle(){
 	a_BotPosition = kMiddle;
-	MoveToBaseline();
-	ScoreGear();
-	ClearShields();
-	TurnToBoiler();
-	MoveToBoiler();
-	ShootFuel();
+	do {
+		a_Gyro.Update();
+		driveDistance = a_Drive.GetDistance();
+		if(a_NeedsToRun[0]) {
+			MoveToBaseline(0);
+			break;
+		}
+		if(a_NeedsToRun[1]) {
+			ScoreGear(1);
+			break;
+		}
+		if(a_NeedsToRun[2]) {
+			ClearShields(2);
+			break;
+		}
+		if(a_NeedsToRun[3]) {
+			TurnToBoiler(3);
+			break;
+		}
+		if(a_NeedsToRun[4]) {
+			TurnToBoilerWait(4);
+			break;
+		}
+		if(a_NeedsToRun[5]) {
+			MoveToBoiler(5);
+			break;
+		}
+		if(a_NeedsToRun[6]) {
+			ShootFuel(6);
+			break;
+		}
+	} while (true);
 }
 
-/**
- *
+/*
 ---------------------------------------------------------------------------------------------------------------
 void driveForward(float distance){
 	if (driveDistance < distance) {
@@ -326,122 +443,6 @@ void Autonomous::Middle(){
 	driveForward(156.259);
 	ShootFuel();
 }
-
----------------------------------------------------------------
-
-a_Gyro.Update();
-float gyroValue = a_Gyro.GetAngle();
-SmartDashboard::PutNumber("Gyro, yum", gyroValue);
-
-switch (a_AutoState) {
-case kMoveToBaseline:
-	if (driveDistance < BASELINE_DISTANCE) {
-		a_Drive.Set(.5,0,0);
-	} else {
-		// AutonUpdate?
-		nextState = kTurnToPeg;
-	}
-	break;
-case kTurnToPeg:
-	int angleSelection;
-	switch (a_BotPosition){
-	case kBlueLeft:
-		SetTwistingRelAngle(a_Gyro.GetAngle(),25.42);
-		break;
-	case kBlueRight:
-		SetTwistingRelAngle(a_Gyro.GetAngle(),27.89);
-		break;
-	case kRedLeft:
-		SetTwistingRelAngle(a_Gyro.GetAngle(),27.89);
-		break;
-	case kRedLeft:
-		SetTwistingRelAngle(a_Gyro.GetAngle(),25.42);
-		break;
-	}
-	if(position = left){
-		SetTwistingRelAngle(a_Gyro.GetAngle(),kLeftTwistAngle);
-		// angleSelection = 0;
-	}else if(position = mid){
-		SetTwistingRelAngle(a_Gyro.GetAngle(),kMiddleTwistAngle);
-		// angleSelection = 1;
-	}else if(position = right){
-		SetTwistingRelAngle(a_Gyro.GetAngle(),kRightTwistAngle);
-		// angleSelection = 2;
-	}
-	if(goalSide = right){
-		if(position = left){
-			SetTwistingRelAngle(a_Gyro.GetAngle(),kRightTwistAngle);
-			// angleSelection = 2;
-		}else if(position = mid){
-			SetTwistingRelAngle(a_Gyro.GetAngle(),kMiddleTwistAngle);
-			// angleSelection = 1;
-		}else if(position = right){
-			SetTwistingRelAngle(a_Gyro.GetAngle(),kLeftTwistAngle);
-			// angleSelection = 0;
-		}
-	}
-	// TurnToAngle pegAngle[angleSelection];
-	nextState = kMoveToPeg;
-	break;
-	case kMoveToPeg:
-		if (position = mid){
-			pegDistance=0;
-		}
-		if (driveDistance < pegDistance) {
-			a_Drive.Set(.5,0,0);
-		} else {
-			// AutonUpdate
-			nextState = kScoreGear;
-		}
-		break;
-	case kScoreGear:
-		// ScoreGear
-		nextState = kClearShields;
-		break;
-	case kClearShields:
-		if (position = mid){
-			pegDistance = 20;
-		}
-		if (driveDistance < pegDistance) {
-			a_Drive.set(-.5,0,0);
-		} else {
-			// AutonUpdate
-			nextState = kTurnToBoiler;
-		}
-		break;
-	case kTurnToBoiler:
-		int angleSelection;
-		if(position = left){
-			angleSelection = 0;
-		}else if(position = mid){
-			angleSelection = 1;
-		}else if(position = right){
-			angleSelection = 2;
-		}
-		if(goalSide = right){
-			if(position = left){
-				angleSelection = 2;
-			}else if(position = mid){
-				angleSelection = 1;
-			}else if(position = right){
-				angleSelection = 0;
-			}
-		}
-		TurnToAngle pegAngle;
-		TurnToAngle BOILER_ANGLE
-		nextState = kMoveToShootingDistance;
-		break;
-	case kMoveToShootingDistance:
-		if (driveDistance < SHOOTING_DISTANCE) {
-			a_Drive.set(0.5,0,0);
-		} else {
-			// AutonUpdate
-			nextState = kAutoIdle;
-		}
-		break;
-	case kAutoIdle:
-		// AutonUpdate
-		// ResetEncoders
-		break;
-}
 */
+
+
