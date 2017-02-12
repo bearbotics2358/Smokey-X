@@ -78,8 +78,8 @@ void Autonomous::MoveToBoiler(int i){
 }
 
 void Autonomous::ShootFuel(int i){
-	a_Shooter.Set(.5,.5,0); // (float speed, float angle, float offset);???
-	a_NeedsToRun[i];
+	a_Shooter.Set(.5,0,0); // (float speed, float angle, float offset);???
+	a_NeedsToRun[i] = false;
 }
 
 void Autonomous::AdjustOnWall(int i){
@@ -378,7 +378,6 @@ void Autonomous::RedMiddle(){
 }
 
 /*
----------------------------------------------------------------------------------------------------------------
 void driveForward(float distance){
 	if (driveDistance < distance) {
 		a_Drive.Update(.5,0,0,0);
