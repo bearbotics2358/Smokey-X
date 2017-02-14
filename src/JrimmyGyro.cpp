@@ -30,7 +30,6 @@ JrimmyGyro::JrimmyGyro(Port port):
 	printf("Jake Buff: %2.2X\n", Buff[0] & 0x00ff);
 
 	// Turn on the measurements
-	Write(kPowerMgmRegister, kPowerCtl_Measure);
 	// Specify the data format to read
 	// SetRange(range);
 
@@ -64,7 +63,6 @@ void JrimmyGyro::Init()
 	lastUpdate = 0;
 	Write(kDLPFRegister, 0x1B);
 	Write(kSampleRateDivider, 9);
-	Write(kPowerMgmRegister, 1);
 	Write(kIntCfg, 1);
 
 	Cal();

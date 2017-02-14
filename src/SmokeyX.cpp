@@ -21,7 +21,8 @@ SmokeyX::SmokeyX(void):
 		a_Drive(a_FrontRight, a_FrontLeft, a_BackLeft, a_BackRight, CHASSIS_LENGTH, CHASSIS_WIDTH),
 		a_Collector(COLLECTOR_ONE, COLLECTOR_TWO),
 		a_Impeller(IMPELLER_PORT),
-		a_Gyro(I2C::kOnboard)
+		a_Gyro(I2C::kOnboard),
+		a_Shooter(SHOOTER, 21)
 {
 	tState = 0;
 	SmartDashboard::init();
@@ -211,15 +212,20 @@ void SmokeyX::TeleopInit()
 
 void SmokeyX::TeleopPeriodic()
 {
+	a_Shooter.Set(a_Joystick2.GetY(),0,0);
+	SmartDashboard::PutNumber("Shooter", a_Joystick2.GetY()  * 4500);
+	SmartDashboard::PutNumber("Speed", a_Shooter.GetSpeed());
 
 	a_Gyro.Update();
 	SmartDashboard::PutNumber("Gyro, yum", a_Gyro.GetAngle());
+
+	// a_Drive.Update(a_Joystick.GetX(), a_Joystick.GetY(), a_Joystick.GetZ() , a_Gyro.GetAngle());
+
+
+	// a_Collector.Update(2*a_Joystick.GetMagnitude()*4248*4/1.25,2*a_Joystick.GetMagnitude()*4248*4/1.25); // Setting the collector tangential velocity to twice as fast as the theoretical linear velocity of the robot
+
+	a_Collector.Update(a_Joystick.GetY(),a_Joystick.GetY());
 	/*
-	a_Drive.Update(a_Joystick.GetX(), a_Joystick.GetY(), a_Joystick.GetZ() , a_Gyro.GetAngle());
-
-
-	a_Collector.Update(2*a_Joystick.GetMagnitude()*4248*4/1.25,2*a_Joystick.GetMagnitude()*4248*4/1.25); // Setting the collector tangential velocity to twice as fast as the theoretical linear velocity of the robot
-
 	SmartDashboard::PutNumber("Front Right", a_FrontRight.GetSpeed());
 	SmartDashboard::PutNumber("Front Left", a_FrontLeft.GetSpeed());
 	SmartDashboard::PutNumber("Back Right", a_BackRight.GetSpeed());

@@ -12,15 +12,15 @@ Collector::Collector(int TalonPort1, int TalonPort2)
 : a_CollectorOne(TalonPort1),
   a_CollectorTwo(TalonPort2)
 {
-	a_CollectorOne.SetControlMode(CANTalon::kSpeed);
+	// a_CollectorOne.SetControlMode(CANTalon::kSpeed);
 	a_CollectorOne.SetFeedbackDevice(CANTalon::CtreMagEncoder_Relative);
-	a_CollectorOne.SetPID(0,0,0);
-	a_CollectorOne.SetF(0);
+	// a_CollectorOne.SetPID(30,0,0);
+	// a_CollectorOne.SetF(0);
 
-	a_CollectorTwo.SetControlMode(CANTalon::kSpeed);
+	// a_CollectorTwo.SetControlMode(CANTalon::kSpeed);
 	a_CollectorTwo.SetFeedbackDevice(CANTalon::CtreMagEncoder_Relative);
-	a_CollectorTwo.SetPID(0,0,0);
-	a_CollectorTwo.SetF(0);
+	// a_CollectorTwo.SetPID(30,0,0);
+	// a_CollectorTwo.SetF(0);
 }
 
 void Collector::Update(float val, uint8_t syncGroup)

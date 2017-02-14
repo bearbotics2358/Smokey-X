@@ -19,6 +19,7 @@
 #include "SmartDashboard/SendableChooser.h"
 #include "Collector.h"
 #include "Impeller.h"
+#include "Shooter.h"
 
 /*enum AutoState {
 	kMoveToBaseline=0,
@@ -75,6 +76,8 @@ private:
 	Impeller a_Impeller;
 
 	JrimmyGyro a_Gyro;
+
+	Shooter a_Shooter;
 
 	// AutoState a_AutoState;
 
