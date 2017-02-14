@@ -18,9 +18,9 @@ SwerveModule::SwerveModule(uint32_t turnMotorPort, uint32_t driveMotorPort)
 	a_TurnMotor.SetFeedbackDevice(TURN_ENCODER_TYPE);
 	a_TurnMotor.SetSensorDirection(false);
 	// a_TurnMotor.SetAnalogPosition(0);
-	a_TurnMotor.SetP(15);
-	a_TurnMotor.SetI(0.001);
-	a_TurnMotor.SetD(0.01);
+	a_TurnMotor.SetP(0);
+	a_TurnMotor.SetI(0);
+	a_TurnMotor.SetD(0);
 	a_TurnMotor.Set(0);
 
 	a_DriveMotor.SetControlMode(CANTalon::kSpeed);

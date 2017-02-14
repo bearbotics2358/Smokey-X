@@ -12,5 +12,5 @@ Impeller::Impeller(int ImpellerPort)
 
 void Impeller::Update(float val, uint8_t syncGroup)
 {
-	a_Impeller.Set(val * MAX_BAG_RPM_FIVE_TO_ONE);
+	a_Impeller.Set(val); // * MAX_BAG_RPM_FIVE_TO_ONE);
 }

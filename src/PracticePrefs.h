@@ -18,6 +18,6 @@
 #define BACK_LEFT_DRIVE_PIDF 0,0,0,0 // 1,0,0,0.6
 
 #define TURN_ENCODER_TYPE CANTalon::PulseWidth
-#define ABSOLUTE_CONV_FACTOR 4096.0 / 360.0
+#define ABSOLUTE_CONV_FACTOR 1.0 / 360.0
 
 #endif

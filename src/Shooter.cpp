@@ -1,6 +1,6 @@
 #include "Shooter.h"
 
-const double MAX_RPM = 4700; //situational upon bot/ drive type- max rpm is 0 until we have an actual value
+const double MAX_RPM = 4500; //situational upon bot/ drive type- max rpm is 0 until we have an actual value
 
 Shooter::Shooter(int firePort, int anglePort)
 : a_ShooterFire(firePort),
@@ -18,10 +18,10 @@ Shooter::Shooter(int firePort, int anglePort)
 	a_ShooterFire.SetControlMode(CANTalon::kSpeed);
 	a_ShooterFire.SetFeedbackDevice(CANTalon::CtreMagEncoder_Relative);
 	a_ShooterFire.SetSensorDirection(true);
-	a_ShooterFire.SetP(1.15);
-	a_ShooterFire.SetI(0.000001);
-	a_ShooterFire.SetD(0.000001);
-	a_ShooterFire.SetF(0.0005);
+	a_ShooterFire.SetP(0.125);
+	a_ShooterFire.SetI(0);
+	a_ShooterFire.SetD(1);
+	a_ShooterFire.SetF(0.0275);
 	a_ShooterFire.Set(0);
 
 }
