@@ -162,6 +162,7 @@ void JrimmyGyro::Update()
 			angle[i] += 360;
 		}
 	 } */
+	// printf("X: %f, Y: %f, Z: %f\n", angle[0], angle[1], angle[2]);
 }
 
 double JrimmyGyro::GetX()

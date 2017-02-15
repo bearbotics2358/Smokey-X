@@ -20,6 +20,7 @@
 #include "Collector.h"
 #include "Impeller.h"
 #include "Shooter.h"
+#include "LightRingController.h"
 
 /*enum AutoState {
 	kMoveToBaseline=0,
@@ -75,7 +76,11 @@ private:
 
 	Impeller a_Impeller;
 
-	JrimmyGyro a_Gyro;
+	LightRingController a_LRC;
+
+	ADXL345_I2C a_Accelerometer;
+
+	// JrimmyGyro a_Gyro;
 
 	Shooter a_Shooter;
 

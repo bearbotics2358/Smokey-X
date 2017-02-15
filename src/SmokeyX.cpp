@@ -21,12 +21,15 @@ SmokeyX::SmokeyX(void):
 		a_Drive(a_FrontRight, a_FrontLeft, a_BackLeft, a_BackRight, CHASSIS_LENGTH, CHASSIS_WIDTH),
 		a_Collector(COLLECTOR_ONE, COLLECTOR_TWO),
 		a_Impeller(IMPELLER_PORT),
-		a_Gyro(I2C::kOnboard),
+		a_LRC(),
+		a_Accelerometer(I2C::kMXP),
+		// a_Gyro(I2C::kMXP),
 		a_Shooter(SHOOTER, 21)
 {
 	tState = 0;
 	SmartDashboard::init();
 	a_Drive.Init();
+
 	// a_BackLeft.InvertDriveMotor();
 	// a_BackRight.InvertDriveMotor();
 	// a_FrontRight.InvertDriveMotor();
@@ -50,7 +53,8 @@ void SmokeyX::DisabledInit()
 void SmokeyX::DisabledPeriodic()
 {
 
-
+		// a_Gyro.Update();
+			// SmartDashboard::PutNumber("Gyro, yum", a_Gyro.GetAngle());
 	SmartDashboard::PutNumber("Front Right Speed", a_FrontRight.GetSpeed());
 	SmartDashboard::PutNumber("Front Left Speed", a_FrontLeft.GetSpeed());
 	SmartDashboard::PutNumber("Back Right Speed", a_BackRight.GetSpeed());
@@ -212,12 +216,14 @@ void SmokeyX::TeleopInit()
 
 void SmokeyX::TeleopPeriodic()
 {
+	a_Accelerometer.GetAccelerations();
+		printf("Accelerometer: %f", a_Accelerometer.GetX());
 	a_Shooter.Set(a_Joystick2.GetY() * -1,0,0);
 	SmartDashboard::PutNumber("Shooter", -1 * a_Joystick2.GetY()  * 4500);
 	SmartDashboard::PutNumber("Speed", a_Shooter.GetSpeed());
 
-	a_Gyro.Update();
-	SmartDashboard::PutNumber("Gyro, yum", a_Gyro.GetAngle());
+	// a_Gyro.Update();
+	// SmartDashboard::PutNumber("Gyro, yum", a_Gyro.GetAngle());
 
 	a_Drive.Update(a_Joystick.GetX(), a_Joystick.GetY(), a_Joystick.GetZ() , 0);
 
