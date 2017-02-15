@@ -44,7 +44,9 @@ SwerveDrive::SwerveDrive(SwerveModule &FR, SwerveModule &FL, SwerveModule &BL, S
 
 void SwerveDrive::Init()
 {
-	InitSendableChooser(); // please, please, PLEASE call this first- otherwise our drive mode might not initialize properly, or a function you attempt to call may not work
+	// InitSendableChooser(); // please, please, PLEASE call this first- otherwise our drive mode might not initialize properly, or a function you attempt to call may not work
+
+	SmartDashboard::PutData(CONTROL_TYPE_KEY, &a_ControlTypeChooser);
 	a_FrontRight.SetDrivePIDF(FRONT_RIGHT_DRIVE_PIDF);
 	a_FrontRight.SetTurnPID(FRONT_RIGHT_TURN_PID);
 	a_FrontLeft.SetDrivePIDF(FRONT_LEFT_DRIVE_PIDF);
@@ -304,10 +306,10 @@ void SwerveDrive::Update(float XIn, float YIn, float ZIn, float gyroValue)
 				brSpeed = setSpeed;
 	}
 
-	SmartDashboard::PutNumber("Front Right Theoretical Speed", frSpeed);
-	SmartDashboard::PutNumber("Front Left Theoretical Speed", flSpeed);
-	SmartDashboard::PutNumber("Back Right Theoretical Speed", brSpeed);
-	SmartDashboard::PutNumber("Back Left Theoretical Speed", blSpeed);
+	SmartDashboard::PutNumber("Front Right Theoretical Speed", frSpeed * 4248);
+	SmartDashboard::PutNumber("Front Left Theoretical Speed", flSpeed * 4248);
+	SmartDashboard::PutNumber("Back Right Theoretical Speed", brSpeed * 4248);
+	SmartDashboard::PutNumber("Back Left Theoretical Speed", blSpeed * 4248);
 
 	SmartDashboard::PutNumber("Front Right Theoretical Angle", frAngle);
 	SmartDashboard::PutNumber("Front Left Theoretical Angle", flAngle);

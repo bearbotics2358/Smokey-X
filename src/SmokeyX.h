@@ -80,7 +80,7 @@ private:
 
 	ADXL345_I2C a_Accelerometer;
 
-	// JrimmyGyro a_Gyro;
+	JrimmyGyro a_Gyro;
 
 	Shooter a_Shooter;
 

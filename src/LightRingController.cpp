@@ -9,12 +9,13 @@ LightRingController::LightRingController()
 }
 
 bool LightRingController::SetColor(int device, int r, int g, int b) {
-	uint8_t out[3];
-	out[0] = r;
-	out[1] = g;
-	out[2] = b;
+	uint8_t out[4];
+	out[0] = device;
+	out[1] = r;
+	out[2] = g;
+	out[3] = b;
 	// return a_I2C.Transaction(out, 3, NULL, 0);
-	return a_I2C.WriteBulk(out, 3);
+	return a_I2C.WriteBulk(out, 4);
 }
 bool LightRingController::SetFlash(int device, bool set) {
 	if(set)

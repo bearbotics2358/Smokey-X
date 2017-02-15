@@ -16,6 +16,6 @@
 #define BACK_LEFT_DRIVE_PIDF 1,0,0,0.6
 
 #define TURN_ENCODER_TYPE CANTalon::AnalogEncoder
-#define ABSOLUTE_CONV_FACTOR 1024.0 / 360.0
+#define ABSOLUTE_CONV_FACTOR (1024.0 / 360.0)
 
 #endif

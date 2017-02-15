@@ -22,8 +22,8 @@ SmokeyX::SmokeyX(void):
 		a_Collector(COLLECTOR_ONE, COLLECTOR_TWO),
 		a_Impeller(IMPELLER_PORT),
 		a_LRC(),
-		a_Accelerometer(I2C::kMXP),
-		// a_Gyro(I2C::kMXP),
+		a_Accelerometer(I2C::kMXP,ADXL345_I2C::kRange_2G,0x53), // was 0x1D
+		a_Gyro(I2C::kMXP),
 		a_Shooter(SHOOTER, 21)
 {
 	tState = 0;
@@ -31,10 +31,9 @@ SmokeyX::SmokeyX(void):
 	a_Drive.Init();
 
 	// a_BackLeft.InvertDriveMotor();
-	// a_BackRight.InvertDriveMotor();
-	// a_FrontRight.InvertDriveMotor();
+	a_BackRight.InvertDriveMotor();
+	a_FrontRight.InvertDriveMotor();
 	// a_FrontLeft.InvertDriveMotor();
-	// a_BackLeft.SetDrivePID(2,0,0);
 
 
 }
@@ -52,9 +51,11 @@ void SmokeyX::DisabledInit()
 
 void SmokeyX::DisabledPeriodic()
 {
-
-		// a_Gyro.Update();
-			// SmartDashboard::PutNumber("Gyro, yum", a_Gyro.GetAngle());
+	a_LRC.SetColor(0,0,0,0);
+		a_LRC.SetColor(1,0,0,0);
+		a_LRC.SetColor(2,0,0,0);
+	a_Gyro.Update();
+	SmartDashboard::PutNumber("Gyro, yum", a_Gyro.GetAngle());
 	SmartDashboard::PutNumber("Front Right Speed", a_FrontRight.GetSpeed());
 	SmartDashboard::PutNumber("Front Left Speed", a_FrontLeft.GetSpeed());
 	SmartDashboard::PutNumber("Back Right Speed", a_BackRight.GetSpeed());
@@ -211,38 +212,43 @@ void SmokeyX::TeleopInit()
 {
 	// a_Gyro.Cal();
 	// a_Gyro.Zero();
+	// a_Drive.InitSendableChooser();
 
 }
 
 void SmokeyX::TeleopPeriodic()
 {
 	a_Accelerometer.GetAccelerations();
-		printf("Accelerometer: %f", a_Accelerometer.GetX());
+	SmartDashboard::PutNumber("Accelerometer X", a_Accelerometer.GetX());
+	SmartDashboard::PutNumber("Accelerometer Y", a_Accelerometer.GetY());
+	SmartDashboard::PutNumber("Accelerometer Z", a_Accelerometer.GetZ());
+	a_LRC.SetColor(0,0,255,0);
+	a_LRC.SetColor(1,0,255,0);
+	a_LRC.SetColor(2,0,255,0);
 	a_Shooter.Set(a_Joystick2.GetY() * -1,0,0);
 	SmartDashboard::PutNumber("Shooter", -1 * a_Joystick2.GetY()  * 4500);
 	SmartDashboard::PutNumber("Speed", a_Shooter.GetSpeed());
 
-	// a_Gyro.Update();
-	// SmartDashboard::PutNumber("Gyro, yum", a_Gyro.GetAngle());
+	a_Gyro.Update();
+	SmartDashboard::PutNumber("Gyro, yum", a_Gyro.GetAngle());
 
 	a_Drive.Update(a_Joystick.GetX(), a_Joystick.GetY(), a_Joystick.GetZ() , 0);
 
 
 	// a_Collector.Update(2*a_Joystick.GetMagnitude()*4248*4/1.25,2*a_Joystick.GetMagnitude()*4248*4/1.25); // Setting the collector tangential velocity to twice as fast as the theoretical linear velocity of the robot
 
-	a_Collector.Update(a_Joystick.GetY(),a_Joystick.GetY());
-
-
-	SmartDashboard::PutNumber("Front Right", a_FrontRight.GetSpeed());
-	SmartDashboard::PutNumber("Front Left", a_FrontLeft.GetSpeed());
-	SmartDashboard::PutNumber("Back Right", a_BackRight.GetSpeed());
-	SmartDashboard::PutNumber("Back Left", a_BackLeft.GetSpeed());
+	a_Collector.Update(a_Joystick.GetMagnitude() * -1.0,a_Joystick.GetMagnitude() * -1.0);
 
 
 	SmartDashboard::PutNumber("Front Right Angle", a_FrontRight.GetAngle());
 	SmartDashboard::PutNumber("Front Left Angle", a_FrontLeft.GetAngle());
 	SmartDashboard::PutNumber("Back Right Angle", a_BackRight.GetAngle());
 	SmartDashboard::PutNumber("Back Left Angle", a_BackLeft.GetAngle());
+
+	SmartDashboard::PutNumber("Front Right Speed", a_FrontRight.GetSpeed());
+	SmartDashboard::PutNumber("Front Left Speed", a_FrontLeft.GetSpeed());
+	SmartDashboard::PutNumber("Back Right Speed", a_BackRight.GetSpeed());
+	SmartDashboard::PutNumber("Back Left Speed", a_BackLeft.GetSpeed());
 
 }
 

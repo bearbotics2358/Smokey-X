@@ -25,12 +25,13 @@ SwerveModule::SwerveModule(uint32_t turnMotorPort, uint32_t driveMotorPort)
 
 	a_DriveMotor.SetControlMode(CANTalon::kSpeed);
 	a_DriveMotor.SetFeedbackDevice(CANTalon::QuadEncoder);
-	a_DriveMotor.ConfigEncoderCodesPerRev(40); // cpr is 40 for the cimcoder
+	a_DriveMotor.ConfigEncoderCodesPerRev(20);
 	a_DriveMotor.SetSensorDirection(false);
 	a_DriveMotor.SetP(0);
 	a_DriveMotor.SetI(0);
 	a_DriveMotor.SetD(0);
 	a_DriveMotor.Set(0);
+
 }
 
 void SwerveModule::Set(float angle, float speed, float offset)
