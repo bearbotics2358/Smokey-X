@@ -7,7 +7,7 @@ class JrimmyGyro : public I2C
 {
 protected:
 	static const uint8_t kPowerMgmRegister = 0x3E;
-	static const uint8_t kDataFormatRegister = 0x31;
+	// static const uint8_t kDataFormatRegister = 0x31;
 	static const uint8_t kSampleRateDivider = 0x15;
 	static const uint8_t kDLPFRegister = 0x16;
 	static const uint8_t kTempRegister = 0x1B;

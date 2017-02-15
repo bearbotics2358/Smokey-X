@@ -63,7 +63,8 @@ void JrimmyGyro::Init()
 	lastUpdate = 0;
 	Write(kDLPFRegister, 0x1B);
 	Write(kSampleRateDivider, 9);
-	Write(kIntCfg, 1);
+	// Write(kIntCfg, 1);
+	Write(kPowerMgmRegister, 1); // set to more accurate clock
 
 	Cal();
 }
