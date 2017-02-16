@@ -78,6 +78,8 @@ private:
 
 	LightRingController a_LRC;
 
+	SerialPort a_Ultrasonic;
+
 	ADXL345_I2C a_Accelerometer;
 
 	JrimmyGyro a_Gyro;

@@ -22,6 +22,7 @@ SmokeyX::SmokeyX(void):
 		a_Collector(COLLECTOR_ONE, COLLECTOR_TWO),
 		a_Impeller(IMPELLER_PORT),
 		a_LRC(),
+		a_Ultrasonic(9600,SerialPort::kOnboard,8,SerialPort::kParity_None, SerialPort::kStopBits_One),
 		a_Accelerometer(I2C::kMXP,ADXL345_I2C::kRange_2G,0x53), // was 0x1D
 		a_Gyro(I2C::kMXP),
 		a_Shooter(SHOOTER, 21)
@@ -46,7 +47,6 @@ void SmokeyX::RobotInit()
 void SmokeyX::DisabledInit()
 {
 
-
 }
 
 void SmokeyX::DisabledPeriodic()
@@ -65,6 +65,15 @@ void SmokeyX::DisabledPeriodic()
 	SmartDashboard::PutNumber("Front Left Angle", a_FrontLeft.GetAngle());
 	SmartDashboard::PutNumber("Back Right Angle", a_BackRight.GetAngle());
 	SmartDashboard::PutNumber("Back Left Angle", a_BackLeft.GetAngle());
+
+
+
+	char buffer[32];
+
+	a_Ultrasonic.Read(buffer,6);
+
+	SmartDashboard::PutString("Ultrasonic", buffer);
+	printf("Ultrasonic:: %s\n", buffer);
 
 
 }
