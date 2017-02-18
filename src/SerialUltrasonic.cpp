@@ -9,10 +9,11 @@ SerialUltrasonic::SerialUltrasonic(int baudRate, SerialPort::Port port, int data
 }
 
 int SerialUltrasonic::GetDistanceMm() {
-	int initialPosition = 0;
+	int initialPosition = 1;
 	int result = -99;
-	a_UltrasonicPort.Read(buff,12); // I could probably read less, but I wanted to be absolutely sure I get a full data set and I'm tired right now
+	a_UltrasonicPort.Read(buff,6); // I could probably read less, but I wanted to be absolutely sure I get a full data set and I'm tired right now
 	std::string stringBuff = buff;
+	/*
 	int firstRPos = stringBuff.find_first_of("R");
 	int lastRPos = stringBuff.find_last_of("R");
 	if(lastRPos <= 7) {
@@ -20,6 +21,7 @@ int SerialUltrasonic::GetDistanceMm() {
 	} else {
 		initialPosition = firstRPos + 1;
 	}
+	*/
 	for(int i = 0; i < 4; i++) {
 		result += std::stoi(stringBuff.substr(initialPosition + i, 1)) * (1000 * pow(10, -i));
 	 }

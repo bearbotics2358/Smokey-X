@@ -26,7 +26,7 @@ Collector::Collector(int TalonPort1, int TalonPort2)
 
 void Collector::Update(float val, uint8_t syncGroup)
 {
-		a_CollectorOne.Set(val * COLLECTOR_ONE_MAX_RPM);
+		a_CollectorOne.Set(val * 260);
 		a_CollectorTwo.Set(-1.0 * val * COLLECTOR_TWO_MAX_RPM);
 
 		SmartDashboard::PutNumber("CollectorOneTheo",val * COLLECTOR_ONE_MAX_RPM);

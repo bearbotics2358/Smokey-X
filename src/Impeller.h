@@ -10,6 +10,7 @@ public:
 	Impeller(int ImpellerPort);
 	virtual ~Impeller() = default;
 	void Update(float val, uint8_t syncGroup = 0);
+	float GetSpeed();
 private:
 	CANTalon a_Impeller;
 };

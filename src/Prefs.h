@@ -8,8 +8,8 @@
 #ifndef SRC_PREFS_H_
 #define SRC_PREFS_H_
 
-#include "PracticePrefs.h"
-// #include "CompPrefs.h"
+// #include "PracticePrefs.h"
+#include "CompPrefs.h"
 
 #define JOYSTICK_PORT 0
 #define JOYSTICKTWO_PORT 5
@@ -39,6 +39,8 @@
 #define COLLECTOR_TWO 19
 
 #define IMPELLER_PORT 21
+
+#define CLIMBER_PORT 22
 
 #define COLLECTOR_ONE_MAX_RPM 1180
 #define COLLECTOR_TWO_MAX_RPM 1850
