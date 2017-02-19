@@ -21,6 +21,7 @@
 #include "Impeller.h"
 #include "Shooter.h"
 #include "LightRingController.h"
+#include "SerialUltrasonic.h"
 
 /*enum AutoState {
 	kMoveToBaseline=0,
@@ -57,7 +58,6 @@ public:
 	void AutonomousPeriodicSimple(void);
 
 private:
-
 	Joystick a_Joystick;
 	Joystick a_Joystick2;
 
@@ -72,29 +72,23 @@ private:
 
 	SwerveDrive a_Drive;
 
+	Shooter a_Shooter;
+
 	Collector a_Collector;
 
 	Impeller a_Impeller;
 
 	LightRingController a_LRC;
 
-	SerialPort a_Ultrasonic;
-
 	ADXL345_I2C a_Accelerometer;
 
 	JrimmyGyro a_Gyro;
 
-	Shooter a_Shooter;
+	SerialUltrasonic a_Ultrasonic;
 
-	// AutoState a_AutoState;
-
-	// BotPosition a_BotPosition;
 
 	double tState;
 
 };
-
-
-
 
 #endif

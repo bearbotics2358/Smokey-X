@@ -21,7 +21,7 @@
 #include "SmartDashboard/Sendable.h"
 #include "Joystick.h"
 
-class SwerveDrive {
+class SwerveDrive { // Swerve drive with crab, forward and back and left and right only, twist, and true "swerve" modes
 public:
 	SwerveDrive(SwerveModule &FR, SwerveModule &FL, SwerveModule &BL, SwerveModule &BR, float Length, float Width);
 	virtual ~SwerveDrive() = default;
@@ -57,10 +57,5 @@ private:
 	float a_RobotWidth;
 	float a_ChassisRadius;
 
-
-
 	frc::SendableChooser<std::string> a_ControlTypeChooser;
 };
-
-
-/* SRC_SWERVEDRIVE_H_ */

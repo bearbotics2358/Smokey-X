@@ -19,13 +19,13 @@ SmokeyX::SmokeyX(void):
 		a_BackLeft(BACK_LEFT_TURN, BACK_LEFT_MOVE),
 		a_BackRight(BACK_RIGHT_TURN, BACK_RIGHT_MOVE),
 		a_Drive(a_FrontRight, a_FrontLeft, a_BackLeft, a_BackRight, CHASSIS_LENGTH, CHASSIS_WIDTH),
+		a_Shooter(SHOOTER),
 		a_Collector(COLLECTOR_ONE, COLLECTOR_TWO),
 		a_Impeller(IMPELLER_PORT),
 		a_LRC(),
-		a_Ultrasonic(9600,SerialPort::kOnboard,8,SerialPort::kParity_None, SerialPort::kStopBits_One),
 		a_Accelerometer(I2C::kMXP,ADXL345_I2C::kRange_2G,0x53), // was 0x1D
 		a_Gyro(I2C::kMXP),
-		a_Shooter(SHOOTER, 21)
+		a_Ultrasonic(9600,SerialPort::kOnboard,8,SerialPort::kParity_None, SerialPort::kStopBits_One)
 {
 	tState = 0;
 	SmartDashboard::init();
@@ -35,7 +35,6 @@ SmokeyX::SmokeyX(void):
 	a_BackRight.InvertDriveMotor();
 	a_FrontRight.InvertDriveMotor();
 	// a_FrontLeft.InvertDriveMotor();
-
 
 }
 
@@ -66,16 +65,16 @@ void SmokeyX::DisabledPeriodic()
 	SmartDashboard::PutNumber("Back Right Angle", a_BackRight.GetAngle());
 	SmartDashboard::PutNumber("Back Left Angle", a_BackLeft.GetAngle());
 
-
-
+	/*
 	char buffer[32];
 
 	a_Ultrasonic.Read(buffer,6);
 
 	SmartDashboard::PutString("Ultrasonic", buffer);
 	printf("Ultrasonic:: %s\n", buffer);
+	*/
 
-
+	SmartDashboard::PutNumber("Ultrasonic", a_Ultrasonic.GetDistanceMm()); // will test monday
 }
 
 void SmokeyX::AutonomousInit()
@@ -219,10 +218,7 @@ void SmokeyX::AutonomousPeriodic()
 
 void SmokeyX::TeleopInit()
 {
-	// a_Gyro.Cal();
 	// a_Gyro.Zero();
-	// a_Drive.InitSendableChooser();
-
 }
 
 void SmokeyX::TeleopPeriodic()
@@ -234,7 +230,7 @@ void SmokeyX::TeleopPeriodic()
 	a_LRC.SetColor(0,0,255,0);
 	a_LRC.SetColor(1,0,255,0);
 	a_LRC.SetColor(2,0,255,0);
-	a_Shooter.Set(a_Joystick2.GetY() * -1,0,0);
+	a_Shooter.Set(a_Joystick2.GetY() * -1);
 	SmartDashboard::PutNumber("Shooter", -1 * a_Joystick2.GetY()  * 4500);
 	SmartDashboard::PutNumber("Speed", a_Shooter.GetSpeed());
 
@@ -243,11 +239,9 @@ void SmokeyX::TeleopPeriodic()
 
 	a_Drive.Update(a_Joystick.GetX(), a_Joystick.GetY(), a_Joystick.GetZ() , 0);
 
-
 	// a_Collector.Update(2*a_Joystick.GetMagnitude()*4248*4/1.25,2*a_Joystick.GetMagnitude()*4248*4/1.25); // Setting the collector tangential velocity to twice as fast as the theoretical linear velocity of the robot
 
 	a_Collector.Update(a_Joystick.GetMagnitude() * -1.0,a_Joystick.GetMagnitude() * -1.0);
-
 
 	SmartDashboard::PutNumber("Front Right Angle", a_FrontRight.GetAngle());
 	SmartDashboard::PutNumber("Front Left Angle", a_FrontLeft.GetAngle());
@@ -269,8 +263,6 @@ void SmokeyX::TestInit()
 void SmokeyX::TestPeriodic()
 {
 
-
 }
 
 START_ROBOT_CLASS(SmokeyX);
-

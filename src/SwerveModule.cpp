@@ -17,7 +17,6 @@ SwerveModule::SwerveModule(uint32_t turnMotorPort, uint32_t driveMotorPort)
 	a_TurnMotor.SetControlMode(CANTalon::kPosition);
 	a_TurnMotor.SetFeedbackDevice(TURN_ENCODER_TYPE);
 	a_TurnMotor.SetSensorDirection(false);
-	// a_TurnMotor.SetAnalogPosition(0);
 	a_TurnMotor.SetP(0);
 	a_TurnMotor.SetI(0);
 	a_TurnMotor.SetD(0);
@@ -31,7 +30,6 @@ SwerveModule::SwerveModule(uint32_t turnMotorPort, uint32_t driveMotorPort)
 	a_DriveMotor.SetI(0);
 	a_DriveMotor.SetD(0);
 	a_DriveMotor.Set(0);
-
 }
 
 void SwerveModule::Set(float angle, float speed, float offset)

@@ -11,7 +11,7 @@
 #include <CANTalon.h>
 #include "Prefs.h"
 
-class Collector
+class Collector // Used for a collector that needed two motors spun in opposite directions
 {
 public:
 	Collector(int TalonPort1, int TalonPort2);

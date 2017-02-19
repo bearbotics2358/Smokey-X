@@ -4,7 +4,7 @@
 #include "CANTalon.h"
 #include "Prefs.h"
 
-class Impeller
+class Impeller // Used in conjunction with collector to index balls for shooter
 {
 public:
 	Impeller(int ImpellerPort);

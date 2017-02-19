@@ -78,7 +78,7 @@ void Autonomous::MoveToBoiler(int i){
 }
 
 void Autonomous::ShootFuel(int i){
-	a_Shooter.Set(.5,0,0); // (float speed, float angle, float offset);???
+	a_Shooter.Set(.5); // revised to follow adjustment
 	a_NeedsToRun[i] = false;
 }
 

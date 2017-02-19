@@ -29,7 +29,6 @@ JrimmyGyro::JrimmyGyro(Port port):
 	// int ret = Read(0, 1, Buff);
 	printf("Jake Buff: %2.2X\n", Buff[0] & 0x00ff);
 
-	// Turn on the measurements
 	// Specify the data format to read
 	// SetRange(range);
 

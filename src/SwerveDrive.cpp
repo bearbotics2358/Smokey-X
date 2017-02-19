@@ -44,9 +44,7 @@ SwerveDrive::SwerveDrive(SwerveModule &FR, SwerveModule &FL, SwerveModule &BL, S
 
 void SwerveDrive::Init()
 {
-	// InitSendableChooser(); // please, please, PLEASE call this first- otherwise our drive mode might not initialize properly, or a function you attempt to call may not work
-
-	SmartDashboard::PutData(CONTROL_TYPE_KEY, &a_ControlTypeChooser);
+	SmartDashboard::PutData(CONTROL_TYPE_KEY, &a_ControlTypeChooser); // this is important to call first, otherwise drive schemes may not initialize properly
 	a_FrontRight.SetDrivePIDF(FRONT_RIGHT_DRIVE_PIDF);
 	a_FrontRight.SetTurnPID(FRONT_RIGHT_TURN_PID);
 	a_FrontLeft.SetDrivePIDF(FRONT_LEFT_DRIVE_PIDF);
@@ -64,8 +62,6 @@ void SwerveDrive::Init()
 
 void SwerveDrive::InitSendableChooser()
 {
-
-
 	SmartDashboard::PutData(CONTROL_TYPE_KEY, &a_ControlTypeChooser);
 }
 
@@ -85,8 +81,7 @@ void SwerveDrive::Update(float XIn, float YIn, float ZIn, float gyroValue)
 
 	controlType = a_ControlTypeChooser.GetSelected();
 
-	if (controlType == "")
-	{
+	if (controlType == "") {
 		std::cout << "error reading control type" << std::endl;
 		return;
 	}
@@ -175,8 +170,7 @@ void SwerveDrive::Update(float XIn, float YIn, float ZIn, float gyroValue)
 		brAngle -= 90;
 		blAngle -= 90;
 
-
-		/*
+		/* the following code is commented out because on the swerve encoders we have now clockwise is negative. uncomment if the opposite is true.
 				// Multiply all by -1
 
 				        ////////////////////
@@ -225,7 +219,7 @@ void SwerveDrive::Update(float XIn, float YIn, float ZIn, float gyroValue)
 				}
 		 */
 
-	} else if(controlType == CONTROL_TYPE_SIMPLE_DRIVE_KEY){
+	} else if(controlType == CONTROL_TYPE_SIMPLE_DRIVE_KEY) {
 		if(fabs(xInput) > fabs(yInput)) {
 			float setAngle = -90;
 			frAngle = setAngle;
@@ -316,7 +310,6 @@ void SwerveDrive::Update(float XIn, float YIn, float ZIn, float gyroValue)
 	SmartDashboard::PutNumber("Back Right Theoretical Angle", brAngle);
 	SmartDashboard::PutNumber("Back Left Theoretical Angle", blAngle);
 
-	// FR 165.25 FL 254.18 BR 194.766 BL 279.85
 	a_FrontRight.Set(frAngle, frSpeed, FRONT_RIGHT_TURN_OFFSET);
 	a_FrontLeft.Set(flAngle, flSpeed, FRONT_LEFT_TURN_OFFSET);
 	a_BackLeft.Set(blAngle, blSpeed, BACK_LEFT_TURN_OFFSET);
@@ -338,8 +331,7 @@ void SwerveDrive::DisableTwist()
 	isTwisting = false;
 }
 
-void SwerveDrive::SetTwistingRelAngle(float gyroAngle, float angle)
+void SwerveDrive::SetTwistingRelAngle(float gyroAngle, float angle) // only call once, please, or the robot will eternally spin
 {
 	turnAngle = gyroAngle + angle;
 }
-

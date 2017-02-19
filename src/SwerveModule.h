@@ -12,7 +12,7 @@
 #include <CANTalon.h>
 #include "Prefs.h"
 
-class SwerveModule
+class SwerveModule // Swerve module that has 2 motors- one for angle PID, other for speed PIDF
 {
 public:
 	SwerveModule(uint32_t turnMotorPort, uint32_t driveMotorPort);
@@ -36,5 +36,3 @@ private:
 	CANTalon a_TurnMotor;
 	CANTalon a_DriveMotor;
 };
-
-/* SRC_SWERVEMODULE_H_ */
