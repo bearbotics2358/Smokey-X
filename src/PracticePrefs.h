@@ -17,7 +17,17 @@
 #define BACK_LEFT_TURN_PID 0,0,0 // 33,0,150
 #define BACK_LEFT_DRIVE_PIDF 3.25,0,45,1.6 // 1,0,0,0.6
 
-#define TURN_ENCODER_TYPE CANTalon::PulseWidth
+#define COLLECTOR_ONE_PID 0.145,0,0.5
+#define COLLECTOR_ONE_F 0.12
+#define COLLECTOR_TWO_PID 0.4,0,0.2
+#define COLLECTOR_TWO_F 0.095
+
+#define IMPELLER_P 0.25
+#define IMPELLER_I 0
+#define IMPELLER_D 1.5
+#define IMPELLER_F 0.65
+
+#define TURN_ENCODER_TYPE CANTalon::PulseWidth // actually analog now- need to update later- got an odd error
 #define ABSOLUTE_CONV_FACTOR (1.0 / 360.0)
 
 #endif

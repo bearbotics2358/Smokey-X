@@ -14,20 +14,19 @@ Collector::Collector(int TalonPort1, int TalonPort2)
 {
 	a_CollectorOne.SetControlMode(CANTalon::kSpeed);
 	a_CollectorOne.SetFeedbackDevice(CANTalon::CtreMagEncoder_Relative);
-	a_CollectorOne.SetPID(0.145,0,0.5);
-	a_CollectorOne.SetF(0.12);
+	a_CollectorOne.SetPID(COLLECTOR_ONE_PID);
+	a_CollectorOne.SetF(COLLECTOR_ONE_F);
 
 	a_CollectorTwo.SetControlMode(CANTalon::kSpeed);
 	a_CollectorTwo.SetFeedbackDevice(CANTalon::CtreMagEncoder_Relative);
-	a_CollectorTwo.SetPID(0.4,0,0.2);
-	a_CollectorTwo.SetF(0.095);
-
+	a_CollectorTwo.SetPID(COLLECTOR_TWO_PID);
+	a_CollectorTwo.SetF(COLLECTOR_TWO_F);
 }
 
 void Collector::Update(float val, uint8_t syncGroup)
 {
-		a_CollectorOne.Set(val * 260);
-		a_CollectorTwo.Set(-1.0 * val * COLLECTOR_TWO_MAX_RPM);
+		a_CollectorOne.Set(val * 1300);
+		a_CollectorTwo.Set(-1.0 * val * 260);
 
 		SmartDashboard::PutNumber("CollectorOneTheo",val * COLLECTOR_ONE_MAX_RPM);
 		SmartDashboard::PutNumber("CollectorTwoTheo",-1.0*val * COLLECTOR_TWO_MAX_RPM);

@@ -4,17 +4,25 @@
 Impeller::Impeller(int ImpellerPort)
 : a_Impeller(ImpellerPort)
 {
-	a_Impeller.SetControlMode(CANTalon::kSpeed);
+	// a_Impeller.SetControlMode(CANTalon::kSpeed);
 	a_Impeller.SetFeedbackDevice(CANTalon::CtreMagEncoder_Relative);
-	a_Impeller.SetP(0.25);
-	a_Impeller.SetI(0);
-	a_Impeller.SetD(1.5);
-	a_Impeller.SetF(0.65);
+	// a_Impeller.SetP(IMPELLER_P);
+	// a_Impeller.SetI(IMPELLER_I);
+	// a_Impeller.SetD(IMPELLER_D);
+	// a_Impeller.SetF(IMPELLER_F);
+	tState = 0;
+	setVal = 0;
 }
 
-void Impeller::Update(float val, uint8_t syncGroup)
+void Impeller::Update()
+{
+	a_Impeller.Set(setVal);
+}
+
+void Impeller::Set(float val)
 {
 	a_Impeller.Set(val);
+	setVal = val;
 }
 
 float Impeller::GetSpeed()

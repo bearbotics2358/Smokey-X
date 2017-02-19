@@ -78,13 +78,15 @@ private:
 
 	Impeller a_Impeller;
 
+	CANTalon a_Lifter;
+
 	LightRingController a_LRC;
 
 	ADXL345_I2C a_Accelerometer;
 
 	JrimmyGyro a_Gyro;
 
-	SerialUltrasonic a_Ultrasonic;
+	// SerialUltrasonic a_Ultrasonic;
 
 
 	double tState;

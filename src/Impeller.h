@@ -9,10 +9,13 @@ class Impeller // Used in conjunction with collector to index balls for shooter
 public:
 	Impeller(int ImpellerPort);
 	virtual ~Impeller() = default;
-	void Update(float val, uint8_t syncGroup = 0);
+	void Update();
+	void Set(float val);
 	float GetSpeed();
 private:
 	CANTalon a_Impeller;
+	float tState;
+	float setVal;
 };
 
 
