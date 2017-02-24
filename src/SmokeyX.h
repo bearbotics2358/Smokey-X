@@ -23,25 +23,6 @@
 #include "LightRingController.h"
 #include "SerialUltrasonic.h"
 
-/*enum AutoState {
-	kMoveToBaseline=0,
-	kTurnToPeg,
-	kMoveToPeg,
-	kScoreGear,
-	kClearShields,
-	kTurnToBoiler,
-	kMoveToShootingDistance,
-	kAutoIdle
-};
-
-enum BotPosition {
-	kBlueLeft=0,
-	kBlueRight,
-	kRedLeft,
-	kRedRight,
-	kMiddle
-};*/
-
 class SmokeyX : public IterativeRobot {
 public:
 	SmokeyX(void);

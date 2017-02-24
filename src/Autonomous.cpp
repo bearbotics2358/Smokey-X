@@ -10,6 +10,9 @@ Autonomous::Autonomous(Joystick &buttonBox, SwerveDrive &Drive, JrimmyGyro &Gyro
 	driveDistance = 0;
 }
 
+void Autonomous::Update(float GyroValue){
+
+}
 
 void Autonomous::MoveToBaseline(int i){
 	driveDistance = a_Drive.GetDistance();
