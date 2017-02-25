@@ -34,7 +34,8 @@ public:
 	void DisableTwist();
 	void SetTwistingRelAngle(float gyroAngle, float angle);
 
-	float GetDistance();
+	float GetDistanceY();
+	float GetDistanceX();
 
 private:
 	static const std::string CONTROL_TYPE_KEY;

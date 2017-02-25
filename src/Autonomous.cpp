@@ -15,7 +15,7 @@ void Autonomous::Update(float GyroValue){
 }
 
 void Autonomous::MoveToBaseline(int i){
-	driveDistance = a_Drive.GetDistance();
+	driveDistance = a_Drive.GetDistanceY();
 	if (driveDistance < a_BaselineDistances[a_BotPosition]) {
 		a_Drive.Update(.5,0,0,0);
 	} else {
@@ -37,7 +37,7 @@ void Autonomous::TurnToPegWait(int i) {
 }
 
 void Autonomous::MoveToPeg(int i){
-	driveDistance = a_Drive.GetDistance();
+	driveDistance = a_Drive.GetDistanceY();
 		if (driveDistance < a_PegDistances[a_BotPosition]) {
 			a_Drive.Update(.5,0,0,0);
 		} else {
@@ -50,7 +50,7 @@ void Autonomous::ScoreGear(int i){
 }
 
 void Autonomous::ClearShields(int i){
-	driveDistance = a_Drive.GetDistance();
+	driveDistance = a_Drive.GetDistanceY();
 	if (driveDistance < a_ShieldsDistances[a_BotPosition]) {
 		a_Drive.Update(-.5,0,0,0);
 	} else {
@@ -72,7 +72,7 @@ void Autonomous::TurnToBoilerWait(int i) {
 }
 
 void Autonomous::MoveToBoiler(int i){
-	driveDistance = a_Drive.GetDistance();
+	driveDistance = a_Drive.GetDistanceY();
 	if (driveDistance < 0) {
 		a_Drive.Update(.5,0,0,0);
 	} else {
@@ -86,7 +86,7 @@ void Autonomous::ShootFuel(int i){
 }
 
 void Autonomous::AdjustOnWall(int i){
-	driveDistance = a_Drive.GetDistance();
+	driveDistance = a_Drive.GetDistanceY();
 		if (driveDistance < a_WallDistances[a_BotPosition]) {
 			a_Drive.Update(0,.5,0,0);
 		} else {
@@ -120,7 +120,7 @@ void Autonomous::BlueLeft(){
 	a_BotPosition = kBlueLeft;
 	do {
 		a_Gyro.Update();
-		driveDistance = a_Drive.GetDistance();
+		driveDistance = a_Drive.GetDistanceY();
 		if(a_NeedsToRun[0]) {
 			AdjustOnWall(0);
 			break;
@@ -168,7 +168,7 @@ void Autonomous::BlueRight(){
 	a_BotPosition = kBlueRight;
 	do {
 		a_Gyro.Update();
-		driveDistance = a_Drive.GetDistance();
+		driveDistance = a_Drive.GetDistanceY();
 		if(a_NeedsToRun[0]) {
 			MoveToBaseline(0);
 			break;
@@ -216,7 +216,7 @@ void Autonomous::BlueMiddle(){
 	a_BotPosition = kMiddle;
 	do {
 		a_Gyro.Update();
-		driveDistance = a_Drive.GetDistance();
+		driveDistance = a_Drive.GetDistanceY();
 		if(a_NeedsToRun[0]) {
 			MoveToBaseline(0);
 			break;
@@ -252,7 +252,7 @@ void Autonomous::RedLeft(){
 	a_BotPosition = kRedLeft;
 	do {
 		a_Gyro.Update();
-		driveDistance = a_Drive.GetDistance();
+		driveDistance = a_Drive.GetDistanceY();
 		if(a_NeedsToRun[0]) {
 			MoveToBaseline(0);
 			break;
@@ -300,7 +300,7 @@ void Autonomous::RedRight(){
 	a_BotPosition = kRedRight;
 	do {
 		a_Gyro.Update();
-		driveDistance = a_Drive.GetDistance();
+		driveDistance = a_Drive.GetDistanceY();
 		if(a_NeedsToRun[0]) {
 			AdjustOnWall(0);
 			break;
@@ -348,7 +348,7 @@ void Autonomous::RedMiddle(){
 	a_BotPosition = kMiddle;
 	do {
 		a_Gyro.Update();
-		driveDistance = a_Drive.GetDistance();
+		driveDistance = a_Drive.GetDistanceY();
 		if(a_NeedsToRun[0]) {
 			MoveToBaseline(0);
 			break;
@@ -444,6 +444,32 @@ void Autonomous::Middle(){
 	turnLeft(27.97); // turnRight(27.97);
 	driveForward(156.259);
 	ShootFuel();
+}
+*/
+
+/*
+we have constructed global float variables called iAccumGyro and iAccumDrive.
+void Autonomous::PIDMoveToSomethingExample(int i)
+{
+	float gyroError = SetAngle - a_Gyro.GetAngle;
+	float driveError = targetDistance - a_Drive.GetDistanceY();
+
+	iAccumGyro += gyroError;
+	iAccumDrive += driveError;
+
+	if(fabs(gyroError) < acceptableTurnError) {
+		iAccumGyro = 0;
+	}
+
+	if(fabs(driveError) < acceptableDriveError) {
+		iAccumDrive = 0;
+	}
+
+	a_Drive.Update(0, driveP * driveError + driveI * iAccumDrive, turnP * gyroError + turnI * iAccumGyro, a_Gyro.GetAngle());
+	if(fabs(gyroError) < acceptableTurnError && fabs(driveError) < acceptableDriveError) {
+		a_NeedsToRun[i] = false;
+	}
+
 }
 */
 

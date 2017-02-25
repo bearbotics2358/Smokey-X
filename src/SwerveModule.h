@@ -18,11 +18,16 @@ public:
 	SwerveModule(uint32_t turnMotorPort, uint32_t driveMotorPort);
 	virtual ~SwerveModule() = default;
 
-	void Set(float angle, float speed, float offset);
+	void Update(float angle, float speed, float offset, float gyroValue);
 
 	float GetAngle();
 	float GetSpeed();
-	float GetDistance();
+	float GetDistanceX();
+	float GetDistanceY();
+	void ResetDistanceX();
+	void ResetDistanceY();
+	void ResetDistances();
+
 
 	void InvertQuad();
 	void InvertAnalog();
@@ -35,4 +40,7 @@ public:
 private:
 	CANTalon a_TurnMotor;
 	CANTalon a_DriveMotor;
+	float distanceX;
+	float distanceY;
+	float lastTime;
 };
