@@ -27,7 +27,7 @@
 #define IMPELLER_D 1.5
 #define IMPELLER_F 0.65
 
-#define TURN_ENCODER_TYPE CANTalon::PulseWidth // actually analog now- need to update later- got an odd error
-#define ABSOLUTE_CONV_FACTOR (1.0 / 360.0)
+#define TURN_ENCODER_TYPE CANTalon::AnalogEncoder // actually analog now- need to update later- got an odd error
+#define ABSOLUTE_CONV_FACTOR (1024 / 360.0)
 
 #endif
