@@ -10,7 +10,7 @@ Autonomous::Autonomous(Joystick &buttonBox, SwerveDrive &Drive, JrimmyGyro &Gyro
 	driveDistance = 0;
 }
 
-void Autonomous::Update(float GyroValue){
+void Autonomous::Update(){
 	bool side;
 	// blue = true;
 	// red = false;

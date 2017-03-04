@@ -20,7 +20,7 @@ class Autonomous {
 public:
 	Autonomous(Joystick &buttonBox, SwerveDrive &SwerveDrive, JrimmyGyro &Gyro, Shooter &Shooter);
 	virtual ~Autonomous() = default;
-	void Update(float GyroValue);
+	void Update();
 	void MoveToBaseline(int i);
 	void TurnToPeg(int i);
 	void TurnToPegWait(int i);
