@@ -29,7 +29,7 @@ void Collector::Update(float val, uint8_t syncGroup)
 		a_CollectorTwo.Set(-1.0 * val * 260);
 
 		SmartDashboard::PutNumber("CollectorOneTheo",val * COLLECTOR_ONE_MAX_RPM);
-		SmartDashboard::PutNumber("CollectorTwoTheo",-1.0*val * COLLECTOR_TWO_MAX_RPM);
+		SmartDashboard::PutNumber("CollectorTwoTheo",-1.0*val * 260);
 
 		SmartDashboard::PutNumber("CollectorOne",a_CollectorOne.GetSpeed());
 		SmartDashboard::PutNumber("CollectorTwo",a_CollectorTwo.GetSpeed());

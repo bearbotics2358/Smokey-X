@@ -46,7 +46,7 @@ void SwerveModule::Update(float angle, float speed, float offset, float gyroValu
 	float dT = Timer::GetFPGATimestamp() - lastTime;
 	lastTime = Timer::GetFPGATimestamp();
 	// rev / min * pi * Diameter in  / rev * 1 min / 60s
-	float linearSpeed = a_DriveMotor.GetSpeed() *  4 * M_PI / 60; // this is geared down, so the shaft RPM / gearing = wheel RPM
+	float linearSpeed = a_DriveMotor.GetSpeed() / 5 *  4 * M_PI / 60; // this is geared down, so the shaft RPM / gearing = wheel RPM
 	float phi = (gyroValue - GetAngle()) * M_PI / 180; // convert to rads cuz that's what sin and cos use
 	// Phi is an angle measured from a vertical- thus, sin(phi) returns the x component of the vector, and cos(phi) returns the y component, unlike a theta measure, which is from a horizontal
 	// basically what i am trying to say is that gyroValue and GetAngle both return phi, so it's easiest to use a phi- we're using the "absolute" direction of the wheel relative to "north" on the floor here

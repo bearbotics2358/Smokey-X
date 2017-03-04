@@ -8,17 +8,17 @@ Shooter::Shooter(int firePort)
 	a_ShooterFire.SetControlMode(CANTalon::kSpeed);
 	a_ShooterFire.SetFeedbackDevice(CANTalon::CtreMagEncoder_Relative);
 	a_ShooterFire.SetSensorDirection(true);
-	a_ShooterFire.SetP(0.095);
-	a_ShooterFire.SetI(0);
-	a_ShooterFire.SetD(1);
-	a_ShooterFire.SetF(0.029);
+	// a_ShooterFire.SetP(0.095);
+	// a_ShooterFire.SetI(0);
+	// a_ShooterFire.SetD(1);
+	// a_ShooterFire.SetF(0.029);
 	a_ShooterFire.Set(0);
 
 }
 
 void Shooter::Set(float speed)
 {
-	a_ShooterFire.Set(speed* MAX_RPM); // ctre mag encoders and talon srx's work well together- no config needed for straightforward RPM control
+	a_ShooterFire.Set(speed); // * MAX_RPM); // ctre mag encoders and talon srx's work well together- no config needed for straightforward RPM control
 }
 
 float Shooter::GetSpeed()
