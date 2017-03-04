@@ -37,7 +37,7 @@ void Autonomous::Update(float GyroValue){
 }
 
 void Autonomous::MoveToBaseline(int i){
-	driveDistance = a_Drive.GetDistanceY();
+	driveDistance = a_Drive.GetDistanceX();
 	if (driveDistance < a_BaselineDistances[a_BotPosition]) {
 		a_Drive.Update(.5,0,0,0);
 	} else {
@@ -59,7 +59,7 @@ void Autonomous::TurnToPegWait(int i) {
 }
 
 void Autonomous::MoveToPeg(int i){
-	driveDistance = a_Drive.GetDistanceY();
+	driveDistance = a_Drive.GetDistanceX();
 		if (driveDistance < a_PegDistances[a_BotPosition]) {
 			a_Drive.Update(.5,0,0,0);
 		} else {
@@ -108,7 +108,7 @@ void Autonomous::ShootFuel(int i){
 }
 
 void Autonomous::AdjustOnWall(int i){
-	driveDistance = a_Drive.GetDistanceY();
+	driveDistance = a_Drive.GetDistanceX();
 		if (driveDistance < a_WallDistances[a_BotPosition]) {
 			a_Drive.Update(0,.5,0,0);
 		} else {
