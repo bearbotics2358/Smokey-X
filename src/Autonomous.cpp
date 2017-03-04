@@ -11,7 +11,29 @@ Autonomous::Autonomous(Joystick &buttonBox, SwerveDrive &Drive, JrimmyGyro &Gyro
 }
 
 void Autonomous::Update(float GyroValue){
-
+	bool side;
+	// blue = true;
+	// red = false;
+	if(a_ButtonBox.GetRawButton(0)){
+		side = true;
+	}else{
+		side = false;
+	}
+	if(a_ButtonBox.GetRawButton(1)&&side){
+		Autonomous::BlueLeft();
+	}else if(!side){
+		Autonomous::RedLeft();
+	}
+	if(a_ButtonBox.GetRawButton(2)&&side){
+		Autonomous::BlueMiddle();
+	}else if(!side){
+		Autonomous::RedMiddle();
+	}
+	if(a_ButtonBox.GetRawButton(3)&&side){
+		Autonomous::BlueRight();
+	}else if(!side){
+		Autonomous::RedRight();
+	}
 }
 
 void Autonomous::MoveToBaseline(int i){
