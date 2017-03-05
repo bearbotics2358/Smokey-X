@@ -10,12 +10,34 @@ Autonomous::Autonomous(Joystick &buttonBox, SwerveDrive &Drive, JrimmyGyro &Gyro
 	driveDistance = 0;
 }
 
-void Autonomous::Update(float GyroValue){
-
+void Autonomous::Update(){
+	bool side;
+	// blue = true;
+	// red = false;
+	if(a_ButtonBox.GetRawButton(0)){
+		side = true;
+	}else{
+		side = false;
+	}
+	if(a_ButtonBox.GetRawButton(1)&&side){
+		Autonomous::BlueLeft();
+	}else if(!side){
+		Autonomous::RedLeft();
+	}
+	if(a_ButtonBox.GetRawButton(2)&&side){
+		Autonomous::BlueMiddle();
+	}else if(!side){
+		Autonomous::RedMiddle();
+	}
+	if(a_ButtonBox.GetRawButton(3)&&side){
+		Autonomous::BlueRight();
+	}else if(!side){
+		Autonomous::RedRight();
+	}
 }
 
 void Autonomous::MoveToBaseline(int i){
-	driveDistance = a_Drive.GetDistanceY();
+	driveDistance = a_Drive.GetDistanceX();
 	if (driveDistance < a_BaselineDistances[a_BotPosition]) {
 		a_Drive.Update(.5,0,0,0);
 	} else {
@@ -37,7 +59,7 @@ void Autonomous::TurnToPegWait(int i) {
 }
 
 void Autonomous::MoveToPeg(int i){
-	driveDistance = a_Drive.GetDistanceY();
+	driveDistance = a_Drive.GetDistanceX();
 		if (driveDistance < a_PegDistances[a_BotPosition]) {
 			a_Drive.Update(.5,0,0,0);
 		} else {
@@ -86,7 +108,7 @@ void Autonomous::ShootFuel(int i){
 }
 
 void Autonomous::AdjustOnWall(int i){
-	driveDistance = a_Drive.GetDistanceY();
+	driveDistance = a_Drive.GetDistanceX();
 		if (driveDistance < a_WallDistances[a_BotPosition]) {
 			a_Drive.Update(0,.5,0,0);
 		} else {
