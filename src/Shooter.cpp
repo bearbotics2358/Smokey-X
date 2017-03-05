@@ -5,9 +5,9 @@ const double MAX_RPM = 4500; //situational upon bot/ drive type- max rpm is 0 un
 Shooter::Shooter(int firePort)
 : a_ShooterFire(firePort)
 {
-	a_ShooterFire.SetControlMode(CANTalon::kSpeed);
-	a_ShooterFire.SetFeedbackDevice(CANTalon::CtreMagEncoder_Relative);
-	a_ShooterFire.SetSensorDirection(true);
+	// a_ShooterFire.SetControlMode(CANTalon::kSpeed);
+	// a_ShooterFire.SetFeedbackDevice(CANTalon::CtreMagEncoder_Relative);
+	// a_ShooterFire.SetSensorDirection(true);
 	// a_ShooterFire.SetP(0.095);
 	// a_ShooterFire.SetI(0);
 	// a_ShooterFire.SetD(1);

@@ -22,6 +22,7 @@
 #include "Shooter.h"
 #include "LightRingController.h"
 #include "SerialUltrasonic.h"
+#include <cpp/mosquittopp.h>
 
 class SmokeyX : public IterativeRobot {
 public:
