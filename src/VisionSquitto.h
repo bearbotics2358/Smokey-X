@@ -8,7 +8,7 @@
 #ifndef SRC_VISIONSQUITTO_H_
 #define SRC_VISIONSQUITTO_H_
 
-#include <cpp/mosquittopp.h>
+#include <mosquittopp.h>
 
 class VisionSquitto : public mosqpp::mosquittopp
 {
@@ -19,6 +19,12 @@ class VisionSquitto : public mosqpp::mosquittopp
 		void on_connect(int rc);
 		void on_message(const struct mosquitto_message *message);
 		void on_subscribe(int mid, int qos_count, const int *granted_qos);
+
+		float GetDistance();
+		float GetAngle();
+	private:
+		float towerDistance = 0;
+		float towerAngle = 0;
 };
 
 

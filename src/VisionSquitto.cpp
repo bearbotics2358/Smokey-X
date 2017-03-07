@@ -8,14 +8,14 @@
 #include <cstring>
 
 #include "VisionSquitto.h"
-#include <cpp/mosquittopp.h>
+#include <mosquittopp.h>
 
 VisionSquitto::VisionSquitto(const char *id, const char *host, int port) : mosquittopp(id)
 {
 	int keepalive = 60;
 
 	/* Connect immediately. This could also be done by calling
-	 * mqtt_tempconv->connect(). */
+	 * VisionSquitto->connect(). */
 	connect(host, port, keepalive);
 }
 
@@ -44,6 +44,8 @@ void VisionSquitto::on_message(const struct mosquitto_message *message)
 		float distance = 0;
 		float angle = 0;
 		scanf(buf, distance, angle);
+		towerDistance = distance;
+		towerAngle = angle;
 		printf("vision data is %f in and %f degrees", distance, angle);
 	}
 }
@@ -51,6 +53,16 @@ void VisionSquitto::on_message(const struct mosquitto_message *message)
 void VisionSquitto::on_subscribe(int mid, int qos_count, const int *granted_qos)
 {
 	printf("Subscription succeeded.\n");
+}
+
+float VisionSquitto::GetDistance()
+{
+	return towerDistance;
+}
+
+float VisionSquitto::GetAngle()
+{
+	return towerAngle;
 }
 
 
