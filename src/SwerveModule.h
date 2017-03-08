@@ -33,9 +33,11 @@ public:
 	void InvertAnalog();
 
 	void InvertDriveMotor();
+	void InvertTurnMotor();
 
 	void SetTurnPID(float turnP, float turnI, float turnD);
 	void SetDrivePIDF(float driveP, float driveI, float driveD, float driveF);
+	void SetIzone(float izone);
 
 private:
 	CANTalon a_TurnMotor;

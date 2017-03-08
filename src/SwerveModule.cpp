@@ -124,6 +124,11 @@ void SwerveModule::InvertDriveMotor()
 	a_DriveMotor.SetInverted(true);
 }
 
+void SwerveModule::InvertTurnMotor()
+{
+	a_TurnMotor.SetInverted(true);
+}
+
 void SwerveModule::SetTurnPID(float turnP, float turnI, float turnD)
 {
 	a_TurnMotor.SetP(turnP);
@@ -137,4 +142,9 @@ void SwerveModule::SetDrivePIDF(float driveP, float driveI, float driveD, float 
 	a_DriveMotor.SetI(driveI);
 	a_DriveMotor.SetD(driveD);
 	a_DriveMotor.SetF(driveF);
+}
+
+void SwerveModule::SetIzone(float izone)
+{
+	a_DriveMotor.SetIzone(izone);
 }

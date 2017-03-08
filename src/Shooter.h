@@ -3,6 +3,7 @@
 
 #include <WPILib.h>
 #include "CANTalon.h"
+#include "Prefs.h"
 
 class Shooter // Simple PIDF flywheel shooter
 {

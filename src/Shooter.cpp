@@ -5,20 +5,21 @@ const double MAX_RPM = 4500; //situational upon bot/ drive type- max rpm is 0 un
 Shooter::Shooter(int firePort)
 : a_ShooterFire(firePort)
 {
-	// a_ShooterFire.SetControlMode(CANTalon::kSpeed);
-	// a_ShooterFire.SetFeedbackDevice(CANTalon::CtreMagEncoder_Relative);
-	// a_ShooterFire.SetSensorDirection(true);
-	// a_ShooterFire.SetP(0.095);
-	// a_ShooterFire.SetI(0);
-	// a_ShooterFire.SetD(1);
-	// a_ShooterFire.SetF(0.029);
+	a_ShooterFire.SetControlMode(CANTalon::kSpeed);
+	a_ShooterFire.SetFeedbackDevice(CANTalon::CtreMagEncoder_Relative);
+	a_ShooterFire.SetSensorDirection(true);
+	a_ShooterFire.SetP(SHOOTER_P);
+	a_ShooterFire.SetI(SHOOTER_I);
+	a_ShooterFire.SetD(SHOOTER_D);
+	a_ShooterFire.SetF(SHOOTER_F);
+	a_ShooterFire.SetIzone(SHOOTER_IZONE);
 	a_ShooterFire.Set(0);
 
 }
 
 void Shooter::Set(float speed)
 {
-	a_ShooterFire.Set(speed); // * MAX_RPM); // ctre mag encoders and talon srx's work well together- no config needed for straightforward RPM control
+	a_ShooterFire.Set(speed * MAX_RPM); // ctre mag encoders and talon srx's work well together- no config needed for straightforward RPM control
 }
 
 float Shooter::GetSpeed()

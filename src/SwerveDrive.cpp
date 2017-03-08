@@ -51,6 +51,7 @@ void SwerveDrive::Init()
 	a_FrontLeft.SetTurnPID(FRONT_LEFT_TURN_PID);
 	a_BackRight.SetDrivePIDF(BACK_RIGHT_DRIVE_PIDF);
 	a_BackRight.SetTurnPID(BACK_RIGHT_TURN_PID);
+	a_BackRight.SetIzone(BACK_RIGHT_IZONE);
 	a_BackLeft.SetDrivePIDF(BACK_LEFT_DRIVE_PIDF);
 	a_BackLeft.SetTurnPID(BACK_LEFT_TURN_PID);
 
@@ -310,10 +311,10 @@ void SwerveDrive::Update(float XIn, float YIn, float ZIn, float gyroValue)
 	SmartDashboard::PutNumber("Back Right Theoretical Angle", brAngle);
 	SmartDashboard::PutNumber("Back Left Theoretical Angle", blAngle);
 
-	a_FrontRight.Update(frAngle, frSpeed, FRONT_RIGHT_TURN_OFFSET, gyroValue);
-	a_FrontLeft.Update(flAngle, flSpeed, FRONT_LEFT_TURN_OFFSET, gyroValue);
-	a_BackLeft.Update(blAngle, blSpeed, BACK_LEFT_TURN_OFFSET, gyroValue);
-	a_BackRight.Update(brAngle, brSpeed, BACK_RIGHT_TURN_OFFSET, gyroValue);
+	a_FrontRight.Update(frAngle, 0/*frSpeed*/, FRONT_RIGHT_TURN_OFFSET, gyroValue);
+	a_FrontLeft.Update(flAngle, 0/*flSpeed*/, FRONT_LEFT_TURN_OFFSET, gyroValue);
+	a_BackLeft.Update(blAngle, 0/*blSpeed*/, BACK_LEFT_TURN_OFFSET, gyroValue);
+	a_BackRight.Update(brAngle, 0/*brSpeed*/, BACK_RIGHT_TURN_OFFSET, gyroValue);
 }
 
 float SwerveDrive::GetDistanceY() // on a roughly square robot an average of all distances traveled should roughly be the distance the c.o.m. traveled
