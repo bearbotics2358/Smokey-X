@@ -22,12 +22,13 @@
 #include "Shooter.h"
 #include "LightRingController.h"
 #include "SerialUltrasonic.h"
-#include <cpp/mosquittopp.h>
+#include "VisionSquitto.h"
 
 class SmokeyX : public IterativeRobot {
 public:
 	SmokeyX(void);
 	void RobotInit(void);
+	void RobotPeriodic(void);
 	void DisabledInit(void);
 	void DisabledPeriodic(void);
 	void TeleopInit(void);
@@ -68,8 +69,13 @@ private:
 
 	JrimmyGyro a_Gyro;
 
+	VisionSquitto a_MQTT;
+
+
+
 	// SerialUltrasonic a_Ultrasonic;
 
+	int rc;
 
 	double tState;
 

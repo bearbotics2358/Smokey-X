@@ -3,6 +3,7 @@
 	<name>Smokey X</name>
 	<comment></comment>
 	<projects>
+		<project>mosquitto_rio</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
