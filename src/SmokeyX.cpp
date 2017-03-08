@@ -25,12 +25,12 @@ SmokeyX::SmokeyX(void):
 		a_Lifter(CLIMBER_PORT),
 		a_LRC(),
 		a_Accelerometer(I2C::kMXP,ADXL345_I2C::kRange_2G,0x53), // was 0x1D
-		a_Gyro(I2C::kMXP),// ,
-		a_MQTT("RIOclient", "localhost", 1183)
+		a_Gyro(I2C::kMXP) // ,
+		// a_MQTT("RIOclient", "localhost", 1183)
 		// a_Ultrasonic(9600,SerialPort::kOnboard,8,SerialPort::kParity_None, SerialPort::kStopBits_One)
 {
 	rc = 0;
-	mosqpp::lib_init();
+	// mosqpp::lib_init();
 	tState = 0;
 	SmartDashboard::init();
 	a_Drive.Init();
@@ -46,16 +46,16 @@ SmokeyX::SmokeyX(void):
 
 void SmokeyX::RobotInit()
 {
-	a_Gyro.Cal();
+	// a_Gyro.Cal();
 }
 
 void SmokeyX::RobotPeriodic()
 {
-	a_Gyro.Update();
-	rc = a_MQTT.loop();
-	if(rc){
-		a_MQTT.reconnect();
-	}
+	// a_Gyro.Update();
+	// rc = a_MQTT.loop();
+	// if(rc){
+	// 	a_MQTT.reconnect();
+	// }
 }
 
 void SmokeyX::DisabledInit()
@@ -68,7 +68,7 @@ void SmokeyX::DisabledPeriodic()
 	a_LRC.SetColor(0,0,0,0);
 		a_LRC.SetColor(1,0,0,0);
 		a_LRC.SetColor(2,0,0,0);
-	a_Gyro.Update();
+		a_Gyro.Update();
 	SmartDashboard::PutNumber("Gyro, yum", a_Gyro.GetAngle());
 	SmartDashboard::PutNumber("Front Right Speed", a_FrontRight.GetSpeed());
 	SmartDashboard::PutNumber("Front Left Speed", a_FrontLeft.GetSpeed());
@@ -138,6 +138,7 @@ void SmokeyX::TeleopPeriodic()
 	SmartDashboard::PutNumber("ShooterSpeed", a_Shooter.GetSpeed());
 
 	a_Gyro.Update();
+
 	SmartDashboard::PutNumber("Gyro, yum", a_Gyro.GetAngle());
 
 	// a_Drive.Update(0,0.5,0,0);

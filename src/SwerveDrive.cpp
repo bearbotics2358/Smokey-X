@@ -68,9 +68,35 @@ void SwerveDrive::InitSendableChooser()
 
 void SwerveDrive::Update(float XIn, float YIn, float ZIn, float gyroValue)
 {
+	float kJoystickDeadzone = 0;
+	float range = 1 - kJoystickDeadzone;
 	float zInput = ZIn; // Rotation Clockwise
 	float xInput = XIn; // Strafe
 	float yInput = -1.0 * YIn; // Forward
+
+	if(fabs(zInput) < kJoystickDeadzone) {
+		zInput = 0;
+	} else if(zInput > 0){
+		zInput = (zInput - kJoystickDeadzone) / range;
+	} else {
+		zInput = (zInput + kJoystickDeadzone) / range;
+	}
+
+	if(fabs(xInput) < kJoystickDeadzone) {
+		xInput = 0;
+	} else if(xInput > 0){
+		xInput = (xInput - kJoystickDeadzone) / range;
+	} else {
+		xInput = (xInput + kJoystickDeadzone) / range;
+	}
+
+	if(fabs(yInput) < kJoystickDeadzone) {
+		yInput = 0;
+	} else if(yInput > 0){
+		yInput = (yInput - kJoystickDeadzone) / range;
+	} else {
+		yInput = (yInput + kJoystickDeadzone) / range;
+	}
 
 	float temp = yInput * cos(gyroValue * M_PI / 180) + xInput * sin(gyroValue * M_PI / 180); // This block of commands SHOULD make this thing field oriented
 	xInput = -yInput * sin(gyroValue * M_PI / 180) + xInput * cos(gyroValue * M_PI / 180);
@@ -311,10 +337,10 @@ void SwerveDrive::Update(float XIn, float YIn, float ZIn, float gyroValue)
 	SmartDashboard::PutNumber("Back Right Theoretical Angle", brAngle);
 	SmartDashboard::PutNumber("Back Left Theoretical Angle", blAngle);
 
-	a_FrontRight.Update(frAngle, 0/*frSpeed*/, FRONT_RIGHT_TURN_OFFSET, gyroValue);
-	a_FrontLeft.Update(flAngle, 0/*flSpeed*/, FRONT_LEFT_TURN_OFFSET, gyroValue);
-	a_BackLeft.Update(blAngle, 0/*blSpeed*/, BACK_LEFT_TURN_OFFSET, gyroValue);
-	a_BackRight.Update(brAngle, 0/*brSpeed*/, BACK_RIGHT_TURN_OFFSET, gyroValue);
+	a_FrontRight.Update(frAngle, frSpeed, FRONT_RIGHT_TURN_OFFSET, gyroValue);
+	a_FrontLeft.Update(flAngle, flSpeed, FRONT_LEFT_TURN_OFFSET, gyroValue);
+	a_BackLeft.Update(blAngle, blSpeed, BACK_LEFT_TURN_OFFSET, gyroValue);
+	a_BackRight.Update(brAngle, brSpeed, BACK_RIGHT_TURN_OFFSET, gyroValue);
 }
 
 float SwerveDrive::GetDistanceY() // on a roughly square robot an average of all distances traveled should roughly be the distance the c.o.m. traveled

@@ -22,7 +22,7 @@
 #include "Shooter.h"
 #include "LightRingController.h"
 #include "SerialUltrasonic.h"
-#include "VisionSquitto.h"
+// #include "VisionSquitto.h"
 
 class SmokeyX : public IterativeRobot {
 public:
@@ -69,7 +69,7 @@ private:
 
 	JrimmyGyro a_Gyro;
 
-	VisionSquitto a_MQTT;
+	// VisionSquitto a_MQTT;
 
 
 
