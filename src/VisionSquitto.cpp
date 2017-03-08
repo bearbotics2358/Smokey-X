@@ -43,7 +43,7 @@ void VisionSquitto::on_message(const struct mosquitto_message *message)
 		memcpy(buf, message->payload, 254*sizeof(char));
 		float distance = 0;
 		float angle = 0;
-		scanf(buf, distance, angle);
+		sscanf(buf, "%f %f", &distance, &angle);
 		towerDistance = distance;
 		towerAngle = angle;
 		printf("vision data is %f in and %f degrees", distance, angle);
