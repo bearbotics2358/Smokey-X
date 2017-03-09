@@ -40,13 +40,13 @@ SmokeyX::SmokeyX(void):
 	a_FrontRight.InvertDriveMotor(); // PRACT
 	// a_FrontLeft.InvertDriveMotor(); // COMP
 
-	a_FrontRight.InvertTurnMotor();
+	a_FrontRight.InvertTurnMotor(); // PRACT
 
 }
 
 void SmokeyX::RobotInit()
 {
-	// a_Gyro.Cal();
+	a_Gyro.Cal();
 }
 
 void SmokeyX::RobotPeriodic()
@@ -65,9 +65,10 @@ void SmokeyX::DisabledInit()
 
 void SmokeyX::DisabledPeriodic()
 {
-	a_LRC.SetColor(0,0,0,0);
-		a_LRC.SetColor(1,0,0,0);
-		a_LRC.SetColor(2,0,0,0);
+	// a_LRC.SetColor(0,0,0,0);
+		// a_LRC.SetColor(1,0,0,0);
+		// a_LRC.SetColor(2,0,0,0);
+		a_LRC.SetColor(3,0,0,0);
 		a_Gyro.Update();
 	SmartDashboard::PutNumber("Gyro, yum", a_Gyro.GetAngle());
 	SmartDashboard::PutNumber("Front Right Speed", a_FrontRight.GetSpeed());
@@ -106,7 +107,7 @@ void SmokeyX::AutonomousPeriodic()
 
 void SmokeyX::TeleopInit()
 {
-	// a_Gyro.Zero();
+	a_Gyro.Cal();
 }
 
 void SmokeyX::TeleopPeriodic()
@@ -115,25 +116,25 @@ void SmokeyX::TeleopPeriodic()
 	SmartDashboard::PutNumber("Accelerometer X", a_Accelerometer.GetX());
 	SmartDashboard::PutNumber("Accelerometer Y", a_Accelerometer.GetY());
 	SmartDashboard::PutNumber("Accelerometer Z", a_Accelerometer.GetZ());
-	a_LRC.SetColor(0,0,100,0);
-	a_LRC.SetColor(1,0,100,0);
-	a_LRC.SetColor(2,0,100,0);
+	// a_LRC.SetColor(0,0,100,0);
+	// a_LRC.SetColor(1,0,100,0);
+	// a_LRC.SetColor(2,0,100,0);
+	a_LRC.SetColor(3,0,100,0);
 
 	a_Impeller.Update();
-	a_Impeller.Set(-1);
-	/*
-	if(a_Joystick.GetRawButton(5)) {
+	if(a_Joystick2.GetRawAxis(3)) {
 		a_Impeller.Set(-1);
-	} else if (a_Joystick.GetRawButton(3)) {
+	} else {
 		a_Impeller.Set(0);
 	}
+
 	if(a_Joystick.GetRawButton(1)) {
-		a_Gyro.Zero();
+		a_Gyro.Cal();
 	}
-	*/
+
 	SmartDashboard::PutNumber("ImpellerTheo", -260 / 2);
 	SmartDashboard::PutNumber("ImpellerSpeed", a_Impeller.GetSpeed());
-	a_Shooter.Set(.5);
+	a_Shooter.Set(.75);
 	SmartDashboard::PutNumber("ShooterTheo", 0.5  * 4500);
 	SmartDashboard::PutNumber("ShooterSpeed", a_Shooter.GetSpeed());
 
@@ -143,6 +144,9 @@ void SmokeyX::TeleopPeriodic()
 
 	// a_Drive.Update(0,0.5,0,0);
 	a_Drive.Update(a_Joystick.GetX(),a_Joystick.GetY(),a_Joystick.GetZ(), 0);
+
+	SmartDashboard::PutNumber("Drive distance X", a_Drive.GetDistanceX());
+	SmartDashboard::PutNumber("Drive distance Y", a_Drive.GetDistanceY());
 
 
 

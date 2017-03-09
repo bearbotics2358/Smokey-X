@@ -68,7 +68,7 @@ void SwerveDrive::InitSendableChooser()
 
 void SwerveDrive::Update(float XIn, float YIn, float ZIn, float gyroValue)
 {
-	float kJoystickDeadzone = 0;
+	float kJoystickDeadzone = 0.1;
 	float range = 1 - kJoystickDeadzone;
 	float zInput = ZIn; // Rotation Clockwise
 	float xInput = XIn; // Strafe

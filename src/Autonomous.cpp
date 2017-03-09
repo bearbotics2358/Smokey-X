@@ -14,22 +14,22 @@ void Autonomous::Update(){
 	bool side;
 	// blue = true;
 	// red = false;
-	if(a_ButtonBox.GetRawButton(0)){
+	if(a_ButtonBox.GetRawButton(1)){
 		side = true;
 	}else{
 		side = false;
 	}
-	if(a_ButtonBox.GetRawButton(1)&&side){
+	if(a_ButtonBox.GetRawButton(2)&&side){
 		Autonomous::BlueLeft();
 	}else if(!side){
 		Autonomous::RedLeft();
 	}
-	if(a_ButtonBox.GetRawButton(2)&&side){
+	if(a_ButtonBox.GetRawButton(3)&&side){
 		Autonomous::BlueMiddle();
 	}else if(!side){
 		Autonomous::RedMiddle();
 	}
-	if(a_ButtonBox.GetRawButton(3)&&side){
+	if(a_ButtonBox.GetRawButton(4)&&side){
 		Autonomous::BlueRight();
 	}else if(!side){
 		Autonomous::RedRight();
