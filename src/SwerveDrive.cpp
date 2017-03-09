@@ -74,12 +74,12 @@ void SwerveDrive::Update(float XIn, float YIn, float ZIn, float gyroValue)
 	float xInput = XIn; // Strafe
 	float yInput = -1.0 * YIn; // Forward
 
-	if(fabs(zInput) < kJoystickDeadzone) {
+	if(fabs(zInput) < kJoystickDeadzone + 0.1) {
 		zInput = 0;
 	} else if(zInput > 0){
-		zInput = (zInput - kJoystickDeadzone) / range;
+		zInput = (zInput - (kJoystickDeadzone + 0.1)) / range;
 	} else {
-		zInput = (zInput + kJoystickDeadzone) / range;
+		zInput = (zInput + (kJoystickDeadzone + 0.1)) / range;
 	}
 
 	if(fabs(xInput) < kJoystickDeadzone) {

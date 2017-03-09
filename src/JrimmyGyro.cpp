@@ -9,10 +9,10 @@
 #include <HAL/HAL.h>
 #include <LiveWindow/LiveWindow.h>
 
-const uint8_t JrimmyGyro::kPowerMgmRegister;
+// const uint8_t JrimmyGyro::kPowerMgmRegister;
 // const uint8_t JrimmyGyro::kDataFormatRegister;
-const uint8_t JrimmyGyro::kDataRegister;
-constexpr double JrimmyGyro::kGsPerLSB;
+// const uint8_t JrimmyGyro::kDataRegister;
+// constexpr double JrimmyGyro::kGsPerLSB;
 
 /**
  * Constructor.

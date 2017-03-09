@@ -8,8 +8,8 @@
 #ifndef SRC_PREFS_H_
 #define SRC_PREFS_H_
 
-#include "PracticePrefs.h"
-// #include "CompPrefs.h"
+// #include "PracticePrefs.h"
+#include "CompPrefs.h"
 
 #define JOYSTICK_PORT 0
 #define JOYSTICKTWO_PORT 5

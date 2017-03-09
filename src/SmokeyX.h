@@ -43,6 +43,7 @@ public:
 private:
 	Joystick a_Joystick;
 	Joystick a_Joystick2;
+	Joystick a_KylesSoul;
 
 	PowerDistributionPanel a_PDP;
 

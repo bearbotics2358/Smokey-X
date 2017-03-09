@@ -24,10 +24,10 @@
 #define COLLECTOR_TWO_PID 0.4,0,0.2
 #define COLLECTOR_TWO_F 0.095
 
-#define IMPELLER_P 0
+#define IMPELLER_P 0.25
 #define IMPELLER_I 0
-#define IMPELLER_D 0
-#define IMPELLER_F 0
+#define IMPELLER_D 1.5
+#define IMPELLER_F 0.65
 
 #define SHOOTER_P 0.095
 #define SHOOTER_I 0
