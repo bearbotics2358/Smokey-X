@@ -38,4 +38,6 @@
 #define TURN_ENCODER_TYPE CANTalon::PulseWidth
 #define ABSOLUTE_CONV_FACTOR (1 / 360.0)
 
+#define PREFS_FUNCTIONS a_BackRight.InvertDriveMotor(); a_FrontRight.InvertDriveMotor();
+
 #endif

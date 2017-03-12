@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <stdlib.h>
 #include <iostream>
 #include <memory>
 #include <string>
@@ -30,17 +32,13 @@ SmokeyX::SmokeyX(void):
 		a_MQTT("RIOclient", "localhost", 1183)
 		// a_Ultrasonic(9600,SerialPort::kOnboard,8,SerialPort::kParity_None, SerialPort::kStopBits_One)
 {
+	system("mosquitto_broker.sh");
 	rc = 0;
 	mosqpp::lib_init();
 	tState = 0;
 	SmartDashboard::init();
 	a_Drive.Init();
-
-	a_BackRight.InvertDriveMotor();
-	a_FrontRight.InvertDriveMotor();
-
-	a_FrontRight.InvertTurnMotor(); // PRACT
-
+	PREFS_FUNCTIONS
 }
 
 void SmokeyX::RobotInit()
@@ -50,7 +48,8 @@ void SmokeyX::RobotInit()
 
 void SmokeyX::RobotPeriodic()
 {
-	// a_Gyro.Update();
+	a_Gyro.Update();
+	a_Accelerometer.GetAccelerations();
 	rc = a_MQTT.loop();
 	if(rc){
 		a_MQTT.reconnect();
@@ -67,7 +66,6 @@ void SmokeyX::DisabledPeriodic()
 	a_LRC.SetColor(0,0,0,0);
 	a_LRC.SetColor(1,0,0,0);
 	a_LRC.SetColor(2,0,0,0);
-	a_Gyro.Update();
 	SmartDashboard::PutNumber("Gyro, yum", a_Gyro.GetAngle());
 	SmartDashboard::PutNumber("Front Right Speed", a_FrontRight.GetSpeed());
 	SmartDashboard::PutNumber("Front Left Speed", a_FrontLeft.GetSpeed());
@@ -110,7 +108,6 @@ void SmokeyX::TeleopInit()
 
 void SmokeyX::TeleopPeriodic()
 {
-	a_Accelerometer.GetAccelerations();
 	SmartDashboard::PutNumber("Accelerometer X", a_Accelerometer.GetX());
 	SmartDashboard::PutNumber("Accelerometer Y", a_Accelerometer.GetY());
 	SmartDashboard::PutNumber("Accelerometer Z", a_Accelerometer.GetZ());
@@ -148,8 +145,6 @@ void SmokeyX::TeleopPeriodic()
 
 	SmartDashboard::PutNumber("ShooterTheo", 0.5  * 4500);
 	SmartDashboard::PutNumber("ShooterSpeed", a_Shooter.GetSpeed());
-
-	a_Gyro.Update();
 
 	SmartDashboard::PutNumber("Gyro, yum", a_Gyro.GetAngle());
 

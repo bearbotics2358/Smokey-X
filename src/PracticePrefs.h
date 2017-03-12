@@ -38,4 +38,6 @@
 #define TURN_ENCODER_TYPE CANTalon::AnalogEncoder // actually analog now-
 #define ABSOLUTE_CONV_FACTOR (1024 / 360.0)
 
+#define PREFS_FUNCTIONS a_BackRight.InvertDriveMotor(); a_FrontRight.InvertDriveMotor();
+
 #endif
