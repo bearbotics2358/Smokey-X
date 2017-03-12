@@ -26,20 +26,18 @@ SmokeyX::SmokeyX(void):
 		a_Lifter(CLIMBER_PORT),
 		a_LRC(),
 		a_Accelerometer(I2C::kMXP,ADXL345_I2C::kRange_2G,0x53), // was 0x1D
-		a_Gyro(I2C::kMXP) // ,
-		// a_MQTT("RIOclient", "localhost", 1183)
+		a_Gyro(I2C::kMXP),
+		a_MQTT("RIOclient", "localhost", 1183)
 		// a_Ultrasonic(9600,SerialPort::kOnboard,8,SerialPort::kParity_None, SerialPort::kStopBits_One)
 {
 	rc = 0;
-	// mosqpp::lib_init();
+	mosqpp::lib_init();
 	tState = 0;
 	SmartDashboard::init();
 	a_Drive.Init();
 
-	// a_BackLeft.InvertDriveMotor(); // COMP
-	a_BackRight.InvertDriveMotor(); // PRACT
-	a_FrontRight.InvertDriveMotor(); // PRACT
-	// a_FrontLeft.InvertDriveMotor(); // COMP
+	a_BackRight.InvertDriveMotor();
+	a_FrontRight.InvertDriveMotor();
 
 	a_FrontRight.InvertTurnMotor(); // PRACT
 
@@ -53,10 +51,10 @@ void SmokeyX::RobotInit()
 void SmokeyX::RobotPeriodic()
 {
 	// a_Gyro.Update();
-	// rc = a_MQTT.loop();
-	// if(rc){
-	// 	a_MQTT.reconnect();
-	// }
+	rc = a_MQTT.loop();
+	if(rc){
+		a_MQTT.reconnect();
+	}
 }
 
 void SmokeyX::DisabledInit()
@@ -66,11 +64,10 @@ void SmokeyX::DisabledInit()
 
 void SmokeyX::DisabledPeriodic()
 {
-	// a_LRC.SetColor(0,0,0,0);
-		// a_LRC.SetColor(1,0,0,0);
-		// a_LRC.SetColor(2,0,0,0);
-		a_LRC.SetColor(3,0,0,0);
-		a_Gyro.Update();
+	a_LRC.SetColor(0,0,0,0);
+	a_LRC.SetColor(1,0,0,0);
+	a_LRC.SetColor(2,0,0,0);
+	a_Gyro.Update();
 	SmartDashboard::PutNumber("Gyro, yum", a_Gyro.GetAngle());
 	SmartDashboard::PutNumber("Front Right Speed", a_FrontRight.GetSpeed());
 	SmartDashboard::PutNumber("Front Left Speed", a_FrontLeft.GetSpeed());
@@ -91,6 +88,8 @@ void SmokeyX::DisabledPeriodic()
 	*/
 
 	// SmartDashboard::PutNumber("a_Ultrasonic", a_Ultrasonic.GetDistanceIn()); // will test monday
+
+	SmartDashboard::PutNumber("Vision Distance:", a_MQTT.GetDistance());
 }
 
 void SmokeyX::AutonomousInit()
@@ -129,6 +128,8 @@ void SmokeyX::TeleopPeriodic()
 		a_Shooter.Set(0.75);
 		a_Collector.Update(-1);
 		a_Lifter.Set(0);
+		a_Joystick2.SetRumble(GenericHID::RumbleType::kLeftRumble, 0);
+		a_Joystick2.SetRumble(GenericHID::RumbleType::kRightRumble, 0);
 	}
 
 	a_Impeller.Update();
@@ -166,6 +167,8 @@ void SmokeyX::TeleopPeriodic()
 	SmartDashboard::PutNumber("Front Left Speed", a_FrontLeft.GetSpeed());
 	SmartDashboard::PutNumber("Back Right Speed", a_BackRight.GetSpeed());
 	SmartDashboard::PutNumber("Back Left Speed", a_BackLeft.GetSpeed());
+
+	SmartDashboard::PutNumber("Vision Distance:", a_MQTT.GetDistance());
 }
 
 

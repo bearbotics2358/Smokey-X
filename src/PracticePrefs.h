@@ -35,7 +35,7 @@
 #define SHOOTER_F 0.034
 #define SHOOTER_IZONE 100
 
-#define TURN_ENCODER_TYPE CANTalon::AnalogEncoder // actually analog now- need to update later- got an odd error
+#define TURN_ENCODER_TYPE CANTalon::AnalogEncoder // actually analog now-
 #define ABSOLUTE_CONV_FACTOR (1024 / 360.0)
 
 #endif
