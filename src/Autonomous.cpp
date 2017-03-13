@@ -8,32 +8,59 @@ Autonomous::Autonomous(Joystick &buttonBox, SwerveDrive &Drive, JrimmyGyro &Gyro
   a_BotPosition(kMiddle)
 {
 	driveDistance = 0;
+	tState = 0;
 }
 
 void Autonomous::Update(){
 	bool side;
+	bool level;
 	// blue = true;
 	// red = false;
+	// regular = true;
+	// stupid = false;
+
+	if(a_ButtonBox.GetRawButton(7)){
+		level = true;
+	}else{
+		level = false;
+	}
+
 	if(a_ButtonBox.GetRawButton(1)){
 		side = true;
 	}else{
 		side = false;
 	}
-	if(a_ButtonBox.GetRawButton(2)&&side){
+
+	if(a_ButtonBox.GetRawButton(2)&&side&&level){
 		Autonomous::BlueLeft();
-	}else if(!side){
+	}else if(!side&&level){
 		Autonomous::RedLeft();
+	}else if(side&&!level){
+		Autonomous::Stupid();
+	}else if(!side&&!level){
+		Autonomous::Stupid();
 	}
+
 	if(a_ButtonBox.GetRawButton(3)&&side){
 		Autonomous::BlueMiddle();
-	}else if(!side){
+	}else if(!side&&level){
 		Autonomous::RedMiddle();
+	}else if(side&&!level){
+		Autonomous::Stupid();
+	}else if(!side&&!level){
+		Autonomous::Stupid();
 	}
+
 	if(a_ButtonBox.GetRawButton(4)&&side){
 		Autonomous::BlueRight();
-	}else if(!side){
+	}else if(!side&&level){
 		Autonomous::RedRight();
+	}else if(side&&!level){
+		Autonomous::Stupid();
+	}else if(!side&&!level){
+		Autonomous::Stupid();
 	}
+
 }
 
 void Autonomous::MoveToBaseline(int i){
@@ -60,15 +87,18 @@ void Autonomous::TurnToPegWait(int i) {
 
 void Autonomous::MoveToPeg(int i){
 	driveDistance = a_Drive.GetDistanceX();
-		if (driveDistance < a_PegDistances[a_BotPosition]) {
-			a_Drive.Update(.5,0,0,0);
-		} else {
-			a_NeedsToRun[i] = false;
-		}
+	if (driveDistance < a_PegDistances[a_BotPosition]) {
+		a_Drive.Update(.5,0,0,0);
+	} else {
+		a_NeedsToRun[i] = false;
+	}
+	tState = Timer::GetFPGATimestamp();
 }
 
 void Autonomous::ScoreGear(int i){
-// ???
+	if(Timer::GetFPGATimestamp() >= tState + 3) {
+		a_NeedsToRun[i] = false;
+	}
 }
 
 void Autonomous::ClearShields(int i){
@@ -81,8 +111,8 @@ void Autonomous::ClearShields(int i){
 }
 
 void Autonomous::TurnToBoiler(int i){
-		a_Drive.SetTwistingRelAngle(a_Gyro.GetAngle(),a_BoilerAngles[a_BotPosition]);
-		a_NeedsToRun[i] = false;
+	a_Drive.SetTwistingRelAngle(a_Gyro.GetAngle(),a_BoilerAngles[a_BotPosition]);
+	a_NeedsToRun[i] = false;
 }
 
 void Autonomous::TurnToBoilerWait(int i) {
@@ -109,12 +139,12 @@ void Autonomous::ShootFuel(int i){
 
 void Autonomous::AdjustOnWall(int i){
 	driveDistance = a_Drive.GetDistanceX();
-		if (driveDistance < a_WallDistances[a_BotPosition]) {
-			a_Drive.Update(0,.5,0,0);
-		} else {
-			a_NeedsToRun[i] = false;
-		}
+	if (driveDistance < a_WallDistances[a_BotPosition]) {
+		a_Drive.Update(0,.5,0,0);
+	} else {
+		a_NeedsToRun[i] = false;
 	}
+}
 
 void Autonomous::ClearBoiler(int i){
 	if (driveDistance < 10) {
@@ -402,39 +432,19 @@ void Autonomous::RedMiddle(){
 	} while (true);
 }
 
+void Autonomous::Stupid(){
+	do{
+		a_Gyro.Update();
+		driveDistance = a_Drive.GetDistanceY();
+		if (driveDistance < 100) {
+			a_Drive.Update(.5,0,0,0);
+		}
+	} while (true);
+
+}
+
+
 /*
-void driveForward(float distance){
-	if (driveDistance < distance) {
-		a_Drive.Update(.5,0,0,0);
-	}
-}
-
-void driveBackward(float distance){
-	if (driveDistance < distance) {
-		a_Drive.Update(-.5,0,0,0);
-	}
-}
-
-void driveRight(float distance){
-	if (driveDistance < distance) {
-		a_Drive.Update(0,.5,0,0);
-	}
-}
-
-void driveLeft(float distance){
-	if (driveDistance < distance) {
-		a_Drive.Update(0,-.5,0,0);
-	}
-}
-
-void turnRight(float angle){
-	SetTwistingRelAngle(a_Gyro.GetAngle(),angle);
-}
-
-void turnLeft(float angle){
-	SetTwistingRelAngle(a_Gyro.GetAngle(),-angle);
-}
-
 void Autonomous::Left(){
 	driveRight(1.25); // driveLeft(1.25);
 	ShootFuel();
@@ -467,7 +477,7 @@ void Autonomous::Middle(){
 	driveForward(156.259);
 	ShootFuel();
 }
-*/
+ */
 
 /*
 we have constructed global float variables called iAccumGyro and iAccumDrive.
@@ -493,6 +503,6 @@ void Autonomous::PIDMoveToSomethingExample(int i)
 	}
 
 }
-*/
+ */
 
 

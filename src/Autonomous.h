@@ -44,6 +44,15 @@ public:
 	void RedRight();
 	void RedMiddle();
 
+	void StupidBlueLeft();
+	void StupidBlueRight();
+	void StupidBlueMiddle();
+	void StupidRedLeft();
+	void StupidRedRight();
+	void StupidRedMiddle();
+
+	void Stupid();
+
 private:
 	Joystick &a_ButtonBox;
 	SwerveDrive &a_Drive;
@@ -52,7 +61,7 @@ private:
 
 	bool  a_NeedsToRun[10] = {true};
 
-	float a_BaselineDistances[5] = {32.308, 105.953, 105.953, 32.308, 93.33};
+	float a_BaselineDistances[6] = {32.308, 105.953, 105.953, 32.308, 93.33, 95};
 	float a_PegAngles[5] = {60,-60, 60, -60, 0};
 	float a_PegDistances[5] = {78.98, 19.39, 19.39, 78.98, 0};
 	float a_ShieldsDistances[5] = {0, 19.39, 19.39, 0, 0};
@@ -61,7 +70,7 @@ private:
 	float a_WallDistances[5] = {1.25, 0, 0, 1.25, 0};
 	float a_FrontAngles[5] = {45, 0, 0, -45, 0};
 
-/*	float a_AutoInfo[8][5] = {{32.308, 105.953, 105.953, 32.308, 93.33},
+	/*	float a_AutoInfo[8][5] = {{32.308, 105.953, 105.953, 32.308, 93.33},
 						      {60,-60, 60, -60, 0},
 	                          {78.98, 19.39, 19.39, 78.98, 0},
 	                          {0, 19.39, 19.39, 0, 0},
@@ -72,7 +81,7 @@ private:
 
 	BotPosition a_BotPosition;
 	float driveDistance;
-
+	float tState;
 };
 
 #endif

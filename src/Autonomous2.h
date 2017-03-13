@@ -21,17 +21,17 @@ public:
 	Autonomous2(Joystick &buttonBox, SwerveDrive &SwerveDrive, JrimmyGyro &Gyro, Shooter &Shooter);
 	virtual ~Autonomous2() = default;
 	void Update();
-	void MoveToBaseline(int i);
-	void MoveandTurnToPeg(int i);
+	// void MoveToBaseline(int i);
+	void MoveToBaselineandTurnToPeg(int i);
 	// void TurnToPeg(int i);
 	// void TurnToPegWait(int i);
-	// void MoveToPeg(int i);
+	void MoveToPeg(int i);
 	void ScoreGear(int i);
-	void ClearShields(int i);
-	void MoveandTurnToBoiler(int i);
+	// void ClearShields(int i);
+	void ClearShieldsandTurnToBoiler(int i);
 	// void TurnToBoiler(int i);
 	// void TurnToBoilerWait(int i);
-	// void MoveToBoiler(int i);
+	void MoveToBoiler(int i);
 	void ShootFuel(int i);
 
 	void AdjustOnWall(int i);
@@ -73,8 +73,15 @@ private:
 	                          {45, 0, 0, -45, 0}};*/
 
 	BotPosition a_BotPosition;
-	float driveDistance;
 
+	float driveDistance;
+	float acceptableDriveError = 3;
+	float acceptableTurnError = 3;
+
+	float driveP = 0;
+	float turnP = 0;
+
+	float tState = 0;
 };
 
 #endif
