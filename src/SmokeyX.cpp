@@ -32,7 +32,9 @@ SmokeyX::SmokeyX(void):
 		a_MQTT("RIOclient", "localhost", 1183)
 		// a_Ultrasonic(9600,SerialPort::kOnboard,8,SerialPort::kParity_None, SerialPort::kStopBits_One)
 {
-	system("mosquitto_broker.sh");
+	const char *commandString = "~/mosquitto -p 1183 &";
+	int q = system(commandString);
+	printf("The number is: %d", q);
 	rc = 0;
 	mosqpp::lib_init();
 	tState = 0;
@@ -43,6 +45,7 @@ SmokeyX::SmokeyX(void):
 
 void SmokeyX::RobotInit()
 {
+
 	a_Gyro.Cal();
 }
 
@@ -63,6 +66,7 @@ void SmokeyX::DisabledInit()
 
 void SmokeyX::DisabledPeriodic()
 {
+	/*
 	a_LRC.SetColor(0,0,0,0);
 	a_LRC.SetColor(1,0,0,0);
 	a_LRC.SetColor(2,0,0,0);
@@ -76,6 +80,7 @@ void SmokeyX::DisabledPeriodic()
 	SmartDashboard::PutNumber("Front Left Angle", a_FrontLeft.GetAngle());
 	SmartDashboard::PutNumber("Back Right Angle", a_BackRight.GetAngle());
 	SmartDashboard::PutNumber("Back Left Angle", a_BackLeft.GetAngle());
+	*/
 	// SmartDashboard::PutNumber("ShooterSpeed", a_Shooter.GetSpeed());
 
 	/*
