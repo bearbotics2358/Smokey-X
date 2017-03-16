@@ -62,13 +62,13 @@ private:
 
 	bool  a_NeedsToRun[10] = {true};
 
-	float a_BaselineDistances[6] = {32.308, 105.953, 105.953, 32.308, 93.33, 105.953};
+	float a_BaselineDistances[6] = {43.5, 117.5, 117.5, 43, 116, 177.5};
 	float a_PegAngles[6] = {60,-60, 60, -60, 0, 60};
-	float a_PegDistances[6] = {78.98, 19.39, 19.39, 78.98, 0, 19.39};
-	float a_ShieldsDistances[6] = {0, -19.39, -19.39, 0, 0, -19.39};
-	float a_BoilerAngles[5] = {0, -30+24.55, 30-24.55, 0, 27.97};
-	float a_BoilerDistances[5] = {0, 182.83, 182.83, 0, 156.259};
-	float a_WallDistances[5] = {1.25, 0, 0, 1.25, 0};
+	float a_PegDistances[6] = {118.5, 28, 27.25, 117.5, 0, 26};
+	float a_ShieldsDistances[6] = {0, -60, -60, 0, 0, -60};
+	float a_BoilerAngles[5] = {0, -45, 45, 0, 27.97};
+	float a_BoilerDistances[5] = {0, 240, 240, 0, 156.259};
+	float a_WallDistances[5] = {16, 0, 0, 16, 0};
 	float a_FrontAngles[5] = {45, 0, 0, -45, 0};
 
 	/*	float a_AutoInfo[8][5] = {{32.308, 105.953, 105.953, 32.308, 93.33},
