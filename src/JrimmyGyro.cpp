@@ -22,12 +22,13 @@
 JrimmyGyro::JrimmyGyro(Port port):
 		I2C(port, 0x68)
 {
-	uint8_t Buff[256];
+	// uint8_t Buff[256];
 	lastUpdate = 0;
 	Init();
+	printf("Reg 0 is: %d", GetReg0());
 	//m_i2c = new I2C((I2C::Port)port, kAddress);
 	// int ret = Read(0, 1, Buff);
-	printf("Jake Buff: %2.2X\n", Buff[0] & 0x00ff);
+	// printf("Jake Buff: %2.2X\n", Buff[0] & 0x00ff);
 
 	// Specify the data format to read
 	// SetRange(range);
@@ -62,8 +63,8 @@ void JrimmyGyro::Init()
 	lastUpdate = 0;
 	Write(kDLPFRegister, 0x1B);
 	Write(kSampleRateDivider, 9);
-	// Write(kIntCfg, 1);
 	Write(kPowerMgmRegister, 1); // set to more accurate clock
+	Write(kIntCfg, 1);
 
 	Cal();
 }
