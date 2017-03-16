@@ -47,14 +47,14 @@ void JrimmyGyro::WaitForValues()
 {
 	uint8_t stat;
 	bool result;
-
+	Write(kIntCfg, 5);
 	double start = Timer::GetFPGATimestamp();
 	double now;
 
 	do {
 		result = Read(kIntStatus, 1, &stat);
 		now = Timer::GetFPGATimestamp();
-	} while(!(stat & 1) && !result && ((now - start) < 0.500));
+	} while( (((stat&5) != 5) || (result = 0)) && ((now-start) < 0.500));
 	// TODO: report errors/timeouts
 }
 
@@ -64,7 +64,7 @@ void JrimmyGyro::Init()
 	Write(kDLPFRegister, 0x1B);
 	Write(kSampleRateDivider, 9);
 	Write(kPowerMgmRegister, 1); // set to more accurate clock
-	Write(kIntCfg, 1);
+	Write(kIntCfg, 5);
 
 	Cal();
 }

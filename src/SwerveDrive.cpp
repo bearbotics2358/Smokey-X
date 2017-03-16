@@ -24,6 +24,8 @@ const int         SwerveDrive::CONTROL_TYPE_SIMPLE_DRIVE = 2;
 const std::string SwerveDrive::CONTROL_TYPE_SIMPLE_DRIVE_KEY = "Simple Drive";
 const int         SwerveDrive::CONTROL_TYPE_TURNING_DRIVE = 3;
 const std::string SwerveDrive::CONTROL_TYPE_TURNING_DRIVE_KEY = "Turning Drive";
+const int         SwerveDrive::CONTROL_TYPE_TANK = 4;
+const std::string SwerveDrive::CONTROL_TYPE_TANK_KEY = "Tank Drive";
 
 bool isTwisting = false;
 float turnAngle = 0;
@@ -40,7 +42,8 @@ SwerveDrive::SwerveDrive(SwerveModule &FR, SwerveModule &FL, SwerveModule &BL, S
 	a_ControlTypeChooser.AddDefault(CONTROL_TYPE_SWERVE_KEY, CONTROL_TYPE_SWERVE_KEY);
 	a_ControlTypeChooser.AddObject(CONTROL_TYPE_CRAB_KEY, CONTROL_TYPE_CRAB_KEY);
 	a_ControlTypeChooser.AddObject(CONTROL_TYPE_SIMPLE_DRIVE_KEY, CONTROL_TYPE_SIMPLE_DRIVE_KEY);
-}
+	a_ControlTypeChooser.AddObject(CONTROL_TYPE_TANK_KEY, CONTROL_TYPE_TANK_KEY);
+};
 
 void SwerveDrive::Init()
 {
@@ -71,32 +74,32 @@ void SwerveDrive::Update(float XIn, float YIn, float ZIn, float gyroValue)
 	// float kJoystickDeadzone = 0.1;
 	// float range = 1 - kJoystickDeadzone;
 	float zInput = ZIn; // Rotation Clockwise
-	float xInput = - 1.0 * XIn; // Strafe
-	float yInput = YIn; // Forward
+	float xInput = XIn; // Strafe
+	float yInput = -1.0 * YIn; // Forward
 
-//	if(fabs(zInput) < kJoystickDeadzone + 0.1) {
-//		zInput = 0;
-//	} else if(zInput > 0){
-//		zInput = (zInput - (kJoystickDeadzone + 0.1)) / range;
-//	} else {
-//		zInput = (zInput + (kJoystickDeadzone + 0.1)) / range;
-//	}
-//
-//	if(fabs(xInput) < kJoystickDeadzone) {
-//		xInput = 0;
-//	} else if(xInput > 0){
-//		xInput = (xInput - kJoystickDeadzone) / range;
-//	} else {
-//		xInput = (xInput + kJoystickDeadzone) / range;
-//	}
-//
-//	if(fabs(yInput) < kJoystickDeadzone) {
-//		yInput = 0;
-//	} else if(yInput > 0){
-//		yInput = (yInput - kJoystickDeadzone) / range;
-//	} else {
-//		yInput = (yInput + kJoystickDeadzone) / range;
-//	}
+	//	if(fabs(zInput) < kJoystickDeadzone + 0.1) {
+	//		zInput = 0;
+	//	} else if(zInput > 0){
+	//		zInput = (zInput - (kJoystickDeadzone + 0.1)) / range;
+	//	} else {
+	//		zInput = (zInput + (kJoystickDeadzone + 0.1)) / range;
+	//	}
+	//
+	//	if(fabs(xInput) < kJoystickDeadzone) {
+	//		xInput = 0;
+	//	} else if(xInput > 0){
+	//		xInput = (xInput - kJoystickDeadzone) / range;
+	//	} else {
+	//		xInput = (xInput + kJoystickDeadzone) / range;
+	//	}
+	//
+	//	if(fabs(yInput) < kJoystickDeadzone) {
+	//		yInput = 0;
+	//	} else if(yInput > 0){
+	//		yInput = (yInput - kJoystickDeadzone) / range;
+	//	} else {
+	//		yInput = (yInput + kJoystickDeadzone) / range;
+	//	}
 
 	float temp = yInput * cos(gyroValue * M_PI / 180) + xInput * sin(gyroValue * M_PI / 180); // This block of commands SHOULD make this thing field oriented
 	xInput = -yInput * sin(gyroValue * M_PI / 180) + xInput * cos(gyroValue * M_PI / 180);
@@ -310,21 +313,60 @@ void SwerveDrive::Update(float XIn, float YIn, float ZIn, float gyroValue)
 			brSpeed = 0;
 			DisableTwist();
 		}
+	} else if(controlType == CONTROL_TYPE_TANK_KEY) {
+		if(fabs(xInput) > 0.125) {
+			flAngle = -90.0;
+			frAngle = -90.0;
+			blAngle = -90.0;
+			brAngle = -90.0;
+
+			frSpeed = xInput;
+			flSpeed = xInput;
+			blSpeed = xInput;
+			brSpeed = xInput;
+		} else {
+			flAngle = 0;
+			frAngle = 0;
+			blAngle = 0;
+			brAngle = 0;
+
+			frSpeed = yInput - zInput;
+			flSpeed = yInput + zInput;
+			blSpeed = yInput + zInput;
+			brSpeed = yInput - zInput;
+
+			max = frSpeed;
+			if(flSpeed > max) {
+				max = flSpeed;
+			}
+			if(blSpeed > max) {
+				max = blSpeed;
+			}
+			if(brSpeed > max) {
+				max = brSpeed;
+			}
+			if(max > 1) { // This is done so that if a speed greater than 1 is calculated, all are reduced proportionally
+				frSpeed /= max;
+				flSpeed /= max;
+				blSpeed /= max;
+				brSpeed /= max;
+			}
+		}
 	} else {
 		float setAngle = atan2(yInput, xInput) * 180 / M_PI;
-				setAngle -= 90;
+		setAngle -= 90;
 
-				frAngle = setAngle;
-				flAngle = setAngle;
-				blAngle = setAngle;
-				brAngle = setAngle;
+		frAngle = setAngle;
+		flAngle = setAngle;
+		blAngle = setAngle;
+		brAngle = setAngle;
 
-				float setSpeed = sqrt(pow(xInput,2) + pow(yInput,2)); // find the r of the joystick vector, if you think about it in polar coordinates
+		float setSpeed = sqrt(pow(xInput,2) + pow(yInput,2)); // find the r of the joystick vector, if you think about it in polar coordinates
 
-				frSpeed = setSpeed;
-				flSpeed = setSpeed;
-				blSpeed = setSpeed;
-				brSpeed = setSpeed;
+		frSpeed = setSpeed;
+		flSpeed = setSpeed;
+		blSpeed = setSpeed;
+		brSpeed = setSpeed;
 	}
 
 	SmartDashboard::PutNumber("Front Right Theoretical Speed", frSpeed * 4248);
