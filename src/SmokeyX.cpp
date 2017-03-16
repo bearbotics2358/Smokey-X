@@ -29,7 +29,8 @@ SmokeyX::SmokeyX(void):
 		a_LRC(),
 		a_Accelerometer(I2C::kMXP,ADXL345_I2C::kRange_2G,0x53), // was 0x1D
 		a_Gyro(I2C::kMXP),
-		a_MQTT("RIOclient", "localhost", 1183)
+		a_MQTT("RIOclient", "localhost", 1183),
+		a_Autonomous(a_KylesSoul, a_Drive, a_Gyro, a_Shooter)
 		// a_Ultrasonic(9600,SerialPort::kOnboard,8,SerialPort::kParity_None, SerialPort::kStopBits_One)
 {
 	const char *commandString = "~/mosquitto -p 1183 &";
@@ -66,6 +67,7 @@ void SmokeyX::DisabledInit()
 
 void SmokeyX::DisabledPeriodic()
 {
+	a_Autonomous.Init();
 	/*
 	a_LRC.SetColor(0,0,0,0);
 	a_LRC.SetColor(1,0,0,0);
@@ -99,11 +101,12 @@ void SmokeyX::AutonomousInit()
 {
 	// a_Gyro.Cal();
 	tState = 0;
+	a_Autonomous.Init();
 }
 
 void SmokeyX::AutonomousPeriodic()
 {
-
+	a_Autonomous.Update();
 }
 
 void SmokeyX::TeleopInit()
@@ -117,8 +120,8 @@ void SmokeyX::TeleopPeriodic()
 	SmartDashboard::PutNumber("Accelerometer Y", a_Accelerometer.GetY());
 	SmartDashboard::PutNumber("Accelerometer Z", a_Accelerometer.GetZ());
 	a_LRC.SetColor(0,0,100,0);
-	a_LRC.SetColor(1,0,100,0);
-	a_LRC.SetColor(2,0,100,0);
+	a_LRC.SetColor(1,0,60,0);
+	a_LRC.SetColor(2,0,60,0);
 
 	if(a_KylesSoul.GetRawButton(5) && a_Joystick2.GetRawButton(1) && a_Joystick2.GetRawAxis(2) >= .9) {
 		a_Shooter.Set(0);

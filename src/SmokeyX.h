@@ -23,6 +23,7 @@
 #include "LightRingController.h"
 #include "SerialUltrasonic.h"
 #include "VisionSquitto.h"
+#include "Autonomous.h"
 
 class SmokeyX : public IterativeRobot {
 public:
@@ -71,6 +72,8 @@ private:
 	JrimmyGyro a_Gyro;
 
 	VisionSquitto a_MQTT;
+
+	Autonomous a_Autonomous;
 
 
 

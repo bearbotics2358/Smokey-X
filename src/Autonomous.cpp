@@ -11,55 +11,69 @@ Autonomous::Autonomous(Joystick &buttonBox, SwerveDrive &Drive, JrimmyGyro &Gyro
 	tState = 0;
 }
 
+void Autonomous::Init()
+{
+		// blue = true;
+		// red = false;
+		// regular = true;
+		// stupid = false;
+
+		if(a_ButtonBox.GetRawButton(7)){
+			level = true;
+		}else{
+			level = false;
+		}
+
+		if(a_ButtonBox.GetRawButton(1)){
+			side = true;
+		}else{
+			side = false;
+		}
+		if(a_ButtonBox.GetRawButton(2)) {
+			leftPos = true;
+		} else if(a_ButtonBox.GetRawButton(4)) {
+			rightPos = true;
+		} else {
+			midPos = true;
+		}
+}
+
 void Autonomous::Update(){
-	bool side;
-	bool level;
-	// blue = true;
-	// red = false;
-	// regular = true;
-	// stupid = false;
 
-	if(a_ButtonBox.GetRawButton(7)){
-		level = true;
-	}else{
-		level = false;
+	if(leftPos&&side&&level){
+		a_Shooter.Set(0.75);
+		BlueLeft();
+	}else if(leftPos&&!side&&level){
+		a_Shooter.Set(0.75);
+		RedLeft();
+	}else if(leftPos&&side&&!level){
+		StupidBlueLeft();
+	}else if(leftPos&&!side&&!level){
+		StupidRedLeft();
 	}
 
-	if(a_ButtonBox.GetRawButton(1)){
-		side = true;
-	}else{
-		side = false;
+	if(midPos&&side&&level){
+		a_Shooter.Set(0.75);
+		BlueMiddle();
+	}else if(midPos&&!side&&level){
+		a_Shooter.Set(0.75);
+		RedMiddle();
+	}else if(midPos&&side&&!level){
+		StupidBlueMiddle();
+	}else if(midPos&&!side&&!level){
+		StupidRedMiddle();
 	}
 
-
-	if(a_ButtonBox.GetRawButton(2)&&side&&level){
-		Autonomous::BlueLeft();
-	}else if(!side&&level){
-		Autonomous::RedLeft();
-	}else if(side&&!level){
-		Autonomous::StupidBlueLeft();
-	}else if(!side&&!level){
-		Autonomous::StupidRedLeft();
-	}
-
-	if(a_ButtonBox.GetRawButton(3)&&side&&level){
-		Autonomous::BlueMiddle();
-	}else if(!side&&level){
-		Autonomous::RedMiddle();
-	}else if(side&&!level){
-		Autonomous::StupidBlueMiddle();
-	}else if(!side&&!level){
-		Autonomous::StupidRedMiddle();
-	}
-
-	if(a_ButtonBox.GetRawButton(4)&&side&&level){
-		Autonomous::BlueRight();
-	}else if(!side&&level){
-		Autonomous::RedRight();
-	}else if(side&&!level){
-		Autonomous::StupidBlueRight();
-	}else if(!side&&!level){
-		Autonomous::Stupid();
+	if(rightPos&&side&&level){
+		a_Shooter.Set(0.75);
+		BlueRight();
+	}else if(rightPos&&!side&&level){
+		a_Shooter.Set(0.75);
+		RedRight();
+	}else if(rightPos&&side&&!level){
+		StupidBlueRight();
+	}else if(rightPos&&!side&&!level){
+		StupidRedRight();
 	}
 
 }
@@ -83,6 +97,7 @@ void Autonomous::TurnToPegWait(int i) {
 	if(fabs(a_Gyro.GetAngle()) - fabs(a_PegAngles[a_BotPosition]) >3 ) {
 		a_Drive.Update(0,0,0,a_Gyro.GetAngle());
 	} else {
+		a_Drive.DisableTwist();
 		a_NeedsToRun[i] = false;
 	}
 }
@@ -123,6 +138,7 @@ void Autonomous::TurnToBoilerWait(int i) {
 	if(fabs(a_Gyro.GetAngle()) - fabs(a_BoilerAngles[a_BotPosition]) >3 ) {
 		a_Drive.Update(0,0,0,a_Gyro.GetAngle());
 	} else {
+		a_Drive.DisableTwist();
 		a_NeedsToRun[i] = false;
 	}
 }
@@ -179,7 +195,7 @@ void Autonomous::TurnToFrontWait(int i) {
 void Autonomous::BlueLeft(){
 	a_BotPosition = kBlueLeft;
 	do {
-		a_Gyro.Update();
+
 		driveDistance = a_Drive.GetDistanceY();
 		if(a_NeedsToRun[0]) {
 			AdjustOnWall(0);
@@ -227,7 +243,7 @@ void Autonomous::BlueLeft(){
 void Autonomous::BlueRight(){
 	a_BotPosition = kBlueRight;
 	do {
-		a_Gyro.Update();
+
 		driveDistance = a_Drive.GetDistanceY();
 		if(a_NeedsToRun[0]) {
 			MoveToBaseline(0);
@@ -275,7 +291,7 @@ void Autonomous::BlueRight(){
 void Autonomous::BlueMiddle(){
 	a_BotPosition = kMiddle;
 	do {
-		a_Gyro.Update();
+
 		driveDistance = a_Drive.GetDistanceY();
 		if(a_NeedsToRun[0]) {
 			MoveToBaseline(0);
@@ -311,7 +327,7 @@ void Autonomous::BlueMiddle(){
 void Autonomous::RedLeft(){
 	a_BotPosition = kRedLeft;
 	do {
-		a_Gyro.Update();
+
 		driveDistance = a_Drive.GetDistanceY();
 		if(a_NeedsToRun[0]) {
 			MoveToBaseline(0);
@@ -359,7 +375,7 @@ void Autonomous::RedLeft(){
 void Autonomous::RedRight(){
 	a_BotPosition = kRedRight;
 	do {
-		a_Gyro.Update();
+
 		driveDistance = a_Drive.GetDistanceY();
 		if(a_NeedsToRun[0]) {
 			AdjustOnWall(0);
@@ -407,7 +423,7 @@ void Autonomous::RedRight(){
 void Autonomous::RedMiddle(){
 	a_BotPosition = kMiddle;
 	do {
-		a_Gyro.Update();
+
 		driveDistance = a_Drive.GetDistanceY();
 		if(a_NeedsToRun[0]) {
 			MoveToBaseline(0);
@@ -443,7 +459,7 @@ void Autonomous::RedMiddle(){
 void Autonomous::StupidBlueLeft(){
 	a_BotPosition = kStupidLeft;
 	do {
-		a_Gyro.Update();
+
 		driveDistance = a_Drive.GetDistanceY();
 		if(a_NeedsToRun[0]) {
 			MoveToBaseline(0);
@@ -475,7 +491,7 @@ void Autonomous::StupidBlueLeft(){
 void Autonomous::StupidBlueRight(){
 	a_BotPosition = kBlueRight;
 	do {
-		a_Gyro.Update();
+
 		driveDistance = a_Drive.GetDistanceY();
 		if(a_NeedsToRun[0]) {
 			MoveToBaseline(0);
@@ -507,7 +523,7 @@ void Autonomous::StupidBlueRight(){
 void Autonomous::StupidBlueMiddle(){
 	a_BotPosition = kMiddle;
 	do {
-		a_Gyro.Update();
+
 		driveDistance = a_Drive.GetDistanceY();
 		if(a_NeedsToRun[0]) {
 			MoveToBaseline(0);
@@ -531,7 +547,7 @@ void Autonomous::StupidBlueMiddle(){
 void Autonomous::StupidRedLeft(){
 	a_BotPosition = kStupidLeft;
 	do {
-		a_Gyro.Update();
+
 		driveDistance = a_Drive.GetDistanceY();
 		if(a_NeedsToRun[0]) {
 			MoveToBaseline(0);
@@ -563,7 +579,7 @@ void Autonomous::StupidRedLeft(){
 void Autonomous::StupidRedRight(){
 	a_BotPosition = kRedRight;
 	do {
-		a_Gyro.Update();
+
 		driveDistance = a_Drive.GetDistanceY();
 		if(a_NeedsToRun[0]) {
 			MoveToBaseline(0);
@@ -595,7 +611,7 @@ void Autonomous::StupidRedRight(){
 void Autonomous::StupidRedMiddle(){
 	a_BotPosition = kMiddle;
 	do {
-		a_Gyro.Update();
+
 		driveDistance = a_Drive.GetDistanceY();
 		if(a_NeedsToRun[0]) {
 			MoveToBaseline(0);
@@ -619,7 +635,7 @@ void Autonomous::StupidRedMiddle(){
 
 void Autonomous::Stupid(){
 	do{
-		a_Gyro.Update();
+
 		driveDistance = a_Drive.GetDistanceY();
 		if (driveDistance < 100) {
 			a_Drive.Update(.5,0,0,0);
