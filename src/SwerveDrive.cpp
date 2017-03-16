@@ -335,15 +335,15 @@ void SwerveDrive::Update(float XIn, float YIn, float ZIn, float gyroValue)
 			blSpeed = yInput + zInput;
 			brSpeed = yInput - zInput;
 
-			max = frSpeed;
-			if(flSpeed > max) {
-				max = flSpeed;
+			max = fabs(frSpeed);
+			if(fabs(flSpeed) > max) {
+				max = fabs(flSpeed);
 			}
-			if(blSpeed > max) {
-				max = blSpeed;
+			if(fabs(blSpeed) > max) {
+				max = fabs(blSpeed);
 			}
-			if(brSpeed > max) {
-				max = brSpeed;
+			if(fabs(brSpeed) > max) {
+				max = fabs(brSpeed);
 			}
 			if(max > 1) { // This is done so that if a speed greater than 1 is calculated, all are reduced proportionally
 				frSpeed /= max;
