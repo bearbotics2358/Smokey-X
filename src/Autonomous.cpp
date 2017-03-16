@@ -1,10 +1,10 @@
 #include "Autonomous.h"
 
-Autonomous::Autonomous(Joystick &buttonBox, SwerveDrive &Drive, JrimmyGyro &Gyro, Shooter &Shooter)
+Autonomous::Autonomous(Joystick &buttonBox, SwerveDrive &Drive, JrimmyGyro &Gyro/*, Shooter &Shooter*/)
 : a_ButtonBox(buttonBox),
   a_Drive(Drive),
   a_Gyro(Gyro),
-  a_Shooter(Shooter),
+//  a_Shooter(Shooter),
   a_BotPosition(kMiddle)
 {
 	driveDistance = 0;
@@ -43,10 +43,10 @@ void Autonomous::Init()
 void Autonomous::Update(){
 
 	if(leftPos&&side&&level){
-		a_Shooter.Set(0.75);
+		// a_Shooter.Set(0.75);
 		BlueLeft();
 	}else if(leftPos&&!side&&level){
-		a_Shooter.Set(0.75);
+		// a_Shooter.Set(0.75);
 		RedLeft();
 	}else if(leftPos&&side&&!level){
 		StupidBlueLeft();
@@ -55,10 +55,10 @@ void Autonomous::Update(){
 	}
 
 	if(midPos&&side&&level){
-		a_Shooter.Set(0.75);
+		// a_Shooter.Set(0.75);
 		BlueMiddle();
 	}else if(midPos&&!side&&level){
-		a_Shooter.Set(0.75);
+		// a_Shooter.Set(0.75);
 		RedMiddle();
 	}else if(midPos&&side&&!level){
 		StupidBlueMiddle();
@@ -67,10 +67,10 @@ void Autonomous::Update(){
 	}
 
 	if(rightPos&&side&&level){
-		a_Shooter.Set(0.75);
+		// a_Shooter.Set(0.75);
 		BlueRight();
 	}else if(rightPos&&!side&&level){
-		a_Shooter.Set(0.75);
+		// a_Shooter.Set(0.75);
 		RedRight();
 	}else if(rightPos&&side&&!level){
 		StupidBlueRight();
@@ -156,7 +156,7 @@ void Autonomous::MoveToBoiler(int i){
 }
 
 void Autonomous::ShootFuel(int i){
-	a_Shooter.Set(.5); // revised to follow adjustment
+	// a_Shooter.Set(.5); // revised to follow adjustment
 	a_NeedsToRun[i] = false;
 	a_Drive.Zero();
 }
@@ -646,65 +646,7 @@ void Autonomous::Stupid(){
 }
 
 
-/*
-void Autonomous::Left(){
-	driveRight(1.25); // driveLeft(1.25);
-	ShootFuel();
-	driveBackward(10);
-	turnRight(45); // turnRight(45);
-	driveForward(32.308);
-	turnRight(60); // turnLeft(60);
-	driveForward(78.98);
-	ScoreGear();
-}
 
-void Autonomous::Right(){
-	driveForward(105.953);
-	turnLeft(60); // turnRight(60);
-	driveForward(19.39);
-	ScoreGear();
-	driveBackward(19.39);
-	turnLeft(30+24.55); // turnLeft(30+24.55);
-	driveForward(182.83-10);
-	turnLeft(45-24.55); // turnRight(45-24.55);
-    // driveForward(28.28-???);
-	ShootFuel();
-}
 
-void Autonomous::Middle(){
-	driveForward(93.3);
-	ScoreGear();
-	driveBackward(20);
-	turnLeft(27.97); // turnRight(27.97);
-	driveForward(156.259);
-	ShootFuel();
-}
- */
-
-/*
-we have constructed global float variables called iAccumGyro and iAccumDrive.
-void Autonomous::PIDMoveToSomethingExample(int i)
-{
-	float gyroError = SetAngle - a_Gyro.GetAngle;
-	float driveError = targetDistance - a_Drive.GetDistanceY();
-
-	iAccumGyro += gyroError;
-	iAccumDrive += driveError;
-
-	if(fabs(gyroError) < acceptableTurnError) {
-		iAccumGyro = 0;
-	}
-
-	if(fabs(driveError) < acceptableDriveError) {
-		iAccumDrive = 0;
-	}
-
-	a_Drive.Update(0, driveP * driveError + driveI * iAccumDrive, turnP * gyroError + turnI * iAccumGyro, a_Gyro.GetAngle());
-	if(fabs(gyroError) < acceptableTurnError && fabs(driveError) < acceptableDriveError) {
-		a_NeedsToRun[i] = false;
-	}
-
-}
- */
 
 

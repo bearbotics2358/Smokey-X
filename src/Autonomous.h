@@ -5,7 +5,7 @@
 #include "Prefs.h"
 #include "SwerveDrive.h"
 #include "JrimmyGyro.h"
-#include "Shooter.h"
+// #include "Shooter.h"
 
 enum BotPosition {
 	kBlueLeft=0,
@@ -19,7 +19,7 @@ enum BotPosition {
 class Autonomous {
 
 public:
-	Autonomous(Joystick &buttonBox, SwerveDrive &SwerveDrive, JrimmyGyro &Gyro, Shooter &Shooter);
+	Autonomous(Joystick &buttonBox, SwerveDrive &SwerveDrive, JrimmyGyro &Gyro/*, Shooter &Shooter*/);
 	virtual ~Autonomous() = default;
 	void Init();
 	void Update();
@@ -59,7 +59,7 @@ private:
 	Joystick &a_ButtonBox;
 	SwerveDrive &a_Drive;
 	JrimmyGyro &a_Gyro;
-	Shooter &a_Shooter;
+	// Shooter &a_Shooter;
 
 	bool  a_NeedsToRun[10] = {true};
 

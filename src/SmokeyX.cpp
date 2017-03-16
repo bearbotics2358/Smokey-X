@@ -16,21 +16,27 @@ SmokeyX::SmokeyX(void):
 		a_Joystick2(JOYSTICKTWO_PORT),
 		a_KylesSoul(BUTTON_BOX_PORT),
 		a_PDP(PDP_PORT),
-		a_Compressor(PCM_PORT),
+		// a_Compressor(PCM_PORT),
 		a_FrontRight(FRONT_RIGHT_TURN, FRONT_RIGHT_MOVE),
 		a_FrontLeft(FRONT_LEFT_TURN, FRONT_LEFT_MOVE),
 		a_BackLeft(BACK_LEFT_TURN, BACK_LEFT_MOVE),
 		a_BackRight(BACK_RIGHT_TURN, BACK_RIGHT_MOVE),
 		a_Drive(a_FrontRight, a_FrontLeft, a_BackLeft, a_BackRight, CHASSIS_LENGTH, CHASSIS_WIDTH),
-		a_Shooter(SHOOTER),
-		a_Collector(COLLECTOR_ONE, COLLECTOR_TWO),
-		a_Impeller(IMPELLER_PORT),
+		// a_Shooter(SHOOTER),
+		// a_Collector(COLLECTOR_ONE, COLLECTOR_TWO),
+		// a_Impeller(IMPELLER_PORT),
 		a_Lifter(CLIMBER_PORT),
+		a_Flicker(GEARFLICKER_PORT),
 		a_LRC(),
 		a_Accelerometer(I2C::kMXP,ADXL345_I2C::kRange_2G,0x53), // was 0x1D
 		a_Gyro(I2C::kMXP),
+<<<<<<< HEAD
 		a_MQTT("RIOclient", "localhost", 1183),
 		a_Autonomous(a_KylesSoul, a_Drive, a_Gyro, a_Shooter)
+=======
+		// a_MQTT("RIOclient", "localhost", 1183),
+		a_Autonomous(a_KylesSoul, a_Drive, a_Gyro/*, a_Shooter*/)
+>>>>>>> 2943701dddbacb102ee576d5c427d3b032687dfb
 		// a_Ultrasonic(9600,SerialPort::kOnboard,8,SerialPort::kParity_None, SerialPort::kStopBits_One)
 {
 	const char *commandString = "~/mosquitto -p 1183 &";
@@ -115,7 +121,9 @@ void SmokeyX::AutonomousInit()
 
 void SmokeyX::AutonomousPeriodic()
 {
-	 // a_Autonomous.Update();
+	if(a_KylesSoul.GetRawButton(7)) {
+		a_Autonomous.Update();
+	 }
 	 SmartDashboard::PutNumber("Drive distance Y", a_Drive.GetDistanceY());
 	 SmartDashboard::PutNumber("Back Left", a_BackLeft.GetDistanceY());
 	 SmartDashboard::PutNumber("Back Right",a_BackRight.GetDistanceY());
@@ -144,40 +152,42 @@ void SmokeyX::TeleopPeriodic()
 	}
 
 	if(a_Joystick2.GetRawButton(1) && a_Joystick2.GetRawAxis(2) >= .9) {
-		a_Shooter.Set(0);
-		a_Collector.Update(0);
+		/*a_Shooter.Set(0);
+		a_Collector.Update(0);*/
 		a_Lifter.Set(1);
 		a_Joystick2.SetRumble(GenericHID::RumbleType::kLeftRumble, 1);
 		a_Joystick2.SetRumble(GenericHID::RumbleType::kRightRumble, 1);
 	} else {
-		if(a_Joystick.GetRawAxis(3) > 0.5) {
+		/*if(a_Joystick.GetRawAxis(3) > 0.5) {
 			a_Shooter.Set(0);
 			a_Collector.Update(0);
 		} else {
 			a_Shooter.Set(0.75);
 			a_Collector.Update(-1);
-		}
+		}*/
 		a_Lifter.Set(0);
 		a_Joystick2.SetRumble(GenericHID::RumbleType::kLeftRumble, 0);
 		a_Joystick2.SetRumble(GenericHID::RumbleType::kRightRumble, 0);
 	}
 
-	a_Impeller.Update();
+/*	a_Impeller.Update();
 	if(a_Joystick2.GetRawAxis(3)) {
 		a_Impeller.Set(-1);
 	} else {
 		a_Impeller.Set(0);
-	}
+	}*/
 
 	if(a_Joystick.GetRawButton(1)) {
 		a_Gyro.Cal();
 	}
 
-	SmartDashboard::PutNumber("ImpellerTheo", -260 / 2);
+/*	SmartDashboard::PutNumber("ImpellerTheo", -260 / 2);
 	SmartDashboard::PutNumber("ImpellerSpeed", a_Impeller.GetSpeed());
 
 	SmartDashboard::PutNumber("ShooterTheo", 0.5  * 4500);
-	SmartDashboard::PutNumber("ShooterSpeed", a_Shooter.GetSpeed());
+	SmartDashboard::PutNumber("ShooterSpeed", a_Shooter.GetSpeed());*/
+
+	SmartDashboard::PutNumber("GearFlicker", a_Flicker.GetSpeed());
 
 	SmartDashboard::PutNumber("Gyro, yum", a_Gyro.GetAngle());
 
