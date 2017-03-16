@@ -29,15 +29,15 @@ SmokeyX::SmokeyX(void):
 		a_LRC(),
 		a_Accelerometer(I2C::kMXP,ADXL345_I2C::kRange_2G,0x53), // was 0x1D
 		a_Gyro(I2C::kMXP),
-		// a_MQTT("RIOclient", "localhost", 1183),
+		a_MQTT("RIOclient", "localhost", 1183),
 		a_Autonomous(a_KylesSoul, a_Drive, a_Gyro, a_Shooter)
 		// a_Ultrasonic(9600,SerialPort::kOnboard,8,SerialPort::kParity_None, SerialPort::kStopBits_One)
 {
-	// const char *commandString = "~/mosquitto -p 1183 &";
-	// int q = system(commandString);
-	// printf("The number is: %d", q);
+	const char *commandString = "~/mosquitto -p 1183 &";
+	int q = system(commandString);
+	printf("The number is: %d", q);
 	rc = 0;
-	// mosqpp::lib_init();
+	mosqpp::lib_init();
 	tState = 0;
 	SmartDashboard::init();
 	a_Drive.Init();
@@ -47,6 +47,7 @@ SmokeyX::SmokeyX(void):
 void SmokeyX::RobotInit()
 {
 	a_Gyro.Cal();
+	a_MQTT.loop_start();
 }
 
 void SmokeyX::RobotPeriodic()
@@ -54,12 +55,11 @@ void SmokeyX::RobotPeriodic()
 	a_Gyro.Update();
 	printf("Gyro Value: %f\n", a_Gyro.GetAngle());
 	a_Accelerometer.GetAccelerations();
-	/*
-	rc = a_MQTT.loop();
-	if(rc){
-		a_MQTT.reconnect();
+
+	if(a_Joystick.GetRawButton(6)) {
+		a_MQTT.publish(NULL, "power", 1, "0", 1, true);
 	}
-	*/
+
 }
 
 void SmokeyX::DisabledInit()
@@ -71,6 +71,8 @@ void SmokeyX::DisabledPeriodic()
 {
 	a_Autonomous.Init();
 
+	a_Drive.Update(0,0,0,0);
+	a_Lifter.Set(0);
 	SmartDashboard::PutNumber("gyro reg 0", a_Gyro.GetReg0());
 
 	a_LRC.SetColor(0,0,0,0);

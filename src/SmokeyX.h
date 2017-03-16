@@ -71,7 +71,7 @@ private:
 
 	JrimmyGyro a_Gyro;
 
-	// VisionSquitto a_MQTT;
+	VisionSquitto a_MQTT;
 
 	Autonomous a_Autonomous;
 
