@@ -13,29 +13,31 @@ Autonomous::Autonomous(Joystick &buttonBox, SwerveDrive &Drive, JrimmyGyro &Gyro
 
 void Autonomous::Init()
 {
-		// blue = true;
-		// red = false;
-		// regular = true;
-		// stupid = false;
+	// blue = true;
+	// red = false;
+	// regular = true;
+	// stupid = false;
 
-		if(a_ButtonBox.GetRawButton(7)){
-			level = true;
-		}else{
-			level = false;
-		}
+	if(a_ButtonBox.GetRawButton(7)){
+		level = true;
+	}else{
+		level = false;
+	}
 
-		if(a_ButtonBox.GetRawButton(1)){
-			side = true;
-		}else{
-			side = false;
-		}
-		if(a_ButtonBox.GetRawButton(2)) {
-			leftPos = true;
-		} else if(a_ButtonBox.GetRawButton(4)) {
-			rightPos = true;
-		} else {
-			midPos = true;
-		}
+	if(a_ButtonBox.GetRawButton(1)){
+		side = true;
+	}else{
+		side = false;
+	}
+	if(a_ButtonBox.GetRawButton(2)) {
+		leftPos = true;
+	} else if(a_ButtonBox.GetRawButton(4)) {
+		rightPos = true;
+	} else {
+		midPos = true;
+	}
+
+	a_Drive.Zero();
 }
 
 void Autonomous::Update(){
@@ -79,10 +81,9 @@ void Autonomous::Update(){
 }
 
 void Autonomous::MoveToBaseline(int i){
-	a_Drive.Zero();
 	driveDistance = a_Drive.GetDistanceY();
-	if (driveDistance < a_BaselineDistances[a_BotPosition]) {
-		a_Drive.Update(0,0.5,0,0);
+	if (-1.0 * driveDistance * 10 < a_BaselineDistances[a_BotPosition]) {
+		a_Drive.Update(0,-0.5,0,0);
 	} else {
 		a_NeedsToRun[i] = false;
 	}
@@ -194,453 +195,451 @@ void Autonomous::TurnToFrontWait(int i) {
 
 void Autonomous::BlueLeft(){
 	a_BotPosition = kBlueLeft;
-	do {
+	driveDistance = a_Drive.GetDistanceY();
+	if(a_NeedsToRun[0]) {
+		AdjustOnWall(0);
+		return;
+	}
+	if(a_NeedsToRun[1]) {
+		ShootFuel(1);
+		return;
+	}
+	if(a_NeedsToRun[2]) {
+		ClearBoiler(2);
+		return;
+	}
+	if(a_NeedsToRun[3]) {
+		TurnToFront(3);
+		return;
+	}
+	if(a_NeedsToRun[4]) {
+		TurnToFrontWait(4);
+		return;
+	}
+	if(a_NeedsToRun[5]) {
+		MoveToBaseline(5);
+		return;
+	}
+	if(a_NeedsToRun[6]) {
+		TurnToPeg(6);
+		return;
+	}
+	if(a_NeedsToRun[7]) {
+		TurnToPegWait(7);
+		return;
+	}
+	if(a_NeedsToRun[8]) {
+		MoveToPeg(8);
+		return;
+	}
+	if(a_NeedsToRun[9]) {
+		ScoreGear(9);
+		return;
+	}
 
-		driveDistance = a_Drive.GetDistanceY();
-		if(a_NeedsToRun[0]) {
-			AdjustOnWall(0);
-			break;
-		}
-		if(a_NeedsToRun[1]) {
-			ShootFuel(1);
-			break;
-		}
-		if(a_NeedsToRun[2]) {
-			ClearBoiler(2);
-			break;
-		}
-		if(a_NeedsToRun[3]) {
-			TurnToFront(3);
-			break;
-		}
-		if(a_NeedsToRun[4]) {
-			TurnToFrontWait(4);
-			break;
-		}
-		if(a_NeedsToRun[5]) {
-			MoveToBaseline(5);
-			break;
-		}
-		if(a_NeedsToRun[6]) {
-			TurnToPeg(6);
-			break;
-		}
-		if(a_NeedsToRun[7]) {
-			TurnToPegWait(7);
-			break;
-		}
-		if(a_NeedsToRun[8]) {
-			MoveToPeg(8);
-			break;
-		}
-		if(a_NeedsToRun[9]) {
-			ScoreGear(9);
-			break;
-		}
-	} while (true);
 }
 
 void Autonomous::BlueRight(){
 	a_BotPosition = kBlueRight;
-	do {
 
-		driveDistance = a_Drive.GetDistanceY();
-		if(a_NeedsToRun[0]) {
-			MoveToBaseline(0);
-			break;
-		}
-		if(a_NeedsToRun[1]) {
-			TurnToPeg(1);
-			break;
-		}
-		if(a_NeedsToRun[2]) {
-			TurnToPegWait(2);
-			break;
-		}
-		if(a_NeedsToRun[3]) {
-			MoveToPeg(3);
-			break;
-		}
-		if(a_NeedsToRun[4]) {
-			ScoreGear(4);
-			break;
-		}
-		if(a_NeedsToRun[5]) {
-			ClearShields(5);
-			break;
-		}
-		if(a_NeedsToRun[6]) {
-			TurnToBoiler(6);
-			break;
-		}
-		if(a_NeedsToRun[7]) {
-			TurnToBoilerWait(7);
-			break;
-		}
-		if(a_NeedsToRun[8]) {
-			MoveToBoiler(8);
-			break;
-		}
-		if(a_NeedsToRun[9]) {
-			ShootFuel(9);
-			break;
-		}
-	} while (true);
+
+	driveDistance = a_Drive.GetDistanceY();
+	if(a_NeedsToRun[0]) {
+		MoveToBaseline(0);
+		return;
+	}
+	if(a_NeedsToRun[1]) {
+		TurnToPeg(1);
+		return;
+	}
+	if(a_NeedsToRun[2]) {
+		TurnToPegWait(2);
+		return;
+	}
+	if(a_NeedsToRun[3]) {
+		MoveToPeg(3);
+		return;
+	}
+	if(a_NeedsToRun[4]) {
+		ScoreGear(4);
+		return;
+	}
+	if(a_NeedsToRun[5]) {
+		ClearShields(5);
+		return;
+	}
+	if(a_NeedsToRun[6]) {
+		TurnToBoiler(6);
+		return;
+	}
+	if(a_NeedsToRun[7]) {
+		TurnToBoilerWait(7);
+		return;
+	}
+	if(a_NeedsToRun[8]) {
+		MoveToBoiler(8);
+		return;
+	}
+	if(a_NeedsToRun[9]) {
+		ShootFuel(9);
+		return;
+	}
+
 }
 
 void Autonomous::BlueMiddle(){
 	a_BotPosition = kMiddle;
-	do {
 
-		driveDistance = a_Drive.GetDistanceY();
-		if(a_NeedsToRun[0]) {
-			MoveToBaseline(0);
-			break;
-		}
-		if(a_NeedsToRun[1]) {
-			ScoreGear(1);
-			break;
-		}
-		if(a_NeedsToRun[2]) {
-			ClearShields(2);
-			break;
-		}
-		if(a_NeedsToRun[3]) {
-			TurnToBoiler(3);
-			break;
-		}
-		if(a_NeedsToRun[4]) {
-			TurnToBoilerWait(4);
-			break;
-		}
-		if(a_NeedsToRun[5]) {
-			MoveToBoiler(5);
-			break;
-		}
-		if(a_NeedsToRun[6]) {
-			ShootFuel(6);
-			break;
-		}
-	} while (true);
+
+	driveDistance = a_Drive.GetDistanceY();
+	if(a_NeedsToRun[0]) {
+		MoveToBaseline(0);
+		return;
+	}
+	if(a_NeedsToRun[1]) {
+		ScoreGear(1);
+		return;
+	}
+	if(a_NeedsToRun[2]) {
+		ClearShields(2);
+		return;
+	}
+	if(a_NeedsToRun[3]) {
+		TurnToBoiler(3);
+		return;
+	}
+	if(a_NeedsToRun[4]) {
+		TurnToBoilerWait(4);
+		return;
+	}
+	if(a_NeedsToRun[5]) {
+		MoveToBoiler(5);
+		return;
+	}
+	if(a_NeedsToRun[6]) {
+		ShootFuel(6);
+		return;
+	}
+
 }
 
 void Autonomous::RedLeft(){
 	a_BotPosition = kRedLeft;
-	do {
 
-		driveDistance = a_Drive.GetDistanceY();
-		if(a_NeedsToRun[0]) {
-			MoveToBaseline(0);
-			break;
-		}
-		if(a_NeedsToRun[1]) {
-			TurnToPeg(1);
-			break;
-		}
-		if(a_NeedsToRun[2]) {
-			TurnToPegWait(2);
-			break;
-		}
-		if(a_NeedsToRun[3]) {
-			MoveToPeg(3);
-			break;
-		}
-		if(a_NeedsToRun[4]) {
-			ScoreGear(4);
-			break;
-		}
-		if(a_NeedsToRun[5]) {
-			ClearShields(5);
-			break;
-		}
-		if(a_NeedsToRun[6]) {
-			TurnToBoiler(6);
-			break;
-		}
-		if(a_NeedsToRun[7]) {
-			TurnToBoilerWait(7);
-			break;
-		}
-		if(a_NeedsToRun[8]) {
-			MoveToBoiler(8);
-			break;
-		}
-		if(a_NeedsToRun[9]) {
-			ShootFuel(9);
-			break;
-		}
-	} while (true);
+
+	driveDistance = a_Drive.GetDistanceY();
+	if(a_NeedsToRun[0]) {
+		MoveToBaseline(0);
+		return;
+	}
+	if(a_NeedsToRun[1]) {
+		TurnToPeg(1);
+		return;
+	}
+	if(a_NeedsToRun[2]) {
+		TurnToPegWait(2);
+		return;
+	}
+	if(a_NeedsToRun[3]) {
+		MoveToPeg(3);
+		return;
+	}
+	if(a_NeedsToRun[4]) {
+		ScoreGear(4);
+		return;
+	}
+	if(a_NeedsToRun[5]) {
+		ClearShields(5);
+		return;
+	}
+	if(a_NeedsToRun[6]) {
+		TurnToBoiler(6);
+		return;
+	}
+	if(a_NeedsToRun[7]) {
+		TurnToBoilerWait(7);
+		return;
+	}
+	if(a_NeedsToRun[8]) {
+		MoveToBoiler(8);
+		return;
+	}
+	if(a_NeedsToRun[9]) {
+		ShootFuel(9);
+		return;
+	}
+
 }
 
 void Autonomous::RedRight(){
 	a_BotPosition = kRedRight;
-	do {
 
-		driveDistance = a_Drive.GetDistanceY();
-		if(a_NeedsToRun[0]) {
-			AdjustOnWall(0);
-			break;
-		}
-		if(a_NeedsToRun[1]) {
-			ShootFuel(1);
-			break;
-		}
-		if(a_NeedsToRun[2]) {
-			ClearBoiler(2);
-			break;
-		}
-		if(a_NeedsToRun[3]) {
-			TurnToFront(3);
-			break;
-		}
-		if(a_NeedsToRun[4]) {
-			TurnToFrontWait(4);
-			break;
-		}
-		if(a_NeedsToRun[5]) {
-			MoveToBaseline(5);
-			break;
-		}
-		if(a_NeedsToRun[6]) {
-			TurnToPeg(6);
-			break;
-		}
-		if(a_NeedsToRun[7]) {
-			TurnToPegWait(7);
-			break;
-		}
-		if(a_NeedsToRun[8]) {
-			MoveToPeg(8);
-			break;
-		}
-		if(a_NeedsToRun[9]) {
-			ScoreGear(9);
-			break;
-		}
-	} while (true);
+
+	driveDistance = a_Drive.GetDistanceY();
+	if(a_NeedsToRun[0]) {
+		AdjustOnWall(0);
+		return;
+	}
+	if(a_NeedsToRun[1]) {
+		ShootFuel(1);
+		return;
+	}
+	if(a_NeedsToRun[2]) {
+		ClearBoiler(2);
+		return;
+	}
+	if(a_NeedsToRun[3]) {
+		TurnToFront(3);
+		return;
+	}
+	if(a_NeedsToRun[4]) {
+		TurnToFrontWait(4);
+		return;
+	}
+	if(a_NeedsToRun[5]) {
+		MoveToBaseline(5);
+		return;
+	}
+	if(a_NeedsToRun[6]) {
+		TurnToPeg(6);
+		return;
+	}
+	if(a_NeedsToRun[7]) {
+		TurnToPegWait(7);
+		return;
+	}
+	if(a_NeedsToRun[8]) {
+		MoveToPeg(8);
+		return;
+	}
+	if(a_NeedsToRun[9]) {
+		ScoreGear(9);
+		return;
+	}
+
 }
 
 void Autonomous::RedMiddle(){
 	a_BotPosition = kMiddle;
-	do {
 
-		driveDistance = a_Drive.GetDistanceY();
-		if(a_NeedsToRun[0]) {
-			MoveToBaseline(0);
-			break;
-		}
-		if(a_NeedsToRun[1]) {
-			ScoreGear(1);
-			break;
-		}
-		if(a_NeedsToRun[2]) {
-			ClearShields(2);
-			break;
-		}
-		if(a_NeedsToRun[3]) {
-			TurnToBoiler(3);
-			break;
-		}
-		if(a_NeedsToRun[4]) {
-			TurnToBoilerWait(4);
-			break;
-		}
-		if(a_NeedsToRun[5]) {
-			MoveToBoiler(5);
-			break;
-		}
-		if(a_NeedsToRun[6]) {
-			ShootFuel(6);
-			break;
-		}
-	} while (true);
+
+	driveDistance = a_Drive.GetDistanceY();
+	if(a_NeedsToRun[0]) {
+		MoveToBaseline(0);
+		return;
+	}
+	if(a_NeedsToRun[1]) {
+		ScoreGear(1);
+		return;
+	}
+	if(a_NeedsToRun[2]) {
+		ClearShields(2);
+		return;
+	}
+	if(a_NeedsToRun[3]) {
+		TurnToBoiler(3);
+		return;
+	}
+	if(a_NeedsToRun[4]) {
+		TurnToBoilerWait(4);
+		return;
+	}
+	if(a_NeedsToRun[5]) {
+		MoveToBoiler(5);
+		return;
+	}
+	if(a_NeedsToRun[6]) {
+		ShootFuel(6);
+		return;
+	}
+
 }
 // --------------------------------------------------------------------------------------------------------------------
 void Autonomous::StupidBlueLeft(){
 	a_BotPosition = kStupidLeft;
-	do {
 
-		driveDistance = a_Drive.GetDistanceY();
-		if(a_NeedsToRun[0]) {
-			MoveToBaseline(0);
-			break;
-		}
-		if(a_NeedsToRun[1]) {
-			TurnToPeg(1);
-			break;
-		}
-		if(a_NeedsToRun[2]) {
-			TurnToPegWait(2);
-			break;
-		}
-		if(a_NeedsToRun[3]) {
-			MoveToPeg(3);
-			break;
-		}
-		if(a_NeedsToRun[4]) {
-			ScoreGear(4);
-			break;
-		}
-		if(a_NeedsToRun[5]) {
-			ClearShields(5);
-			break;
-		}
-	} while (true);
+
+	driveDistance = a_Drive.GetDistanceY();
+	if(a_NeedsToRun[0]) {
+		MoveToBaseline(0);
+		return;
+	}
+	if(a_NeedsToRun[1]) {
+		TurnToPeg(1);
+		return;
+	}
+	if(a_NeedsToRun[2]) {
+		TurnToPegWait(2);
+		return;
+	}
+	if(a_NeedsToRun[3]) {
+		MoveToPeg(3);
+		return;
+	}
+	if(a_NeedsToRun[4]) {
+		ScoreGear(4);
+		return;
+	}
+	if(a_NeedsToRun[5]) {
+		ClearShields(5);
+		return;
+	}
+
 }
 
 void Autonomous::StupidBlueRight(){
 	a_BotPosition = kBlueRight;
-	do {
 
-		driveDistance = a_Drive.GetDistanceY();
-		if(a_NeedsToRun[0]) {
-			MoveToBaseline(0);
-			break;
-		}
-		if(a_NeedsToRun[1]) {
-			TurnToPeg(1);
-			break;
-		}
-		if(a_NeedsToRun[2]) {
-			TurnToPegWait(2);
-			break;
-		}
-		if(a_NeedsToRun[3]) {
-			MoveToPeg(3);
-			break;
-		}
-		if(a_NeedsToRun[4]) {
-			ScoreGear(4);
-			break;
-		}
-		if(a_NeedsToRun[5]) {
-			ClearShields(5);
-			break;
-		}
-	} while (true);
+
+	driveDistance = a_Drive.GetDistanceY();
+	if(a_NeedsToRun[0]) {
+		MoveToBaseline(0);
+		return;
+	}
+	if(a_NeedsToRun[1]) {
+		TurnToPeg(1);
+		return;
+	}
+	if(a_NeedsToRun[2]) {
+		TurnToPegWait(2);
+		return;
+	}
+	if(a_NeedsToRun[3]) {
+		MoveToPeg(3);
+		return;
+	}
+	if(a_NeedsToRun[4]) {
+		ScoreGear(4);
+		return;
+	}
+	if(a_NeedsToRun[5]) {
+		ClearShields(5);
+		return;
+	}
+
 }
 
 void Autonomous::StupidBlueMiddle(){
 	a_BotPosition = kMiddle;
-	do {
 
-		driveDistance = a_Drive.GetDistanceY();
-		if(a_NeedsToRun[0]) {
-			MoveToBaseline(0);
-			break;
-		}
-		if(a_NeedsToRun[1]) {
-			ScoreGear(1);
-			break;
-		}
-		if(a_NeedsToRun[2]) {
-			ClearShields(2);
-			break;
-		}
-		if(a_NeedsToRun[3]) {
-			TurnToBoiler(3);
-			break;
-		}
-	} while (true);
+
+	driveDistance = a_Drive.GetDistanceY();
+	if(a_NeedsToRun[0]) {
+		MoveToBaseline(0);
+		return;
+	}
+	if(a_NeedsToRun[1]) {
+		ScoreGear(1);
+		return;
+	}
+	if(a_NeedsToRun[2]) {
+		ClearShields(2);
+		return;
+	}
+	if(a_NeedsToRun[3]) {
+		TurnToBoiler(3);
+		return;
+	}
+
 }
 
 void Autonomous::StupidRedLeft(){
 	a_BotPosition = kStupidLeft;
-	do {
 
-		driveDistance = a_Drive.GetDistanceY();
-		if(a_NeedsToRun[0]) {
-			MoveToBaseline(0);
-			break;
-		}
-		if(a_NeedsToRun[1]) {
-			TurnToPeg(1);
-			break;
-		}
-		if(a_NeedsToRun[2]) {
-			TurnToPegWait(2);
-			break;
-		}
-		if(a_NeedsToRun[3]) {
-			MoveToPeg(3);
-			break;
-		}
-		if(a_NeedsToRun[4]) {
-			ScoreGear(4);
-			break;
-		}
-		if(a_NeedsToRun[5]) {
-			ClearShields(5);
-			break;
-		}
-	} while (true);
+
+	driveDistance = a_Drive.GetDistanceY();
+	if(a_NeedsToRun[0]) {
+		MoveToBaseline(0);
+		return;
+	}
+	if(a_NeedsToRun[1]) {
+		TurnToPeg(1);
+		return;
+	}
+	if(a_NeedsToRun[2]) {
+		TurnToPegWait(2);
+		return;
+	}
+	if(a_NeedsToRun[3]) {
+		MoveToPeg(3);
+		return;
+	}
+	if(a_NeedsToRun[4]) {
+		ScoreGear(4);
+		return;
+	}
+	if(a_NeedsToRun[5]) {
+		ClearShields(5);
+		return;
+	}
+
 }
 
 void Autonomous::StupidRedRight(){
 	a_BotPosition = kRedRight;
-	do {
 
-		driveDistance = a_Drive.GetDistanceY();
-		if(a_NeedsToRun[0]) {
-			MoveToBaseline(0);
-			break;
-		}
-		if(a_NeedsToRun[1]) {
-			TurnToPeg(1);
-			break;
-		}
-		if(a_NeedsToRun[2]) {
-			TurnToPegWait(2);
-			break;
-		}
-		if(a_NeedsToRun[3]) {
-			MoveToPeg(3);
-			break;
-		}
-		if(a_NeedsToRun[4]) {
-			ScoreGear(4);
-			break;
-		}
-		if(a_NeedsToRun[5]) {
-			ClearShields(5);
-			break;
-		}
-	} while (true);
+
+	driveDistance = a_Drive.GetDistanceY();
+	if(a_NeedsToRun[0]) {
+		MoveToBaseline(0);
+		return;
+	}
+	if(a_NeedsToRun[1]) {
+		TurnToPeg(1);
+		return;
+	}
+	if(a_NeedsToRun[2]) {
+		TurnToPegWait(2);
+		return;
+	}
+	if(a_NeedsToRun[3]) {
+		MoveToPeg(3);
+		return;
+	}
+	if(a_NeedsToRun[4]) {
+		ScoreGear(4);
+		return;
+	}
+	if(a_NeedsToRun[5]) {
+		ClearShields(5);
+		return;
+	}
+
 }
 
 void Autonomous::StupidRedMiddle(){
 	a_BotPosition = kMiddle;
-	do {
 
-		driveDistance = a_Drive.GetDistanceY();
-		if(a_NeedsToRun[0]) {
-			MoveToBaseline(0);
-			break;
-		}
-		if(a_NeedsToRun[1]) {
-			ScoreGear(1);
-			break;
-		}
-		if(a_NeedsToRun[2]) {
-			ClearShields(2);
-			break;
-		}
-		if(a_NeedsToRun[3]) {
-			TurnToBoiler(3);
-			break;
-		}
-	} while (true);
+
+	driveDistance = a_Drive.GetDistanceY();
+	if(a_NeedsToRun[0]) {
+		MoveToBaseline(0);
+		return;
+	}
+	if(a_NeedsToRun[1]) {
+		ScoreGear(1);
+		return;
+	}
+	if(a_NeedsToRun[2]) {
+		ClearShields(2);
+		return;
+	}
+	if(a_NeedsToRun[3]) {
+		TurnToBoiler(3);
+		return;
+	}
+
 }
 
 
 void Autonomous::Stupid(){
-	do{
 
-		driveDistance = a_Drive.GetDistanceY();
-		if (driveDistance < 100) {
-			a_Drive.Update(.5,0,0,0);
-		}
-	} while (true);
+
+	driveDistance = a_Drive.GetDistanceY();
+	if (driveDistance < 100) {
+		a_Drive.Update(.5,0,0,0);
+	}
+
 
 }
 

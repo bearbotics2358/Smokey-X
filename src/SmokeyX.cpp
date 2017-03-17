@@ -29,15 +29,15 @@ SmokeyX::SmokeyX(void):
 		a_LRC(),
 		a_Accelerometer(I2C::kMXP,ADXL345_I2C::kRange_2G,0x53), // was 0x1D
 		a_Gyro(I2C::kMXP),
-		a_MQTT("RIOclient", "localhost", 1183),
+		// a_MQTT("RIOclient", "localhost", 1183),
 		a_Autonomous(a_KylesSoul, a_Drive, a_Gyro, a_Shooter)
 		// a_Ultrasonic(9600,SerialPort::kOnboard,8,SerialPort::kParity_None, SerialPort::kStopBits_One)
 {
-	const char *commandString = "~/mosquitto -p 1183 &";
-	int q = system(commandString);
-	printf("The number is: %d", q);
+	// const char *commandString = "~/mosquitto -p 1183 &";
+	// int q = system(commandString);
+	// printf("The number is: %d", q);
 	rc = 0;
-	mosqpp::lib_init();
+	// mosqpp::lib_init();
 	tState = 0;
 	SmartDashboard::init();
 	a_Drive.Init();
@@ -53,11 +53,14 @@ void SmokeyX::RobotInit()
 void SmokeyX::RobotPeriodic()
 {
 	a_Gyro.Update();
+	printf("Gyro Value: %f\n", a_Gyro.GetAngle());
 	a_Accelerometer.GetAccelerations();
+	/*
 	rc = a_MQTT.loop();
 	if(rc){
 		a_MQTT.reconnect();
 	}
+	*/
 }
 
 void SmokeyX::DisabledInit()
@@ -99,7 +102,7 @@ void SmokeyX::DisabledPeriodic()
 
 	// SmartDashboard::PutNumber("a_Ultrasonic", a_Ultrasonic.GetDistanceIn()); // will test monday
 
-	SmartDashboard::PutNumber("Vision Distance:", a_MQTT.GetDistance());
+	// SmartDashboard::PutNumber("Vision Distance:", a_MQTT.GetDistance());
 }
 
 void SmokeyX::AutonomousInit()
@@ -111,7 +114,14 @@ void SmokeyX::AutonomousInit()
 
 void SmokeyX::AutonomousPeriodic()
 {
-	// a_Autonomous.Update();
+	 a_Autonomous.Update();
+	 SmartDashboard::PutNumber("Drive distance Y", a_Drive.GetDistanceY());
+	 SmartDashboard::PutNumber("BAck LEFT", a_BackLeft.GetDistanceY());
+	 SmartDashboard::PutNumber("Back RIGht",a_BackRight.GetDistanceY());
+	 SmartDashboard::PutNumber("front left", a_FrontLeft.GetDistanceY());
+	 SmartDashboard::PutNumber("front right",  a_FrontRight.GetDistanceY());
+
+
 }
 
 void SmokeyX::TeleopInit()
@@ -132,7 +142,7 @@ void SmokeyX::TeleopPeriodic()
 		a_Drive.Zero();
 	}
 
-	if(a_KylesSoul.GetRawButton(5) && a_Joystick2.GetRawButton(1) && a_Joystick2.GetRawAxis(2) >= .9) {
+	if(a_Joystick2.GetRawButton(1) && a_Joystick2.GetRawAxis(2) >= .9) {
 		a_Shooter.Set(0);
 		a_Collector.Update(0);
 		a_Lifter.Set(1);
@@ -170,7 +180,21 @@ void SmokeyX::TeleopPeriodic()
 
 	SmartDashboard::PutNumber("Gyro, yum", a_Gyro.GetAngle());
 
-	a_Drive.Update(a_Joystick.GetX(),a_Joystick.GetY(),a_Joystick.GetZ(), 0);
+	if(a_KylesSoul.GetRawButton(5)) {
+		if(a_Joystick.GetRawButton(2)) {
+				a_Drive.Update(a_Joystick.GetX() / 10.0,a_Joystick.GetY() / 10.0,a_Joystick.GetZ() / 20.0, - 1.0 * a_Gyro.GetAngle());
+			} else {
+				a_Drive.Update(a_Joystick.GetX(),a_Joystick.GetY(),a_Joystick.GetZ(), -1.0 * a_Gyro.GetAngle());
+			}
+	} else {
+		if(a_Joystick.GetRawButton(2)) {
+				a_Drive.Update(a_Joystick.GetX() / 10.0,a_Joystick.GetY() / 10.0,a_Joystick.GetZ() / 20.0,0.0);
+			} else {
+				a_Drive.Update(a_Joystick.GetX(),a_Joystick.GetY(),a_Joystick.GetZ(),0.0);
+			}
+	}
+
+
 
 	SmartDashboard::PutNumber("Drive distance X", a_Drive.GetDistanceX());
 	SmartDashboard::PutNumber("Drive distance Y", a_Drive.GetDistanceY());
@@ -185,7 +209,7 @@ void SmokeyX::TeleopPeriodic()
 	SmartDashboard::PutNumber("Back Right Speed", a_BackRight.GetSpeed());
 	SmartDashboard::PutNumber("Back Left Speed", a_BackLeft.GetSpeed());
 
-	SmartDashboard::PutNumber("Vision Distance:", a_MQTT.GetDistance());
+	// SmartDashboard::PutNumber("Vision Distance:", a_MQTT.GetDistance());
 }
 
 
@@ -196,6 +220,11 @@ void SmokeyX::TestInit()
 
 void SmokeyX::TestPeriodic()
 {
+	if(a_Joystick.GetRawButton(11)) {
+		if (-1.0 * a_Drive.GetDistanceY() < 12) {
+			a_Drive.Update(0,-0.5,0,0);
+		}
+	}
 
 }
 

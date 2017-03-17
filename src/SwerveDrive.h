@@ -37,6 +37,11 @@ public:
 	float GetDistanceY();
 	float GetDistanceX();
 
+	float GetDistanceRightX();
+	float GetDistanceLeftX();
+	float GetDistanceRightY();
+	float GetDistanceLeftY();
+
 	void Zero();
 
 private:

@@ -68,35 +68,35 @@ void SwerveDrive::InitSendableChooser()
 
 void SwerveDrive::Update(float XIn, float YIn, float ZIn, float gyroValue)
 {
-	float kJoystickDeadzone = 0.1;
-	float range = 1 - kJoystickDeadzone;
+	// float kJoystickDeadzone = 0.1;
+	// float range = 1 - kJoystickDeadzone;
 	float zInput = ZIn; // Rotation Clockwise
-	float xInput = XIn; // Strafe
-	float yInput = -1.0 * YIn; // Forward
+	float xInput = - 1.0 * XIn; // Strafe
+	float yInput = YIn; // Forward
 
-	if(fabs(zInput) < kJoystickDeadzone + 0.1) {
-		zInput = 0;
-	} else if(zInput > 0){
-		zInput = (zInput - (kJoystickDeadzone + 0.1)) / range;
-	} else {
-		zInput = (zInput + (kJoystickDeadzone + 0.1)) / range;
-	}
-
-	if(fabs(xInput) < kJoystickDeadzone) {
-		xInput = 0;
-	} else if(xInput > 0){
-		xInput = (xInput - kJoystickDeadzone) / range;
-	} else {
-		xInput = (xInput + kJoystickDeadzone) / range;
-	}
-
-	if(fabs(yInput) < kJoystickDeadzone) {
-		yInput = 0;
-	} else if(yInput > 0){
-		yInput = (yInput - kJoystickDeadzone) / range;
-	} else {
-		yInput = (yInput + kJoystickDeadzone) / range;
-	}
+//	if(fabs(zInput) < kJoystickDeadzone + 0.1) {
+//		zInput = 0;
+//	} else if(zInput > 0){
+//		zInput = (zInput - (kJoystickDeadzone + 0.1)) / range;
+//	} else {
+//		zInput = (zInput + (kJoystickDeadzone + 0.1)) / range;
+//	}
+//
+//	if(fabs(xInput) < kJoystickDeadzone) {
+//		xInput = 0;
+//	} else if(xInput > 0){
+//		xInput = (xInput - kJoystickDeadzone) / range;
+//	} else {
+//		xInput = (xInput + kJoystickDeadzone) / range;
+//	}
+//
+//	if(fabs(yInput) < kJoystickDeadzone) {
+//		yInput = 0;
+//	} else if(yInput > 0){
+//		yInput = (yInput - kJoystickDeadzone) / range;
+//	} else {
+//		yInput = (yInput + kJoystickDeadzone) / range;
+//	}
 
 	float temp = yInput * cos(gyroValue * M_PI / 180) + xInput * sin(gyroValue * M_PI / 180); // This block of commands SHOULD make this thing field oriented
 	xInput = -yInput * sin(gyroValue * M_PI / 180) + xInput * cos(gyroValue * M_PI / 180);
@@ -351,6 +351,23 @@ float SwerveDrive::GetDistanceY() // on a roughly square robot an average of all
 float SwerveDrive::GetDistanceX()
 {
 	return (a_FrontRight.GetDistanceX() + a_BackRight.GetDistanceX() + a_FrontLeft.GetDistanceX() + a_BackLeft.GetDistanceX()) / 4;
+}
+
+float SwerveDrive::GetDistanceRightX()
+{
+	return (a_FrontRight.GetDistanceX() + a_BackRight.GetDistanceX()) / 2;
+}
+float SwerveDrive::GetDistanceLeftX()
+{
+	return (a_FrontLeft.GetDistanceX() + a_BackLeft.GetDistanceX()) / 2;
+}
+float SwerveDrive::GetDistanceRightY()
+{
+	return (a_FrontRight.GetDistanceY() + a_BackRight.GetDistanceY()) / 2;
+}
+float SwerveDrive::GetDistanceLeftY()
+{
+	return (a_FrontLeft.GetDistanceY() + a_BackLeft.GetDistanceY()) / 2;
 }
 
 void SwerveDrive::Zero()
