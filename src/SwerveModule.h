@@ -44,5 +44,6 @@ private:
 	CANTalon a_DriveMotor;
 	float distanceX;
 	float distanceY;
-	float lastTime;
+	float lastPos;
+	float scale;
 };

@@ -68,11 +68,16 @@ void SmokeyX::DisabledInit()
 void SmokeyX::DisabledPeriodic()
 {
 	a_Autonomous.Init();
-	/*
+
+	SmartDashboard::PutNumber("gyro reg 0", a_Gyro.GetReg0());
+
 	a_LRC.SetColor(0,0,0,0);
 	a_LRC.SetColor(1,0,0,0);
 	a_LRC.SetColor(2,0,0,0);
 	SmartDashboard::PutNumber("Gyro, yum", a_Gyro.GetAngle());
+	if(a_Joystick.GetRawButton(1)) {
+		a_Gyro.Cal();
+	}
 	SmartDashboard::PutNumber("Front Right Speed", a_FrontRight.GetSpeed());
 	SmartDashboard::PutNumber("Front Left Speed", a_FrontLeft.GetSpeed());
 	SmartDashboard::PutNumber("Back Right Speed", a_BackRight.GetSpeed());
@@ -82,7 +87,7 @@ void SmokeyX::DisabledPeriodic()
 	SmartDashboard::PutNumber("Front Left Angle", a_FrontLeft.GetAngle());
 	SmartDashboard::PutNumber("Back Right Angle", a_BackRight.GetAngle());
 	SmartDashboard::PutNumber("Back Left Angle", a_BackLeft.GetAngle());
-	*/
+
 	// SmartDashboard::PutNumber("ShooterSpeed", a_Shooter.GetSpeed());
 
 	/*
@@ -106,7 +111,7 @@ void SmokeyX::AutonomousInit()
 
 void SmokeyX::AutonomousPeriodic()
 {
-	a_Autonomous.Update();
+	// a_Autonomous.Update();
 }
 
 void SmokeyX::TeleopInit()
@@ -119,9 +124,13 @@ void SmokeyX::TeleopPeriodic()
 	SmartDashboard::PutNumber("Accelerometer X", a_Accelerometer.GetX());
 	SmartDashboard::PutNumber("Accelerometer Y", a_Accelerometer.GetY());
 	SmartDashboard::PutNumber("Accelerometer Z", a_Accelerometer.GetZ());
-	a_LRC.SetColor(0,0,100,0);
+	a_LRC.SetColor(0,0,60,0);
 	a_LRC.SetColor(1,0,60,0);
 	a_LRC.SetColor(2,0,60,0);
+
+	if(a_Joystick.GetRawButton(7)) {
+		a_Drive.Zero();
+	}
 
 	if(a_KylesSoul.GetRawButton(5) && a_Joystick2.GetRawButton(1) && a_Joystick2.GetRawAxis(2) >= .9) {
 		a_Shooter.Set(0);
@@ -130,8 +139,13 @@ void SmokeyX::TeleopPeriodic()
 		a_Joystick2.SetRumble(GenericHID::RumbleType::kLeftRumble, 1);
 		a_Joystick2.SetRumble(GenericHID::RumbleType::kRightRumble, 1);
 	} else {
-		a_Shooter.Set(0.75);
-		a_Collector.Update(-1);
+		if(a_Joystick.GetRawAxis(3) > 0.5) {
+			a_Shooter.Set(0);
+			a_Collector.Update(0);
+		} else {
+			a_Shooter.Set(0.75);
+			a_Collector.Update(-1);
+		}
 		a_Lifter.Set(0);
 		a_Joystick2.SetRumble(GenericHID::RumbleType::kLeftRumble, 0);
 		a_Joystick2.SetRumble(GenericHID::RumbleType::kRightRumble, 0);

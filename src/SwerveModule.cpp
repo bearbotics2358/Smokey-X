@@ -31,29 +31,22 @@ SwerveModule::SwerveModule(uint32_t turnMotorPort, uint32_t driveMotorPort)
 	a_DriveMotor.SetD(0);
 	a_DriveMotor.Set(0);
 
-	distanceX = 0;
-	distanceY = 0;
-	lastTime = 0;
+	distanceX = 0.0;
+	distanceY = 0.0;
+	lastPos = 0.0;
+	scale = 1.0;
 
 }
 
 void SwerveModule::Update(float angle, float speed, float offset, float gyroValue)
 {
-
-	if(lastTime == 0) {
-		lastTime = Timer::GetFPGATimestamp();
-	}
-	float dT = Timer::GetFPGATimestamp() - lastTime;
-	lastTime = Timer::GetFPGATimestamp();
-	// rev / min * pi * Diameter in  / rev * 1 min / 60s
-	float linearSpeed = a_DriveMotor.GetSpeed() / 5 *  4 * M_PI / 60; // this is geared down, so the shaft RPM / gearing = wheel RPM
-	float phi = (gyroValue - GetAngle()) * M_PI / 180; // convert to rads cuz that's what sin and cos use
+	float currentPos = fabs(a_DriveMotor.GetEncPosition());
+	float posDiff = currentPos - lastPos;
+	float phi = (gyroValue - GetAngle()) * M_PI / 180.0; // convert to rads cuz that's what sin and cos use
 	// Phi is an angle measured from a vertical- thus, sin(phi) returns the x component of the vector, and cos(phi) returns the y component, unlike a theta measure, which is from a horizontal
 	// basically what i am trying to say is that gyroValue and GetAngle both return phi, so it's easiest to use a phi- we're using the "absolute" direction of the wheel relative to "north" on the floor here
-	float speedX = linearSpeed * sin(phi);
-	float speedY = linearSpeed * cos(phi);
-	float dX = speedX * dT;
-	float dY = speedY * dT;
+	double dX = posDiff * sin(phi) * scale;
+	double dY = posDiff * cos(phi) * scale;
 	distanceX += dX;
 	distanceY += dY;
 
@@ -69,7 +62,7 @@ void SwerveModule::Update(float angle, float speed, float offset, float gyroValu
 
 	a_TurnMotor.Set((angle + offset) * ABSOLUTE_CONV_FACTOR);
 	a_DriveMotor.Set(speed * MAX_RPM); // argument is in rpms, as we configgurqyetsled the encoder codes per rev
-
+	lastPos = currentPos;
 
 }
 
@@ -90,7 +83,7 @@ float SwerveModule::GetDistanceX()
 
 float SwerveModule::GetDistanceY()
 {
-	return distanceY;
+	return distanceY / 376.2 / 12 * 10;
 }
 
 void SwerveModule::ResetDistanceX()

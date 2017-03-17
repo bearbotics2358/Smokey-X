@@ -67,7 +67,7 @@ private:
 	float a_PegAngles[6] = {60,-60, 60, -60, 0, 60};
 	float a_PegDistances[6] = {118.5-(CHASSIS_LENGTH_BUMPERS/2), 28-(CHASSIS_LENGTH_BUMPERS/2), 27.25-(CHASSIS_LENGTH_BUMPERS/2), 117.5-(CHASSIS_LENGTH_BUMPERS/2), 0, 26-(CHASSIS_LENGTH_BUMPERS/2)};
 	float a_ShieldsDistances[6] = {0, -60, -60, 0, 0, -60};
-	float a_BoilerAngles[5] = {0, -135, 135, 0, 27.97};
+	float a_BoilerAngles[5] = {0, 45, -45, 0, 27.97};
 	float a_BoilerDistances[5] = {0, 240-(CHASSIS_LENGTH_BUMPERS/2), 240-(CHASSIS_LENGTH_BUMPERS/2), 0, 156.259};
 	float a_WallDistances[5] = {25-(CHASSIS_WIDTH_BUMPERS/2), 0, 0, 16-(CHASSIS_WIDTH_BUMPERS/2), 0};
 	float a_FrontAngles[5] = {45, 0, 0, -45, 0};
