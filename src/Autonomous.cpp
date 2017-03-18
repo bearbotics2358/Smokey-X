@@ -82,9 +82,10 @@ void Autonomous::Update(){
 
 void Autonomous::MoveToBaseline(int i){
 	driveDistance = a_Drive.GetDistanceY();
-	if (-1.0 * driveDistance * 10 < a_BaselineDistances[a_BotPosition]) {
+	if (-1.0 * driveDistance < a_BaselineDistances[a_BotPosition]) {
 		a_Drive.Update(0,-0.5,0,0);
 	} else {
+		a_Drive.Update(0,0,0,0);
 		a_NeedsToRun[i] = false;
 	}
 }
@@ -616,18 +617,19 @@ void Autonomous::StupidRedMiddle(){
 		MoveToBaseline(0);
 		return;
 	}
-	if(a_NeedsToRun[1]) {
-		ScoreGear(1);
-		return;
-	}
-	if(a_NeedsToRun[2]) {
-		ClearShields(2);
-		return;
-	}
-	if(a_NeedsToRun[3]) {
-		TurnToBoiler(3);
-		return;
-	}
+
+//	if(a_NeedsToRun[1]) {
+//		ScoreGear(1);
+//		return;
+//	}
+//	if(a_NeedsToRun[2]) {
+//		ClearShields(2);
+//		return;
+//	}
+//	if(a_NeedsToRun[3]) {
+//		TurnToBoiler(3);
+//		return;
+//	}
 
 }
 

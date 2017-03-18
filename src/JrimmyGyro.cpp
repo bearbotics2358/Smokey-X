@@ -187,7 +187,7 @@ int JrimmyGyro::GetTemp() {
 
 double JrimmyGyro::GetAngle(int xyz)
 {
-	return angle[xyz];
+	return angle[xyz] * -1.0; //-1 is temporary- gyro is mounted upside down on the comp bot
 }
 
 void JrimmyGyro::Zero() {

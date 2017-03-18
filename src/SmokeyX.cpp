@@ -114,7 +114,7 @@ void SmokeyX::AutonomousInit()
 
 void SmokeyX::AutonomousPeriodic()
 {
-	 a_Autonomous.Update();
+	 // a_Autonomous.Update();
 	 SmartDashboard::PutNumber("Drive distance Y", a_Drive.GetDistanceY());
 	 SmartDashboard::PutNumber("BAck LEFT", a_BackLeft.GetDistanceY());
 	 SmartDashboard::PutNumber("Back RIGht",a_BackRight.GetDistanceY());
@@ -182,9 +182,9 @@ void SmokeyX::TeleopPeriodic()
 
 	if(a_KylesSoul.GetRawButton(5)) {
 		if(a_Joystick.GetRawButton(2)) {
-				a_Drive.Update(a_Joystick.GetX() / 10.0,a_Joystick.GetY() / 10.0,a_Joystick.GetZ() / 20.0, - 1.0 * a_Gyro.GetAngle());
+				a_Drive.Update(a_Joystick.GetX() / 10.0,a_Joystick.GetY() / 10.0,a_Joystick.GetZ() / 20.0,a_Gyro.GetAngle());
 			} else {
-				a_Drive.Update(a_Joystick.GetX(),a_Joystick.GetY(),a_Joystick.GetZ(), -1.0 * a_Gyro.GetAngle());
+				a_Drive.Update(a_Joystick.GetX(),a_Joystick.GetY(),a_Joystick.GetZ(),a_Gyro.GetAngle());
 			}
 	} else {
 		if(a_Joystick.GetRawButton(2)) {
@@ -225,6 +225,8 @@ void SmokeyX::TestPeriodic()
 			a_Drive.Update(0,-0.5,0,0);
 		}
 	}
+	SmartDashboard::PutNumber("Drive distance Y", a_Drive.GetDistanceY());
+
 
 }
 
