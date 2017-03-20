@@ -46,7 +46,6 @@ SmokeyX::SmokeyX(void):
 
 void SmokeyX::RobotInit()
 {
-
 	a_Gyro.Cal();
 }
 
@@ -116,10 +115,10 @@ void SmokeyX::AutonomousPeriodic()
 {
 	 // a_Autonomous.Update();
 	 SmartDashboard::PutNumber("Drive distance Y", a_Drive.GetDistanceY());
-	 SmartDashboard::PutNumber("BAck LEFT", a_BackLeft.GetDistanceY());
-	 SmartDashboard::PutNumber("Back RIGht",a_BackRight.GetDistanceY());
-	 SmartDashboard::PutNumber("front left", a_FrontLeft.GetDistanceY());
-	 SmartDashboard::PutNumber("front right",  a_FrontRight.GetDistanceY());
+	 SmartDashboard::PutNumber("Back Left", a_BackLeft.GetDistanceY());
+	 SmartDashboard::PutNumber("Back Right",a_BackRight.GetDistanceY());
+	 SmartDashboard::PutNumber("Front Left", a_FrontLeft.GetDistanceY());
+	 SmartDashboard::PutNumber("Front Right",  a_FrontRight.GetDistanceY());
 
 
 }

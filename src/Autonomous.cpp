@@ -101,11 +101,11 @@ void Autonomous::TurnToPegWait(int i) {
 	} else {
 		a_Drive.DisableTwist();
 		a_NeedsToRun[i] = false;
+		a_Drive.Zero();
 	}
 }
 
 void Autonomous::MoveToPeg(int i){
-	a_Drive.Zero();
 	driveDistance = a_Drive.GetDistanceY();
 	if (driveDistance < a_PegDistances[a_BotPosition]) {
 		a_Drive.Update(0,0.5,0,0);
@@ -118,11 +118,11 @@ void Autonomous::MoveToPeg(int i){
 void Autonomous::ScoreGear(int i){
 	if(Timer::GetFPGATimestamp() >= tState + 3) {
 		a_NeedsToRun[i] = false;
+		a_Drive.Zero();
 	}
 }
 
 void Autonomous::ClearShields(int i){
-	a_Drive.Zero();
 	driveDistance = a_Drive.GetDistanceY();
 	if (driveDistance > a_ShieldsDistances[a_BotPosition]) {
 		a_Drive.Update(0,0.5,0,0);
@@ -142,11 +142,11 @@ void Autonomous::TurnToBoilerWait(int i) {
 	} else {
 		a_Drive.DisableTwist();
 		a_NeedsToRun[i] = false;
+		a_Drive.Zero();
 	}
 }
 
 void Autonomous::MoveToBoiler(int i){
-	a_Drive.Zero();
 	driveDistance = a_Drive.GetDistanceY();
 	if (driveDistance < 0) {
 		a_Drive.Update(0,0.5,0,0);
@@ -158,10 +158,10 @@ void Autonomous::MoveToBoiler(int i){
 void Autonomous::ShootFuel(int i){
 	a_Shooter.Set(.5); // revised to follow adjustment
 	a_NeedsToRun[i] = false;
+	a_Drive.Zero();
 }
 
 void Autonomous::AdjustOnWall(int i){
-	a_Drive.Zero();
 	driveDistance = a_Drive.GetDistanceX();
 	if (driveDistance < a_WallDistances[a_BotPosition]) {
 		a_Drive.Update(0.5,0,0,0);
@@ -171,7 +171,6 @@ void Autonomous::AdjustOnWall(int i){
 }
 
 void Autonomous::ClearBoiler(int i){
-	a_Drive.Zero();
 	driveDistance = a_Drive.GetDistanceY();
 	if (driveDistance > -10) {
 		a_Drive.Update(0,0.5,0,0);
@@ -190,6 +189,7 @@ void Autonomous::TurnToFrontWait(int i) {
 		a_Drive.Update(0,0,0,a_Gyro.GetAngle());
 	} else {
 		a_NeedsToRun[i] = false;
+		a_Drive.Zero();
 	}
 }
 // --------------------------------------------------------------------------------------------------------------
@@ -618,18 +618,18 @@ void Autonomous::StupidRedMiddle(){
 		return;
 	}
 
-//	if(a_NeedsToRun[1]) {
-//		ScoreGear(1);
-//		return;
-//	}
-//	if(a_NeedsToRun[2]) {
-//		ClearShields(2);
-//		return;
-//	}
-//	if(a_NeedsToRun[3]) {
-//		TurnToBoiler(3);
-//		return;
-//	}
+	//	if(a_NeedsToRun[1]) {
+	//		ScoreGear(1);
+	//		return;
+	//	}
+	//	if(a_NeedsToRun[2]) {
+	//		ClearShields(2);
+	//		return;
+	//	}
+	//	if(a_NeedsToRun[3]) {
+	//		TurnToBoiler(3);
+	//		return;
+	//	}
 
 }
 

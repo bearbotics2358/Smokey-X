@@ -34,7 +34,7 @@ SwerveModule::SwerveModule(uint32_t turnMotorPort, uint32_t driveMotorPort)
 	distanceX = 0.0;
 	distanceY = 0.0;
 	lastPos = 0.0;
-	scale = 1.0;
+	scale = 0.031415926;
 
 }
 
@@ -78,12 +78,12 @@ float SwerveModule::GetSpeed()
 
 float SwerveModule::GetDistanceX()
 {
-	return distanceX;
+	return distanceX * scale;
 }
 
 float SwerveModule::GetDistanceY()
 {
-	return distanceY / 376.2 / 12 * 10;
+	return distanceY * scale;// / 376.2 / 12 * 10;
 }
 
 void SwerveModule::ResetDistanceX()
