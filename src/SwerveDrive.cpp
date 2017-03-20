@@ -26,6 +26,10 @@ const int         SwerveDrive::CONTROL_TYPE_TURNING_DRIVE = 3;
 const std::string SwerveDrive::CONTROL_TYPE_TURNING_DRIVE_KEY = "Turning Drive";
 const int         SwerveDrive::CONTROL_TYPE_TANK = 4;
 const std::string SwerveDrive::CONTROL_TYPE_TANK_KEY = "Tank Drive";
+const int         SwerveDrive::CONTROL_TYPE_FL_TURN = 5;
+const std::string SwerveDrive::CONTROL_TYPE_FL_TURN_KEY = "FL Turn Drive";
+const int         SwerveDrive::CONTROL_TYPE_FR_TURN = 6;
+const std::string SwerveDrive::CONTROL_TYPE_FR_TURN_KEY = "FR Turn Drive";
 
 bool isTwisting = false;
 float turnAngle = 0;
@@ -43,6 +47,7 @@ SwerveDrive::SwerveDrive(SwerveModule &FR, SwerveModule &FL, SwerveModule &BL, S
 	a_ControlTypeChooser.AddObject(CONTROL_TYPE_CRAB_KEY, CONTROL_TYPE_CRAB_KEY);
 	a_ControlTypeChooser.AddObject(CONTROL_TYPE_SIMPLE_DRIVE_KEY, CONTROL_TYPE_SIMPLE_DRIVE_KEY);
 	a_ControlTypeChooser.AddObject(CONTROL_TYPE_TANK_KEY, CONTROL_TYPE_TANK_KEY);
+	a_ControlTypeChooser.AddObject(CONTROL_TYPE_FL_TURN_KEY, CONTROL_TYPE_FL_TURN_KEY);
 };
 
 void SwerveDrive::Init()
@@ -249,6 +254,249 @@ void SwerveDrive::Update(float XIn, float YIn, float ZIn, float gyroValue)
 				}
 		 */
 
+	} else if(controlType == CONTROL_TYPE_FL_TURN_KEY) {
+		double flX = xInput;
+		double flY = yInput;
+		double frX = xInput;
+		double frY = yInput - zInput;
+		double blX = xInput - zInput;
+		double blY = yInput;
+		double brX = xInput - zInput * (a_RobotLength / a_ChassisRadius);
+		double brY = yInput - zInput * (a_RobotWidth / a_ChassisRadius);
+
+		frSpeed = sqrt(pow(frX,2) + pow(frY,2));
+		flSpeed = sqrt(pow(flX,2) + pow(flY,2));
+		blSpeed = sqrt(pow(blX,2) + pow(blY,2));
+		brSpeed = sqrt(pow(brX,2) + pow(brY,2));
+
+		max = frSpeed;
+		if(flSpeed > max) {
+			max = flSpeed;
+		}
+		if(blSpeed > max) {
+			max = blSpeed;
+		}
+		if(brSpeed > max) {
+			max = brSpeed;
+		}
+		if(max > 1) { // This is done so that if a speed greater than 1 is calculated, all are reduced proportionally
+			frSpeed /= max;
+			flSpeed /= max;
+			blSpeed /= max;
+			brSpeed /= max;
+		}
+
+		//  atan2 outputs values in a manner similar to what is shown on the below diagram
+
+		////////////////////
+		//        90      //
+		//        //      //
+		//		  //      //
+		//		  //      //
+		//180 or - 180///0//
+		//        //      //
+		//        //      //
+		//        //      //
+		//       -90      //
+		////////////////////
+
+		frAngle = (atan2(frX,frY) * 180.0 / M_PI);
+		flAngle = (atan2(flX,flY) * 180.0 / M_PI);
+		blAngle = (atan2(blX,blY) * 180.0 / M_PI);
+		brAngle = (atan2(brX,brY) * 180.0 / M_PI);
+
+
+		// Subtract 90 from all
+
+		////////////////////
+		//        0	      //
+		//        //      //
+		//		  //      //
+		//		  //      //
+		//90 or - 270//-90//
+		//        //      //
+		//        //      //
+		//        //      //
+		//  	 -180     //
+		////////////////////
+
+		frAngle -= 90;
+		flAngle -= 90;
+		brAngle -= 90;
+		blAngle -= 90;
+	} else if(controlType == CONTROL_TYPE_SIMPLE_DRIVE_KEY) {
+		if(fabs(xInput) > fabs(yInput)) {
+			float setAngle = -90;
+			frAngle = setAngle;
+			flAngle = setAngle;
+			blAngle = setAngle;
+			brAngle = setAngle;
+
+			float setSpeed = xInput;
+			frSpeed = setSpeed;
+			flSpeed = setSpeed;
+			blSpeed = setSpeed;
+			brSpeed = setSpeed;
+		} else {
+			float setAngle = 0;
+			frAngle = setAngle;
+			flAngle = setAngle;
+			blAngle = setAngle;
+			brAngle = setAngle;
+
+			float setSpeed = yInput;
+			frSpeed = setSpeed;
+			flSpeed = setSpeed;
+			blSpeed = setSpeed;
+			brSpeed = setSpeed;
+		}
+	} else if(controlType == CONTROL_TYPE_TURNING_DRIVE_KEY) {
+		flAngle = 0;
+		frAngle = 0;
+		blAngle = 0;
+		brAngle = 0;
+
+		if(gyroValue < turnAngle - 3) {
+			if(diff > 10) {
+				frSpeed = -0.3;
+				flSpeed = 0.3;
+				blSpeed = 0.3;
+				brSpeed = -0.3;
+
+			} else {
+				frSpeed = -0.2;
+				flSpeed = 0.2;
+				blSpeed = 0.2;
+				brSpeed = -0.2;
+			}
+		} else if(gyroValue > turnAngle + 3) {
+			if(diff > 10) {
+				frSpeed = 0.3;
+				flSpeed = -0.3;
+				blSpeed = -0.3;
+				brSpeed = 0.3;
+			} else {
+				frSpeed = 0.2;
+				flSpeed = -0.2;
+				blSpeed = -0.2;
+				brSpeed = 0.2;
+			}
+		} else {
+			frSpeed = 0;
+			flSpeed = 0;
+			blSpeed = 0;
+			brSpeed = 0;
+			DisableTwist();
+		}
+	} else if(controlType == CONTROL_TYPE_TANK_KEY) {
+		if(fabs(xInput) > 0.125) {
+			flAngle = -90.0;
+			frAngle = -90.0;
+			blAngle = -90.0;
+			brAngle = -90.0;
+
+			frSpeed = xInput;
+			flSpeed = xInput;
+			blSpeed = xInput;
+			brSpeed = xInput;
+		} else {
+			flAngle = 0;
+			frAngle = 0;
+			blAngle = 0;
+			brAngle = 0;
+
+			frSpeed = yInput - zInput;
+			flSpeed = yInput + zInput;
+			blSpeed = yInput + zInput;
+			brSpeed = yInput - zInput;
+
+			max = fabs(frSpeed);
+			if(fabs(flSpeed) > max) {
+				max = fabs(flSpeed);
+			}
+			if(fabs(blSpeed) > max) {
+				max = fabs(blSpeed);
+			}
+			if(fabs(brSpeed) > max) {
+				max = fabs(brSpeed);
+			}
+			if(max > 1) { // This is done so that if a speed greater than 1 is calculated, all are reduced proportionally
+				frSpeed /= max;
+				flSpeed /= max;
+				blSpeed /= max;
+				brSpeed /= max;
+			}
+		}
+	} else if(controlType == CONTROL_TYPE_FR_TURN_KEY) {
+		double flX = xInput;
+		double flY = yInput + zInput;
+		double frX = xInput;
+		double frY = yInput;
+		double blX = xInput - zInput * (a_RobotLength / a_ChassisRadius);
+		double blY = yInput + zInput * (a_RobotLength / a_ChassisRadius);
+		double brX = xInput - zInput;
+		double brY = yInput;
+
+		frSpeed = sqrt(pow(frX,2) + pow(frY,2));
+		flSpeed = sqrt(pow(flX,2) + pow(flY,2));
+		blSpeed = sqrt(pow(blX,2) + pow(blY,2));
+		brSpeed = sqrt(pow(brX,2) + pow(brY,2));
+
+		max = frSpeed;
+		if(flSpeed > max) {
+			max = flSpeed;
+		}
+		if(blSpeed > max) {
+			max = blSpeed;
+		}
+		if(brSpeed > max) {
+			max = brSpeed;
+		}
+		if(max > 1) { // This is done so that if a speed greater than 1 is calculated, all are reduced proportionally
+			frSpeed /= max;
+			flSpeed /= max;
+			blSpeed /= max;
+			brSpeed /= max;
+		}
+
+		//  atan2 outputs values in a manner similar to what is shown on the below diagram
+
+		////////////////////
+		//        90      //
+		//        //      //
+		//		  //      //
+		//		  //      //
+		//180 or - 180///0//
+		//        //      //
+		//        //      //
+		//        //      //
+		//       -90      //
+		////////////////////
+
+		frAngle = (atan2(frX,frY) * 180.0 / M_PI);
+		flAngle = (atan2(flX,flY) * 180.0 / M_PI);
+		blAngle = (atan2(blX,blY) * 180.0 / M_PI);
+		brAngle = (atan2(brX,brY) * 180.0 / M_PI);
+
+
+		// Subtract 90 from all
+
+		////////////////////
+		//        0	      //
+		//        //      //
+		//		  //      //
+		//		  //      //
+		//90 or - 270//-90//
+		//        //      //
+		//        //      //
+		//        //      //
+		//  	 -180     //
+		////////////////////
+
+		frAngle -= 90;
+		flAngle -= 90;
+		brAngle -= 90;
+		blAngle -= 90;
 	} else if(controlType == CONTROL_TYPE_SIMPLE_DRIVE_KEY) {
 		if(fabs(xInput) > fabs(yInput)) {
 			float setAngle = -90;

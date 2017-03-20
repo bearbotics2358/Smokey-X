@@ -57,6 +57,10 @@ private:
 	static const std::string CONTROL_TYPE_TURNING_DRIVE_KEY;
 	static const int         CONTROL_TYPE_TANK;
 	static const std::string CONTROL_TYPE_TANK_KEY;
+	static const int         CONTROL_TYPE_FL_TURN;
+	static const std::string CONTROL_TYPE_FL_TURN_KEY;
+	static const int         CONTROL_TYPE_FR_TURN;
+	static const std::string CONTROL_TYPE_FR_TURN_KEY;
 
 	SwerveModule &a_FrontRight; // "1"
 	SwerveModule &a_FrontLeft; // "2"

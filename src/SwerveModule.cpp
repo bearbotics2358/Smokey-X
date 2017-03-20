@@ -78,12 +78,12 @@ float SwerveModule::GetSpeed()
 
 float SwerveModule::GetDistanceX()
 {
-	return distanceX * scale;
+	return distanceX;
 }
 
 float SwerveModule::GetDistanceY()
 {
-	return distanceY * scale;// / 376.2 / 12 * 10;
+	return distanceY;
 }
 
 void SwerveModule::ResetDistanceX()
