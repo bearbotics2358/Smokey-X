@@ -101,7 +101,7 @@ void SwerveDrive::Update(float XIn, float YIn, float ZIn, float gyroValue)
 	//		yInput = (yInput + kJoystickDeadzone) / range;
 	//	}
 
-	float temp = yInput * cos(gyroValue * M_PI / 180) + xInput * sin(gyroValue * M_PI / 180); // This block of commands SHOULD make this thing field oriented
+	float temp = yInput * cos(gyroValue * M_PI / 180) + xInput * sin(gyroValue * M_PI / 180); // This block of commands makes this thing field oriented
 	xInput = -yInput * sin(gyroValue * M_PI / 180) + xInput * cos(gyroValue * M_PI / 180);
 	yInput = temp;
 

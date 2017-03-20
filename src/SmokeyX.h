@@ -17,9 +17,10 @@
 #include "SwerveDrive.h"
 #include "SmartDashboard/SmartDashboard.h"
 #include "SmartDashboard/SendableChooser.h"
-#include "Collector.h"
-#include "Impeller.h"
-#include "Shooter.h"
+// #include "Collector.h"
+// #include "Impeller.h"
+// #include "Shooter.h"
+#include "GearFlicker.h"
 #include "LightRingController.h"
 #include "SerialUltrasonic.h"
 #include "VisionSquitto.h"
@@ -48,7 +49,7 @@ private:
 
 	PowerDistributionPanel a_PDP;
 
-	Compressor a_Compressor;
+	// Compressor a_Compressor;
 
 	SwerveModule a_FrontRight;
 	SwerveModule a_FrontLeft;
@@ -57,13 +58,15 @@ private:
 
 	SwerveDrive a_Drive;
 
-	Shooter a_Shooter;
+	// Shooter a_Shooter;
 
-	Collector a_Collector;
+	// Collector a_Collector;
 
-	Impeller a_Impeller;
+	// Impeller a_Impeller;
 
 	CANTalon a_Lifter;
+
+	GearFlicker a_Flicker;
 
 	LightRingController a_LRC;
 
