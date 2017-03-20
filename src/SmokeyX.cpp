@@ -31,7 +31,7 @@ SmokeyX::SmokeyX(void):
 		a_Accelerometer(I2C::kMXP,ADXL345_I2C::kRange_2G,0x53), // was 0x1D
 		a_Gyro(I2C::kMXP),
 		// a_MQTT("RIOclient", "localhost", 1183),
-		a_Autonomous(a_KylesSoul, a_Drive, a_Gyro/*, a_Shooter*/)
+		a_Autonomous(a_KylesSoul, a_Drive, a_Gyro, a_Flicker/*, a_Shooter*/)
 		// a_Ultrasonic(9600,SerialPort::kOnboard,8,SerialPort::kParity_None, SerialPort::kStopBits_One)
 {
 	// const char *commandString = "~/mosquitto -p 1183 &";

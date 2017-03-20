@@ -1,9 +1,10 @@
 #include "Autonomous.h"
 
-Autonomous::Autonomous(Joystick &buttonBox, SwerveDrive &Drive, JrimmyGyro &Gyro/*, Shooter &Shooter*/)
+Autonomous::Autonomous(Joystick &buttonBox, SwerveDrive &Drive, JrimmyGyro &Gyro, GearFlicker &Flicker/*, Shooter &Shooter*/)
 : a_ButtonBox(buttonBox),
   a_Drive(Drive),
   a_Gyro(Gyro),
+  a_Flicker(Flicker),
 //  a_Shooter(Shooter),
   a_BotPosition(kMiddle)
 {
@@ -18,7 +19,7 @@ void Autonomous::Init()
 	// regular = true;
 	// stupid = false;
 
-	if(a_ButtonBox.GetRawButton(7)){
+/*	if(a_ButtonBox.GetRawButton(7)){
 		level = true;
 	}else{
 		level = false;
@@ -35,14 +36,26 @@ void Autonomous::Init()
 		rightPos = true;
 	} else {
 		midPos = true;
-	}
+	}*/
+
+
 
 	a_Drive.Zero();
 }
 
 void Autonomous::Update(){
 
-	if(leftPos&&side&&level){
+	if(a_ButtonBox.GetRawButton(2)){
+		Left();
+	}
+	else if(a_ButtonBox.GetRawButton(3)){
+		Middle();
+	}
+	else if(a_ButtonBox.GetRawButton(4)){
+		Right();
+	}
+
+/*	if(leftPos&&side&&level){
 		// a_Shooter.Set(0.75);
 		BlueLeft();
 	}else if(leftPos&&!side&&level){
@@ -76,7 +89,7 @@ void Autonomous::Update(){
 		StupidBlueRight();
 	}else if(rightPos&&!side&&!level){
 		StupidRedRight();
-	}
+	}*/
 
 }
 
@@ -116,11 +129,10 @@ void Autonomous::MoveToPeg(int i){
 }
 
 void Autonomous::ScoreGear(int i){
-	if(Timer::GetFPGATimestamp() >= tState + 3) {
-		a_NeedsToRun[i] = false;
-		a_Drive.Zero();
-	}
+	a_Flicker.Set(100);
+	a_Flicker.Update();
 }
+
 
 void Autonomous::ClearShields(int i){
 	driveDistance = a_Drive.GetDistanceY();
@@ -131,6 +143,7 @@ void Autonomous::ClearShields(int i){
 	}
 }
 
+/*
 void Autonomous::TurnToBoiler(int i){
 	a_Drive.SetTwistingRelAngle(a_Gyro.GetAngle(),a_BoilerAngles[a_BotPosition]);
 	a_NeedsToRun[i] = false;
@@ -632,21 +645,100 @@ void Autonomous::StupidRedMiddle(){
 	//	}
 
 }
+*/
 
 
-void Autonomous::Stupid(){
-
+/*void Autonomous::Stupid(){
 
 	driveDistance = a_Drive.GetDistanceY();
 	if (driveDistance < 100) {
 		a_Drive.Update(.5,0,0,0);
 	}
+}*/
 
+void Autonomous::Left(){
+	a_BotPosition = kleft;
+	driveDistance = a_Drive.GetDistanceY();
+	if(a_NeedsToRun[0]) {
+		MoveToBaseline(0);
+		return;
+	}
+	if(a_NeedsToRun[1]) {
+		TurnToPeg(1);
+		return;
+	}
+	if(a_NeedsToRun[2]) {
+		TurnToPegWait(2);
+		return;
+	}
+	if(a_NeedsToRun[3]) {
+		MoveToPeg(3);
+		return;
+	}
+	if(a_NeedsToRun[4]) {
+		ScoreGear(4);
+		return;
+	}
+	if(a_NeedsToRun[5]) {
+		ClearShields(5);
+		return;
+	}
 
 }
 
+void Autonomous::Middle(){
+	a_BotPosition = kMiddle;
 
+	driveDistance = a_Drive.GetDistanceY();
+	if(a_NeedsToRun[0]) {
+		MoveToBaseline(0);
+		return;
+	}
+	if(a_NeedsToRun[1]) {
+		TurnToPeg(1);
+		return;
+	}
+	if(a_NeedsToRun[4]) {
+		ScoreGear(4);
+		return;
+	}
+	if(a_NeedsToRun[5]) {
+		ClearShields(5);
+		return;
+	}
 
+}
+
+void Autonomous::Right(){
+	a_BotPosition = kRight;
+
+	driveDistance = a_Drive.GetDistanceY();
+	if(a_NeedsToRun[0]) {
+		MoveToBaseline(0);
+		return;
+	}
+	if(a_NeedsToRun[1]) {
+		TurnToPeg(1);
+		return;
+	}
+	if(a_NeedsToRun[2]) {
+		TurnToPegWait(2);
+		return;
+	}
+	if(a_NeedsToRun[3]) {
+		MoveToPeg(3);
+		return;
+	}
+	if(a_NeedsToRun[4]) {
+		ScoreGear(4);
+		return;
+	}
+	if(a_NeedsToRun[5]) {
+		ClearShields(5);
+		return;
+	}
+
+}
 
 
 

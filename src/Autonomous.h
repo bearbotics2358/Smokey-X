@@ -5,21 +5,25 @@
 #include "Prefs.h"
 #include "SwerveDrive.h"
 #include "JrimmyGyro.h"
+#include "GearFlicker.h"
 // #include "Shooter.h"
 
 enum BotPosition {
-	kBlueLeft=0,
+	/*	kBlueLeft=0,
 	kBlueRight,
 	kRedLeft,
 	kRedRight,
 	kMiddle,
-	kStupidLeft
+	kStupidLeft*/
+	kleft=0,
+	kMiddle,
+	kRight
 };
 
 class Autonomous {
 
 public:
-	Autonomous(Joystick &buttonBox, SwerveDrive &SwerveDrive, JrimmyGyro &Gyro/*, Shooter &Shooter*/);
+	Autonomous(Joystick &buttonBox, SwerveDrive &SwerveDrive, JrimmyGyro &Gyro, GearFlicker &Flicker/*, Shooter &Shooter*/);
 	virtual ~Autonomous() = default;
 	void Init();
 	void Update();
@@ -29,7 +33,7 @@ public:
 	void MoveToPeg(int i);
 	void ScoreGear(int i);
 	void ClearShields(int i);
-	void TurnToBoiler(int i);
+	/*	void TurnToBoiler(int i);
 	void TurnToBoilerWait(int i);
 	void MoveToBoiler(int i);
 	void ShootFuel(int i);
@@ -37,9 +41,9 @@ public:
 	void AdjustOnWall(int i);
 	void ClearBoiler(int i);
 	void TurnToFront(int i);
-	void TurnToFrontWait(int i);
+	void TurnToFrontWait(int i);*/
 
-	void BlueLeft();
+	/*	void BlueLeft();
 	void BlueRight();
 	void BlueMiddle();
 	void RedLeft();
@@ -53,24 +57,29 @@ public:
 	void StupidRedRight();
 	void StupidRedMiddle();
 
-	void Stupid();
+	void Stupid();*/
+
+	void Left();
+	void Middle();
+	void Right();
 
 private:
 	Joystick &a_ButtonBox;
 	SwerveDrive &a_Drive;
 	JrimmyGyro &a_Gyro;
+	GearFlicker &a_Flicker;
 	// Shooter &a_Shooter;
 
 	bool  a_NeedsToRun[10] = {true};
 
-	float a_BaselineDistances[6] = {43.5-(CHASSIS_LENGTH_BUMPERS/2), 117.5-(CHASSIS_LENGTH_BUMPERS/2), 117.5-(CHASSIS_LENGTH_BUMPERS/2), 43-(CHASSIS_LENGTH_BUMPERS/2), 116-(CHASSIS_LENGTH_BUMPERS/2), 177.5-(CHASSIS_LENGTH_BUMPERS/2)};
+	/*	float a_BaselineDistances[6] = {43.5-(CHASSIS_LENGTH_BUMPERS/2), 117.5-(CHASSIS_LENGTH_BUMPERS/2), 117.5-(CHASSIS_LENGTH_BUMPERS/2), 43-(CHASSIS_LENGTH_BUMPERS/2), 116-(CHASSIS_LENGTH_BUMPERS/2), 177.5-(CHASSIS_LENGTH_BUMPERS/2)};
 	float a_PegAngles[6] = {60,-60, 60, -60, 0, 60};
 	float a_PegDistances[6] = {118.5-(CHASSIS_LENGTH_BUMPERS/2), 28-(CHASSIS_LENGTH_BUMPERS/2), 27.25-(CHASSIS_LENGTH_BUMPERS/2), 117.5-(CHASSIS_LENGTH_BUMPERS/2), 0, 26-(CHASSIS_LENGTH_BUMPERS/2)};
 	float a_ShieldsDistances[6] = {0, -60, -60, 0, 0, -60};
 	float a_BoilerAngles[5] = {0, 45, -45, 0, 27.97};
 	float a_BoilerDistances[5] = {0, 240-(CHASSIS_LENGTH_BUMPERS/2), 240-(CHASSIS_LENGTH_BUMPERS/2), 0, 156.259};
 	float a_WallDistances[5] = {25-(CHASSIS_WIDTH_BUMPERS/2), 0, 0, 16-(CHASSIS_WIDTH_BUMPERS/2), 0};
-	float a_FrontAngles[5] = {45, 0, 0, -45, 0};
+	float a_FrontAngles[5] = {45, 0, 0, -45, 0};*/
 
 	/*	float a_AutoInfo[8][5] = {{32.308, 105.953, 105.953, 32.308, 93.33},
 						      {60,-60, 60, -60, 0},
@@ -80,6 +89,11 @@ private:
 	                          {0, 182.83, 182.83, 0, 182.83},
 	                          {1.25, 0, 0, 1.25, 0},
 	                          {45, 0, 0, -45, 0}};*/
+
+	float a_BaselineDistances[3] = {117.5-(CHASSIS_LENGTH_BUMPERS/2),116-(CHASSIS_LENGTH_BUMPERS/2), 117.5-(CHASSIS_LENGTH_BUMPERS/2)};
+	float a_PegAngles[3] = {60,0,-60};
+	float a_PegDistances[3] = {28-(CHASSIS_LENGTH_BUMPERS/2),0, 28-(CHASSIS_LENGTH_BUMPERS/2)};
+	float a_ShieldsDistances[3] = {-40,-40,-40};
 
 	BotPosition a_BotPosition;
 	float driveDistance;
