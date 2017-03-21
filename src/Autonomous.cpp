@@ -129,8 +129,7 @@ void Autonomous::MoveToPeg(int i){
 }
 
 void Autonomous::ScoreGear(int i){
-	a_Flicker.Set(100);
-	a_Flicker.Update();
+	a_Flicker.Set(.5);
 }
 
 

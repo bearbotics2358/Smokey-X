@@ -16,9 +16,7 @@ class GearFlicker
 public:
 	GearFlicker(int TalonPort);
 	virtual ~GearFlicker() = default;
-	void Update();
 	void Set(float val);
-	float GetSpeed();
 private:
 	CANTalon a_Flicker;
 	float setVal;

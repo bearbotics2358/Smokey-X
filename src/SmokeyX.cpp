@@ -182,8 +182,6 @@ void SmokeyX::TeleopPeriodic()
 	SmartDashboard::PutNumber("ShooterTheo", 0.5  * 4500);
 	SmartDashboard::PutNumber("ShooterSpeed", a_Shooter.GetSpeed());*/
 
-	SmartDashboard::PutNumber("GearFlicker", a_Flicker.GetSpeed());
-
 	SmartDashboard::PutNumber("Gyro, yum", a_Gyro.GetAngle());
 
 	if(a_KylesSoul.GetRawButton(5)) {
@@ -226,13 +224,15 @@ void SmokeyX::TestInit()
 
 void SmokeyX::TestPeriodic()
 {
-	if(a_Joystick.GetRawButton(11)) {
+/*	if(a_Joystick.GetRawButton(11)) {
 		if (-1.0 * a_Drive.GetDistanceY() < 12) {
 			a_Drive.Update(0,-0.5,0,0);
 		}
 	}
-	SmartDashboard::PutNumber("Drive distance Y", a_Drive.GetDistanceY());
+	SmartDashboard::PutNumber("Drive distance Y", a_Drive.GetDistanceY());*/
 
+	a_Flicker.Set(a_Joystick.GetRawButton(11));
+	SmartDashboard::PutNumber("FlickerVoltage", a_Joystick.GetX());
 
 }
 

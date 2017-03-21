@@ -11,25 +11,15 @@
 GearFlicker::GearFlicker(int TalonPort)
 : a_Flicker(TalonPort)
 {
-	a_Flicker.SetControlMode(CANTalon::kSpeed);
-	a_Flicker.SetFeedbackDevice(CANTalon::CtreMagEncoder_Relative);
+	a_Flicker.SetControlMode(CANTalon::kVoltage);
 	setVal = 0;
-}
-
-void GearFlicker::Update()
-{
-	a_Flicker.Set(setVal * 260);
 }
 
 void GearFlicker::Set(float val)
 {
-	a_Flicker.Set(val * 260);
+	if (val>0){
+		a_Flicker.Set(.2);
+	}
 	setVal = val;
 }
-
-float GearFlicker::GetSpeed()
-{
-	return a_Flicker.GetSpeed();
-}
-
 
