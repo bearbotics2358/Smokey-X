@@ -34,7 +34,7 @@ SwerveModule::SwerveModule(uint32_t turnMotorPort, uint32_t driveMotorPort)
 	distanceX = 0.0;
 	distanceY = 0.0;
 	lastPos = 0.0;
-	scale = 0.031415926;
+	scale = 0.031415926 * 2 * 1.2;
 
 }
 

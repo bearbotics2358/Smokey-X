@@ -17,9 +17,12 @@ public:
 	GearFlicker(int TalonPort);
 	virtual ~GearFlicker() = default;
 	void Set(float val);
+	void Update();
 private:
 	CANTalon a_Flicker;
 	float setVal;
+	float tState;
+	float tLastSet;
 };
 
 #endif /* SRC_GEARFLICKER_H_ */

@@ -12,27 +12,27 @@
 #include "SmokeyX.h"
 
 SmokeyX::SmokeyX(void):
-		a_Joystick(JOYSTICK_PORT),
-		a_Joystick2(JOYSTICKTWO_PORT),
-		a_KylesSoul(BUTTON_BOX_PORT),
-		a_PDP(PDP_PORT),
-		// a_Compressor(PCM_PORT),
-		a_FrontRight(FRONT_RIGHT_TURN, FRONT_RIGHT_MOVE),
-		a_FrontLeft(FRONT_LEFT_TURN, FRONT_LEFT_MOVE),
-		a_BackLeft(BACK_LEFT_TURN, BACK_LEFT_MOVE),
-		a_BackRight(BACK_RIGHT_TURN, BACK_RIGHT_MOVE),
-		a_Drive(a_FrontRight, a_FrontLeft, a_BackLeft, a_BackRight, CHASSIS_LENGTH, CHASSIS_WIDTH),
-		// a_Shooter(SHOOTER),
-		// a_Collector(COLLECTOR_ONE, COLLECTOR_TWO),
-		// a_Impeller(IMPELLER_PORT),
-		a_Lifter(CLIMBER_PORT),
-		a_Flicker(GEARFLICKER_PORT),
-		a_LRC(),
-		a_Accelerometer(I2C::kMXP,ADXL345_I2C::kRange_2G,0x53), // was 0x1D
-		a_Gyro(I2C::kMXP),
-		a_MQTT("RIOclient", "localhost", 1183),
-		a_Autonomous(a_KylesSoul, a_Drive, a_Gyro, a_Flicker/*, a_Shooter*/)
-		// a_Ultrasonic(9600,SerialPort::kOnboard,8,SerialPort::kParity_None, SerialPort::kStopBits_One)
+a_Joystick(JOYSTICK_PORT),
+a_Joystick2(JOYSTICKTWO_PORT),
+a_KylesSoul(BUTTON_BOX_PORT),
+a_PDP(PDP_PORT),
+// a_Compressor(PCM_PORT),
+a_FrontRight(FRONT_RIGHT_TURN, FRONT_RIGHT_MOVE),
+a_FrontLeft(FRONT_LEFT_TURN, FRONT_LEFT_MOVE),
+a_BackLeft(BACK_LEFT_TURN, BACK_LEFT_MOVE),
+a_BackRight(BACK_RIGHT_TURN, BACK_RIGHT_MOVE),
+a_Drive(a_FrontRight, a_FrontLeft, a_BackLeft, a_BackRight, CHASSIS_LENGTH, CHASSIS_WIDTH),
+// a_Shooter(SHOOTER),
+// a_Collector(COLLECTOR_ONE, COLLECTOR_TWO),
+// a_Impeller(IMPELLER_PORT),
+a_Lifter(CLIMBER_PORT),
+a_Flicker(GEARFLICKER_PORT),
+a_LRC(),
+a_Accelerometer(I2C::kMXP,ADXL345_I2C::kRange_2G,0x53), // was 0x1D
+a_Gyro(I2C::kMXP),
+a_MQTT("RIOclient", "localhost", 1183),
+a_Autonomous(a_KylesSoul, a_Drive, a_Gyro, a_Flicker/*, a_Shooter*/)
+// a_Ultrasonic(9600,SerialPort::kOnboard,8,SerialPort::kParity_None, SerialPort::kStopBits_One)
 {
 	const char *commandString = "~/mosquitto -p 1183 &";
 	int q = system(commandString);
@@ -72,6 +72,8 @@ void SmokeyX::DisabledPeriodic()
 {
 	a_Autonomous.Init();
 
+	SmartDashboard::PutNumber("Vision Distance:", a_MQTT.GetDistance());
+
 	a_Drive.Update(0,0,0,0);
 	a_Lifter.Set(0);
 	SmartDashboard::PutNumber("gyro reg 0", a_Gyro.GetReg0());
@@ -100,7 +102,7 @@ void SmokeyX::DisabledPeriodic()
 	a_Ultrasonic.Read(buffer,6);
 	SmartDashboard::PutString("Ultrasonic", buffer);
 	printf("Ultrasonic:: %s\n", buffer);
-	*/
+	 */
 
 	// SmartDashboard::PutNumber("a_Ultrasonic", a_Ultrasonic.GetDistanceIn()); // will test monday
 
@@ -118,19 +120,19 @@ void SmokeyX::AutonomousPeriodic()
 {
 	if(a_KylesSoul.GetRawButton(7)) {
 		a_Autonomous.Update();
-	 }
-	 SmartDashboard::PutNumber("Drive distance Y", a_Drive.GetDistanceY());
-	 SmartDashboard::PutNumber("Back Left", a_BackLeft.GetDistanceY());
-	 SmartDashboard::PutNumber("Back Right",a_BackRight.GetDistanceY());
-	 SmartDashboard::PutNumber("Front Left", a_FrontLeft.GetDistanceY());
-	 SmartDashboard::PutNumber("Front Right",  a_FrontRight.GetDistanceY());
+	}
+	SmartDashboard::PutNumber("Drive distance Y", a_Drive.GetDistanceY());
+	SmartDashboard::PutNumber("Back Left", a_BackLeft.GetDistanceY());
+	SmartDashboard::PutNumber("Back Right",a_BackRight.GetDistanceY());
+	SmartDashboard::PutNumber("Front Left", a_FrontLeft.GetDistanceY());
+	SmartDashboard::PutNumber("Front Right",  a_FrontRight.GetDistanceY());
 
 
 }
 
 void SmokeyX::TeleopInit()
 {
-	a_Gyro.Cal();
+
 }
 
 void SmokeyX::TeleopPeriodic()
@@ -165,18 +167,23 @@ void SmokeyX::TeleopPeriodic()
 		a_Joystick2.SetRumble(GenericHID::RumbleType::kRightRumble, 0);
 	}
 
-/*	a_Impeller.Update();
+	/*	a_Impeller.Update();
 	if(a_Joystick2.GetRawAxis(3)) {
 		a_Impeller.Set(-1);
 	} else {
 		a_Impeller.Set(0);
 	}*/
 
+	a_Flicker.Update();
+	if(a_Joystick2.GetRawAxis(3) > 0.9) {
+		a_Flicker.Set(-1);
+	}
+
 	if(a_Joystick.GetRawButton(1)) {
 		a_Gyro.Cal();
 	}
 
-/*	SmartDashboard::PutNumber("ImpellerTheo", -260 / 2);
+	/*	SmartDashboard::PutNumber("ImpellerTheo", -260 / 2);
 	SmartDashboard::PutNumber("ImpellerSpeed", a_Impeller.GetSpeed());
 
 	SmartDashboard::PutNumber("ShooterTheo", 0.5  * 4500);
@@ -186,16 +193,16 @@ void SmokeyX::TeleopPeriodic()
 
 	if(a_KylesSoul.GetRawButton(5)) {
 		if(a_Joystick.GetRawButton(2)) {
-				a_Drive.Update(a_Joystick.GetX() / 10.0,a_Joystick.GetY() / 10.0,a_Joystick.GetZ() / 20.0,a_Gyro.GetAngle());
-			} else {
-				a_Drive.Update(a_Joystick.GetX(),a_Joystick.GetY(),a_Joystick.GetZ(),a_Gyro.GetAngle());
-			}
+			a_Drive.Update(a_Joystick.GetX() / 10.0,a_Joystick.GetY() / 10.0,a_Joystick.GetZ() / 20.0,a_Gyro.GetAngle());
+		} else {
+			a_Drive.Update(a_Joystick.GetX(),a_Joystick.GetY(),a_Joystick.GetZ() / 2,a_Gyro.GetAngle());
+		}
 	} else {
 		if(a_Joystick.GetRawButton(2)) {
-				a_Drive.Update(a_Joystick.GetX() / 10.0,a_Joystick.GetY() / 10.0,a_Joystick.GetZ() / 20.0,0.0);
-			} else {
-				a_Drive.Update(a_Joystick.GetX(),a_Joystick.GetY(),a_Joystick.GetZ(),0.0);
-			}
+			a_Drive.Update(a_Joystick.GetX() / 10.0,a_Joystick.GetY() / 10.0,a_Joystick.GetZ() / 20.0,0.0);
+		} else {
+			a_Drive.Update(a_Joystick.GetX(),a_Joystick.GetY(),a_Joystick.GetZ() / 2,0.0);
+		}
 	}
 
 
@@ -213,7 +220,7 @@ void SmokeyX::TeleopPeriodic()
 	SmartDashboard::PutNumber("Back Right Speed", a_BackRight.GetSpeed());
 	SmartDashboard::PutNumber("Back Left Speed", a_BackLeft.GetSpeed());
 
-	// SmartDashboard::PutNumber("Vision Distance:", a_MQTT.GetDistance());
+	SmartDashboard::PutNumber("Vision Distance:", a_MQTT.GetDistance());
 }
 
 
@@ -224,16 +231,12 @@ void SmokeyX::TestInit()
 
 void SmokeyX::TestPeriodic()
 {
-/*	if(a_Joystick.GetRawButton(11)) {
-		if (-1.0 * a_Drive.GetDistanceY() < 12) {
+	if(a_Joystick.GetRawButton(11)) {
+		if (a_Drive.GetDistanceY() < 12) {
 			a_Drive.Update(0,-0.5,0,0);
 		}
 	}
-	SmartDashboard::PutNumber("Drive distance Y", a_Drive.GetDistanceY());*/
-
-	a_Flicker.Set(a_Joystick.GetRawButton(11));
-	SmartDashboard::PutNumber("FlickerVoltage", a_Joystick.GetX());
-
+	SmartDashboard::PutNumber("Drive distance Y", a_Drive.GetDistanceY());
 }
 
 START_ROBOT_CLASS(SmokeyX);

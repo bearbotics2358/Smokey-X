@@ -48,6 +48,7 @@ SwerveDrive::SwerveDrive(SwerveModule &FR, SwerveModule &FL, SwerveModule &BL, S
 	a_ControlTypeChooser.AddObject(CONTROL_TYPE_SIMPLE_DRIVE_KEY, CONTROL_TYPE_SIMPLE_DRIVE_KEY);
 	a_ControlTypeChooser.AddObject(CONTROL_TYPE_TANK_KEY, CONTROL_TYPE_TANK_KEY);
 	a_ControlTypeChooser.AddObject(CONTROL_TYPE_FL_TURN_KEY, CONTROL_TYPE_FL_TURN_KEY);
+	a_ControlTypeChooser.AddObject(CONTROL_TYPE_FR_TURN_KEY, CONTROL_TYPE_FR_TURN_KEY);
 };
 
 void SwerveDrive::Init()

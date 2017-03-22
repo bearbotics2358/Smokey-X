@@ -129,11 +129,13 @@ void Autonomous::MoveToPeg(int i){
 }
 
 void Autonomous::ScoreGear(int i){
-	a_Flicker.Set(.5);
+	a_Flicker.Set(-1);
+	a_Flicker.Update();
 }
 
 
 void Autonomous::ClearShields(int i){
+	a_Flicker.Update();
 	driveDistance = a_Drive.GetDistanceY();
 	if (driveDistance > a_ShieldsDistances[a_BotPosition]) {
 		a_Drive.Update(0,0.5,0,0);
