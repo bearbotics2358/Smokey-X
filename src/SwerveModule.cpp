@@ -100,6 +100,7 @@ void SwerveModule::ResetDistances()
 {
 	ResetDistanceX();
 	ResetDistanceY();
+	a_DriveMotor.SetEncPosition(0);
 }
 
 void SwerveModule::InvertQuad()

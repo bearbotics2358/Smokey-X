@@ -1,11 +1,16 @@
 #include "Autonomous.h"
+#include <WPILib.h>
+#include "Prefs.h"
+#include "SwerveDrive.h"
+#include "JrimmyGyro.h"
+#include "GearFlicker.h"
 
 Autonomous::Autonomous(Joystick &buttonBox, SwerveDrive &Drive, JrimmyGyro &Gyro, GearFlicker &Flicker/*, Shooter &Shooter*/)
 : a_ButtonBox(buttonBox),
   a_Drive(Drive),
   a_Gyro(Gyro),
   a_Flicker(Flicker),
-//  a_Shooter(Shooter),
+  //  a_Shooter(Shooter),
   a_BotPosition(kMiddle)
 {
 	driveDistance = 0;
@@ -19,7 +24,7 @@ void Autonomous::Init()
 	// regular = true;
 	// stupid = false;
 
-/*	if(a_ButtonBox.GetRawButton(7)){
+	/*	if(a_ButtonBox.GetRawButton(7)){
 		level = true;
 	}else{
 		level = false;
@@ -38,7 +43,9 @@ void Autonomous::Init()
 		midPos = true;
 	}*/
 
-
+	for(int i = 0; i < 10; i ++) {
+		a_NeedsToRun[i] = true;
+	}
 
 	a_Drive.Zero();
 }
@@ -55,7 +62,7 @@ void Autonomous::Update(){
 		Right();
 	}
 
-/*	if(leftPos&&side&&level){
+	/*	if(leftPos&&side&&level){
 		// a_Shooter.Set(0.75);
 		BlueLeft();
 	}else if(leftPos&&!side&&level){
@@ -95,8 +102,8 @@ void Autonomous::Update(){
 
 void Autonomous::MoveToBaseline(int i){
 	driveDistance = a_Drive.GetDistanceY();
-	if (-1.0 * driveDistance < a_BaselineDistances[a_BotPosition]) {
-		a_Drive.Update(0,-0.5,0,0);
+	if (fabs(driveDistance) < a_BaselineDistances[a_BotPosition]) {
+		a_Drive.Update(0,-0.25,0,0);
 	} else {
 		a_Drive.Update(0,0,0,0);
 		a_NeedsToRun[i] = false;
@@ -104,15 +111,17 @@ void Autonomous::MoveToBaseline(int i){
 }
 
 void Autonomous::TurnToPeg(int i){
-	a_Drive.SetTwistingRelAngle(a_Gyro.GetAngle(),a_PegAngles[a_BotPosition]);
-	a_NeedsToRun[i] = false;
+	if (fabs(a_Gyro.GetAngle() - a_PegAngles[a_BotPosition]) >3 ) {
+		a_Drive.Update(0,0,0.125 * (a_PegAngles[a_BotPosition] - a_Gyro.GetAngle()) / fabs(a_PegAngles[a_BotPosition] - a_Gyro.GetAngle()) ,0);
+	} else {
+		a_Drive.Update(0,0,0,0);
+		a_NeedsToRun[i] = false;
+	}
+	tState = Timer::GetFPGATimestamp();
 }
 
 void Autonomous::TurnToPegWait(int i) {
-	if(fabs(a_Gyro.GetAngle()) - fabs(a_PegAngles[a_BotPosition]) >3 ) {
-		a_Drive.Update(0,0,0,a_Gyro.GetAngle());
-	} else {
-		a_Drive.DisableTwist();
+	if(Timer::GetFPGATimestamp() - tState > 0.5) {
 		a_NeedsToRun[i] = false;
 		a_Drive.Zero();
 	}
@@ -120,8 +129,8 @@ void Autonomous::TurnToPegWait(int i) {
 
 void Autonomous::MoveToPeg(int i){
 	driveDistance = a_Drive.GetDistanceY();
-	if (driveDistance < a_PegDistances[a_BotPosition]) {
-		a_Drive.Update(0,0.5,0,0);
+	if (fabs(driveDistance) < a_PegDistances[a_BotPosition]) {
+		a_Drive.Update(0,-0.25,0,0);
 	} else {
 		a_NeedsToRun[i] = false;
 	}
@@ -131,6 +140,7 @@ void Autonomous::MoveToPeg(int i){
 void Autonomous::ScoreGear(int i){
 	a_Flicker.Set(-1);
 	a_Flicker.Update();
+	a_NeedsToRun[i] = false;
 }
 
 
@@ -646,7 +656,7 @@ void Autonomous::StupidRedMiddle(){
 	//	}
 
 }
-*/
+ */
 
 
 /*void Autonomous::Stupid(){

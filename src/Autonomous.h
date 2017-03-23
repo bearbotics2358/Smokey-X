@@ -90,9 +90,9 @@ private:
 	                          {1.25, 0, 0, 1.25, 0},
 	                          {45, 0, 0, -45, 0}};*/
 
-	float a_BaselineDistances[3] = {117.5-(CHASSIS_LENGTH_BUMPERS/2),116-(CHASSIS_LENGTH_BUMPERS/2), 117.5-(CHASSIS_LENGTH_BUMPERS/2)};
+	float a_BaselineDistances[3] = {110-(CHASSIS_LENGTH_BUMPERS / 2),110-(CHASSIS_LENGTH_BUMPERS / 2), 113-(CHASSIS_LENGTH_BUMPERS / 2)};
 	float a_PegAngles[3] = {60,0,-60};
-	float a_PegDistances[3] = {28-(CHASSIS_LENGTH_BUMPERS/2),0, 28-(CHASSIS_LENGTH_BUMPERS/2)};
+	float a_PegDistances[3] = {30-(CHASSIS_LENGTH_BUMPERS/2),0, 30-(CHASSIS_LENGTH_BUMPERS/2)};
 	float a_ShieldsDistances[3] = {-40,-40,-40};
 
 	BotPosition a_BotPosition;

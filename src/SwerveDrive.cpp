@@ -80,8 +80,8 @@ void SwerveDrive::Update(float XIn, float YIn, float ZIn, float gyroValue)
 	// float kJoystickDeadzone = 0.1;
 	// float range = 1 - kJoystickDeadzone;
 	float zInput = ZIn; // Rotation Clockwise
-	float xInput = XIn; // Strafe
-	float yInput = -1.0 * YIn; // Forward
+	float xInput = -1.0 * XIn; // Strafe
+	float yInput = YIn; // Forward
 
 	//	if(fabs(zInput) < kJoystickDeadzone + 0.1) {
 	//		zInput = 0;
@@ -114,7 +114,7 @@ void SwerveDrive::Update(float XIn, float YIn, float ZIn, float gyroValue)
 	float diff = fabs(gyroValue - turnAngle);
 
 	std::string controlType;
-
+	SmartDashboard::PutData(CONTROL_TYPE_KEY, &a_ControlTypeChooser);
 	controlType = a_ControlTypeChooser.GetSelected();
 
 	if (controlType == "") {

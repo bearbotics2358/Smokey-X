@@ -78,9 +78,9 @@ void SmokeyX::DisabledPeriodic()
 	a_Lifter.Set(0);
 	SmartDashboard::PutNumber("gyro reg 0", a_Gyro.GetReg0());
 
-	a_LRC.SetColor(0,0,0,0);
-	a_LRC.SetColor(1,0,0,0);
-	a_LRC.SetColor(2,0,0,0);
+	a_LRC.SetColor(0,0,100,0);
+	a_LRC.SetColor(1,0,100,0);
+	a_LRC.SetColor(2,0,100,0);
 	SmartDashboard::PutNumber("Gyro, yum", a_Gyro.GetAngle());
 	if(a_Joystick.GetRawButton(1)) {
 		a_Gyro.Cal();
@@ -140,9 +140,9 @@ void SmokeyX::TeleopPeriodic()
 	SmartDashboard::PutNumber("Accelerometer X", a_Accelerometer.GetX());
 	SmartDashboard::PutNumber("Accelerometer Y", a_Accelerometer.GetY());
 	SmartDashboard::PutNumber("Accelerometer Z", a_Accelerometer.GetZ());
-	a_LRC.SetColor(0,0,60,0);
-	a_LRC.SetColor(1,0,60,0);
-	a_LRC.SetColor(2,0,60,0);
+	a_LRC.SetColor(0,0,100,0);
+	a_LRC.SetColor(1,0,100,0);
+	a_LRC.SetColor(2,0,100,0);
 
 	if(a_Joystick.GetRawButton(7)) {
 		a_Drive.Zero();
@@ -191,18 +191,23 @@ void SmokeyX::TeleopPeriodic()
 
 	SmartDashboard::PutNumber("Gyro, yum", a_Gyro.GetAngle());
 
-	if(a_KylesSoul.GetRawButton(5)) {
-		if(a_Joystick.GetRawButton(2)) {
-			a_Drive.Update(a_Joystick.GetX() / 10.0,a_Joystick.GetY() / 10.0,a_Joystick.GetZ() / 20.0,a_Gyro.GetAngle());
-		} else {
-			a_Drive.Update(a_Joystick.GetX(),a_Joystick.GetY(),a_Joystick.GetZ() / 2,a_Gyro.GetAngle());
-		}
+	float divider = 1;
+	if(a_Joystick.GetRawButton(2)) {
+		divider = 10;
 	} else {
-		if(a_Joystick.GetRawButton(2)) {
-			a_Drive.Update(a_Joystick.GetX() / 10.0,a_Joystick.GetY() / 10.0,a_Joystick.GetZ() / 20.0,0.0);
-		} else {
-			a_Drive.Update(a_Joystick.GetX(),a_Joystick.GetY(),a_Joystick.GetZ() / 2,0.0);
-		}
+		divider = 1;
+	}
+
+	if(a_Joystick.GetRawButton(3)) {
+		a_Drive.Update(a_MQTT.GetAngle() / 60, a_Joystick.GetY() / 2, 0, 0);
+	} else if(a_KylesSoul.GetRawButton(5)) {
+		a_Drive.Update(a_Joystick.GetX() / divider,a_Joystick.GetY() / divider,a_Joystick.GetZ() / (divider * 2),a_Gyro.GetAngle());
+	} else {
+		a_Drive.Update(a_Joystick.GetX() / divider,a_Joystick.GetY() / divider,a_Joystick.GetZ() / (divider * 2),0.0);
+	}
+
+	if(a_KylesSoul.GetRawButton(1)) {
+		a_MQTT.loop_stop();
 	}
 
 
