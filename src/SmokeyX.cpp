@@ -31,7 +31,7 @@ a_LRC(),
 a_Accelerometer(I2C::kMXP,ADXL345_I2C::kRange_2G,0x53), // was 0x1D
 a_Gyro(I2C::kMXP),
 a_MQTT("RIOclient", "localhost", 1183),
-a_Autonomous(a_KylesSoul, a_Drive, a_Gyro, a_Flicker/*, a_Shooter*/)
+a_Autonomous(a_KylesSoul, a_Drive, a_Gyro, a_Flicker, a_MQTT/*, a_Shooter*/)
 // a_Ultrasonic(9600,SerialPort::kOnboard,8,SerialPort::kParity_None, SerialPort::kStopBits_One)
 {
 	const char *commandString = "~/mosquitto -p 1183 &";
@@ -54,7 +54,7 @@ void SmokeyX::RobotInit()
 void SmokeyX::RobotPeriodic()
 {
 	a_Gyro.Update();
-	printf("Gyro Value: %f\n", a_Gyro.GetAngle());
+	// printf("Gyro Value: %f\n", a_Gyro.GetAngle());
 	a_Accelerometer.GetAccelerations();
 
 	if(a_Joystick.GetRawButton(6)) {
@@ -199,7 +199,7 @@ void SmokeyX::TeleopPeriodic()
 	}
 
 	if(a_Joystick.GetRawButton(3)) {
-		a_Drive.Update(a_MQTT.GetAngle() / 60, a_Joystick.GetY() / 2, 0, 0);
+		a_Drive.Update(a_MQTT.GetAngle() * 0.8, a_Joystick.GetY() / 2, 0, 0);
 	} else if(a_KylesSoul.GetRawButton(5)) {
 		a_Drive.Update(a_Joystick.GetX() / divider,a_Joystick.GetY() / divider,a_Joystick.GetZ() / (divider * 2),a_Gyro.GetAngle());
 	} else {

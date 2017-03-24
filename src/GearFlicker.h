@@ -19,9 +19,8 @@ public:
 	void Set(float val);
 	void Update();
 private:
-	CANTalon a_Flicker;
+	CANTalon a_GearFlicker;
 	float setVal;
-	float tState;
 	float tLastSet;
 };
 

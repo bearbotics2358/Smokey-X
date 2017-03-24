@@ -6,6 +6,7 @@
 #include "SwerveDrive.h"
 #include "JrimmyGyro.h"
 #include "GearFlicker.h"
+#include "VisionSquitto.h"
 // #include "Shooter.h"
 
 enum BotPosition {
@@ -23,7 +24,7 @@ enum BotPosition {
 class Autonomous {
 
 public:
-	Autonomous(Joystick &buttonBox, SwerveDrive &SwerveDrive, JrimmyGyro &Gyro, GearFlicker &Flicker/*, Shooter &Shooter*/);
+	Autonomous(Joystick &buttonBox, SwerveDrive &SwerveDrive, JrimmyGyro &Gyro, GearFlicker &Flicker, VisionSquitto &MQTT/*, Shooter &Shooter*/);
 	virtual ~Autonomous() = default;
 	void Init();
 	void Update();
@@ -33,6 +34,8 @@ public:
 	void TurnToPegWait(int i);
 	void MoveToPeg(int i);
 	void ScoreGear(int i);
+	void MoveToPegWithVision(int i);
+
 	/*	void ClearShields(int i);
 	void TurnToBoiler(int i);
 	void TurnToBoilerWait(int i);
@@ -69,6 +72,7 @@ private:
 	SwerveDrive &a_Drive;
 	JrimmyGyro &a_Gyro;
 	GearFlicker &a_Flicker;
+	VisionSquitto &a_MQTT;
 	// Shooter &a_Shooter;
 
 	bool  a_NeedsToRun[10] = {true};

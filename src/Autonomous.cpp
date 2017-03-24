@@ -4,12 +4,14 @@
 #include "SwerveDrive.h"
 #include "JrimmyGyro.h"
 #include "GearFlicker.h"
+#include "VisionSquitto.h"
 
-Autonomous::Autonomous(Joystick &buttonBox, SwerveDrive &Drive, JrimmyGyro &Gyro, GearFlicker &Flicker/*, Shooter &Shooter*/)
+Autonomous::Autonomous(Joystick &buttonBox, SwerveDrive &Drive, JrimmyGyro &Gyro, GearFlicker &Flicker, VisionSquitto &MQTT)
 : a_ButtonBox(buttonBox),
   a_Drive(Drive),
   a_Gyro(Gyro),
   a_Flicker(Flicker),
+  a_MQTT(MQTT),
   //  a_Shooter(Shooter),
   a_BotPosition(kMiddle)
 {
@@ -132,6 +134,7 @@ void Autonomous::TurnToPegWait(int i) {
 	if(Timer::GetFPGATimestamp() - tState > 0.5) {
 		a_NeedsToRun[i] = false;
 		a_Drive.Zero();
+		driveDistance = 0;
 		tState = Timer::GetFPGATimestamp();
 	}
 }
@@ -141,14 +144,28 @@ void Autonomous::MoveToPeg(int i){
 		(Timer::GetFPGATimestamp() - tState < 5)) {
 		a_Drive.Update(0,-0.25,0,0);
 	} else {
+		a_Drive.Update(0,0,0,0);
 		a_NeedsToRun[i] = false;
 		tState = Timer::GetFPGATimestamp();
+		printf("starting to move the flicker");
 	}
 }
 
 void Autonomous::ScoreGear(int i){
 	a_Flicker.Set(-1);
 	a_NeedsToRun[i] = false;
+}
+
+void Autonomous::MoveToPegWithVision(int i) {
+	if (fabs(driveDistance) < a_PegDistances[a_BotPosition] &&
+			(Timer::GetFPGATimestamp() - tState < 5)) {
+		a_Drive.Update(a_MQTT.GetAngle() / 60,-0.25,0,0);
+	} else {
+		a_Drive.Update(0,0,0,0);
+		a_NeedsToRun[i] = false;
+		tState = Timer::GetFPGATimestamp();
+		printf("starting to move the flicker");
+	}
 }
 
 
@@ -700,10 +717,12 @@ void Autonomous::Left(){
 		MoveToPeg(4);
 		return;
 	}
+	/*
 	if(a_NeedsToRun[5]) {
 		ScoreGear(5);
 		return;
 	}
+	*/
 }
 
 void Autonomous::Middle(){
@@ -720,10 +739,12 @@ void Autonomous::Middle(){
 		MoveToBaseline(1);
 		return;
 	}
+	/*
 	if(a_NeedsToRun[2]) {
 		ScoreGear(2);
 		return;
 	}
+	*/
 }
 
 void Autonomous::Right(){
@@ -752,10 +773,12 @@ void Autonomous::Right(){
 		MoveToPeg(4);
 		return;
 	}
+	/*
 	if(a_NeedsToRun[5]) {
 		ScoreGear(5);
 		return;
 	}
+	*/
 }
 
 
