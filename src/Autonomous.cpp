@@ -15,6 +15,7 @@ Autonomous::Autonomous(Joystick &buttonBox, SwerveDrive &Drive, JrimmyGyro &Gyro
 {
 	driveDistance = 0;
 	tState = 0;
+	gyroAngle = 0;
 }
 
 void Autonomous::Init()
@@ -100,59 +101,65 @@ void Autonomous::Update(){
 
 }
 
+void Autonomous::SetTimer(int i){
+	tState = Timer::GetFPGATimestamp();
+	a_NeedsToRun[i] = false;
+}
+
 void Autonomous::MoveToBaseline(int i){
-	driveDistance = a_Drive.GetDistanceY();
-	if (fabs(driveDistance) < a_BaselineDistances[a_BotPosition]) {
+	if ((fabs(driveDistance) < a_BaselineDistances[a_BotPosition]) &&
+		(Timer::GetFPGATimestamp() - tState < 5)) {
 		a_Drive.Update(0,-0.25,0,0);
 	} else {
 		a_Drive.Update(0,0,0,0);
 		a_NeedsToRun[i] = false;
 	}
+
 }
 
 void Autonomous::TurnToPeg(int i){
-	if (fabs(a_Gyro.GetAngle() - a_PegAngles[a_BotPosition]) >3 ) {
-		a_Drive.Update(0,0,0.125 * (a_PegAngles[a_BotPosition] - a_Gyro.GetAngle()) / fabs(a_PegAngles[a_BotPosition] - a_Gyro.GetAngle()) ,0);
+	if (fabs(gyroAngle - a_PegAngles[a_BotPosition]) > 3 ) {
+		float sign = (a_PegAngles[a_BotPosition] - gyroAngle > 0) ? 1.0 : -1.0;
+		a_Drive.Update(0,0,0.125 * sign,0);
 	} else {
 		a_Drive.Update(0,0,0,0);
 		a_NeedsToRun[i] = false;
+		tState = Timer::GetFPGATimestamp();
 	}
-	tState = Timer::GetFPGATimestamp();
 }
 
 void Autonomous::TurnToPegWait(int i) {
 	if(Timer::GetFPGATimestamp() - tState > 0.5) {
 		a_NeedsToRun[i] = false;
 		a_Drive.Zero();
+		tState = Timer::GetFPGATimestamp();
 	}
 }
 
 void Autonomous::MoveToPeg(int i){
-	driveDistance = a_Drive.GetDistanceY();
-	if (fabs(driveDistance) < a_PegDistances[a_BotPosition]) {
+	if (fabs(driveDistance) < a_PegDistances[a_BotPosition] &&
+		(Timer::GetFPGATimestamp() - tState < 5)) {
 		a_Drive.Update(0,-0.25,0,0);
 	} else {
 		a_NeedsToRun[i] = false;
+		tState = Timer::GetFPGATimestamp();
 	}
-	tState = Timer::GetFPGATimestamp();
 }
 
 void Autonomous::ScoreGear(int i){
 	a_Flicker.Set(-1);
-	a_Flicker.Update();
 	a_NeedsToRun[i] = false;
 }
 
 
-void Autonomous::ClearShields(int i){
-	a_Flicker.Update();
+/*void Autonomous::ClearShields(int i){
 	driveDistance = a_Drive.GetDistanceY();
 	if (driveDistance > a_ShieldsDistances[a_BotPosition]) {
 		a_Drive.Update(0,0.5,0,0);
 	} else {
 		a_NeedsToRun[i] = false;
 	}
-}
+}*/
 
 /*
 void Autonomous::TurnToBoiler(int i){
@@ -670,85 +677,85 @@ void Autonomous::StupidRedMiddle(){
 void Autonomous::Left(){
 	a_BotPosition = kleft;
 	driveDistance = a_Drive.GetDistanceY();
+	gyroAngle = a_Gyro.GetAngle();
+	a_Flicker.Update();
+
 	if(a_NeedsToRun[0]) {
-		MoveToBaseline(0);
+		SetTimer(0);
 		return;
 	}
 	if(a_NeedsToRun[1]) {
-		TurnToPeg(1);
+		MoveToBaseline(1);
 		return;
 	}
 	if(a_NeedsToRun[2]) {
-		TurnToPegWait(2);
+		TurnToPeg(2);
 		return;
 	}
 	if(a_NeedsToRun[3]) {
-		MoveToPeg(3);
+		TurnToPegWait(3);
 		return;
 	}
 	if(a_NeedsToRun[4]) {
-		ScoreGear(4);
+		MoveToPeg(4);
 		return;
 	}
 	if(a_NeedsToRun[5]) {
-		ClearShields(5);
+		ScoreGear(5);
 		return;
 	}
-
 }
 
 void Autonomous::Middle(){
 	a_BotPosition = kMiddle;
-
 	driveDistance = a_Drive.GetDistanceY();
+	gyroAngle = a_Gyro.GetAngle();
+	a_Flicker.Update();
+
 	if(a_NeedsToRun[0]) {
-		MoveToBaseline(0);
+		SetTimer(0);
 		return;
 	}
 	if(a_NeedsToRun[1]) {
-		TurnToPeg(1);
+		MoveToBaseline(1);
 		return;
 	}
-	if(a_NeedsToRun[4]) {
-		ScoreGear(4);
+	if(a_NeedsToRun[2]) {
+		ScoreGear(2);
 		return;
 	}
-	if(a_NeedsToRun[5]) {
-		ClearShields(5);
-		return;
-	}
-
 }
 
 void Autonomous::Right(){
 	a_BotPosition = kRight;
-
 	driveDistance = a_Drive.GetDistanceY();
+	gyroAngle = a_Gyro.GetAngle();
+	a_Flicker.Update();
+
 	if(a_NeedsToRun[0]) {
-		MoveToBaseline(0);
+		SetTimer(0);
 		return;
 	}
 	if(a_NeedsToRun[1]) {
-		TurnToPeg(1);
+		MoveToBaseline(1);
 		return;
 	}
 	if(a_NeedsToRun[2]) {
-		TurnToPegWait(2);
+		TurnToPeg(2);
 		return;
 	}
 	if(a_NeedsToRun[3]) {
-		MoveToPeg(3);
+		TurnToPegWait(3);
 		return;
 	}
 	if(a_NeedsToRun[4]) {
-		ScoreGear(4);
+		MoveToPeg(4);
 		return;
 	}
 	if(a_NeedsToRun[5]) {
-		ClearShields(5);
+		ScoreGear(5);
 		return;
 	}
-
 }
 
 

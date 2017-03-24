@@ -27,13 +27,14 @@ public:
 	virtual ~Autonomous() = default;
 	void Init();
 	void Update();
+	void SetTimer(int i);
 	void MoveToBaseline(int i);
 	void TurnToPeg(int i);
 	void TurnToPegWait(int i);
 	void MoveToPeg(int i);
 	void ScoreGear(int i);
-	void ClearShields(int i);
-	/*	void TurnToBoiler(int i);
+	/*	void ClearShields(int i);
+	void TurnToBoiler(int i);
 	void TurnToBoilerWait(int i);
 	void MoveToBoiler(int i);
 	void ShootFuel(int i);
@@ -90,13 +91,13 @@ private:
 	                          {1.25, 0, 0, 1.25, 0},
 	                          {45, 0, 0, -45, 0}};*/
 
-	float a_BaselineDistances[3] = {110-(CHASSIS_LENGTH_BUMPERS / 2),110-(CHASSIS_LENGTH_BUMPERS / 2), 113-(CHASSIS_LENGTH_BUMPERS / 2)};
+	float a_BaselineDistances[3] = {81.105-(CHASSIS_LENGTH_BUMPERS / 2),108-(CHASSIS_LENGTH_BUMPERS / 2), 81.105-(CHASSIS_LENGTH_BUMPERS / 2)};
 	float a_PegAngles[3] = {60,0,-60};
-	float a_PegDistances[3] = {30-(CHASSIS_LENGTH_BUMPERS/2),0, 30-(CHASSIS_LENGTH_BUMPERS/2)};
-	float a_ShieldsDistances[3] = {-40,-40,-40};
+	float a_PegDistances[3] = {74.87-(CHASSIS_LENGTH_BUMPERS/2),0, 74.87-(CHASSIS_LENGTH_BUMPERS/2)};
 
 	BotPosition a_BotPosition;
 	float driveDistance;
+	float gyroAngle;
 	float tState;
 
 	bool side = false;
