@@ -631,7 +631,7 @@ void SwerveDrive::Update(float XIn, float YIn, float ZIn, float gyroValue)
 	a_FrontRight.Update(frAngle, frSpeed, FRONT_RIGHT_TURN_OFFSET, gyroValue);
 	a_FrontLeft.Update(flAngle, flSpeed, FRONT_LEFT_TURN_OFFSET, gyroValue);
 	a_BackLeft.Update(blAngle, blSpeed, BACK_LEFT_TURN_OFFSET, gyroValue);
-	a_BackRight.Update(brAngle, brSpeed, 180 , gyroValue);
+	a_BackRight.Update(brAngle, brSpeed, BACK_RIGHT_TURN_OFFSET, gyroValue);
 }
 
 float SwerveDrive::GetDistanceY() // on a roughly square robot an average of all distances traveled should roughly be the distance the c.o.m. traveled

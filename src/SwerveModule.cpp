@@ -59,7 +59,7 @@ void SwerveModule::Update(float angle, float speed, float offset, float gyroValu
 		speed *= -1.0;
 	}
 	*/
-
+	// printf("The motor should be at speed: %f\n", speed);
 	a_TurnMotor.Set((angle + offset) * ABSOLUTE_CONV_FACTOR);
 	a_DriveMotor.Set(speed * MAX_RPM); // argument is in rpms, as we configgurqyetsled the encoder codes per rev
 	lastPos = currentPos;

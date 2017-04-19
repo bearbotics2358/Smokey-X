@@ -17,10 +17,10 @@
 #include "SwerveDrive.h"
 #include "SmartDashboard/SmartDashboard.h"
 #include "SmartDashboard/SendableChooser.h"
-// #include "Collector.h"
-// #include "Impeller.h"
-// #include "Shooter.h"
-#include "GearFlicker.h"
+#include "Collector.h"
+#include "Impeller.h"
+#include "Shooter.h"
+// #include "GearFlicker.h"
 #include "LightRingController.h"
 #include "SerialUltrasonic.h"
 #include "VisionSquitto.h"
@@ -58,15 +58,15 @@ private:
 
 	SwerveDrive a_Drive;
 
-	// Shooter a_Shooter;
+	Shooter a_Shooter;
 
-	// Collector a_Collector;
+	Collector a_Collector;
 
-	// Impeller a_Impeller;
+	Impeller a_Impeller;
 
 	CANTalon a_Lifter;
 
-	GearFlicker a_Flicker;
+	// GearFlicker a_Flicker;
 
 	LightRingController a_LRC;
 
@@ -76,9 +76,7 @@ private:
 
 	VisionSquitto a_MQTT;
 
-	Autonomous a_Autonomous;
-
-
+	// Autonomous a_Autonomous;
 
 	// SerialUltrasonic a_Ultrasonic;
 

@@ -24,14 +24,14 @@ void GearFlicker::Set(float val)
 
 void GearFlicker::Update()
 {
-	printf("Setval is: %f ", setVal );
+	// printf("Setval is: %f ", setVal );
 	if(Timer::GetFPGATimestamp() - tLastSet < 0.1){
 		a_GearFlicker.Set(setVal);
-		printf("we should be moving the flicker now\n");
+		// printf("we should be moving the flicker now\n");
 	} else {
 		setVal = 0;
 		a_GearFlicker.Set(0);
-		printf("the flicker should not move now\n");
+		// printf("the flicker should not move now\n");
 	}
 }
 

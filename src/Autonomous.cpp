@@ -705,18 +705,18 @@ void Autonomous::Left(){
 		MoveToBaseline(1);
 		return;
 	}
-	if(a_NeedsToRun[2]) {
-		TurnToPeg(2);
-		return;
-	}
-	if(a_NeedsToRun[3]) {
-		TurnToPegWait(3);
-		return;
-	}
-	if(a_NeedsToRun[4]) {
-		MoveToPeg(4);
-		return;
-	}
+//	if(a_NeedsToRun[2]) {
+//		TurnToPeg(2);
+//		return;
+//	}
+//	if(a_NeedsToRun[3]) {
+//		TurnToPegWait(3);
+//		return;
+//	}
+//	if(a_NeedsToRun[4]) {
+//		MoveToPeg(4);
+//		return;
+//	}
 	/*
 	if(a_NeedsToRun[5]) {
 		ScoreGear(5);
@@ -761,18 +761,18 @@ void Autonomous::Right(){
 		MoveToBaseline(1);
 		return;
 	}
-	if(a_NeedsToRun[2]) {
-		TurnToPeg(2);
-		return;
-	}
-	if(a_NeedsToRun[3]) {
-		TurnToPegWait(3);
-		return;
-	}
-	if(a_NeedsToRun[4]) {
-		MoveToPeg(4);
-		return;
-	}
+//	if(a_NeedsToRun[2]) {
+//		TurnToPeg(2);
+//		return;
+//	}
+//	if(a_NeedsToRun[3]) {
+//		TurnToPegWait(3);
+//		return;
+//	}
+//	if(a_NeedsToRun[4]) {
+//		MoveToPeg(4);
+//		return;
+//	}
 	/*
 	if(a_NeedsToRun[5]) {
 		ScoreGear(5);
