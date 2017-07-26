@@ -50,6 +50,7 @@ void SwerveModule::Update(float angle, float speed, float offset, float gyroValu
 	double dX = posDiff * sin(phi) * scale;
 	double dY = posDiff * cos(phi) * scale;
 	// here we pretend that the wheel only traveled in one direction in the time from last cycle to this one
+	// and break out distance traveled into x and y components
 	// which is not incorrect enough for us to not use, as 20 hz is OK for speeds as slow as we're travelling at
 	
 	distanceX += dX;
