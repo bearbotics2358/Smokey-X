@@ -42,11 +42,16 @@ void SwerveModule::Update(float angle, float speed, float offset, float gyroValu
 {
 	float currentPos = fabs(a_DriveMotor.GetEncPosition());
 	float posDiff = currentPos - lastPos;
-	float phi = (gyroValue - GetAngle()) * M_PI / 180.0; // convert to rads cuz that's what sin and cos use
-	// Phi is an angle measured from a vertical- thus, sin(phi) returns the x component of the vector, and cos(phi) returns the y component, unlike a theta measure, which is from a horizontal
-	// basically what i am trying to say is that gyroValue and GetAngle both return phi, so it's easiest to use a phi- we're using the "absolute" direction of the wheel relative to "north" on the floor here
+	// distance the wheel traveled since last cycle
+	
+	float phi = (gyroValue - GetAngle()) * M_PI / 180.0; 
+	// this is an expression for the angle of a single wheel compared to the field's forward direction, in radians
+	
 	double dX = posDiff * sin(phi) * scale;
 	double dY = posDiff * cos(phi) * scale;
+	// here we pretend that the wheel only traveled in one direction in the time from last cycle to this one
+	// which is not incorrect enough for us to not use, as 20 hz is OK for speeds as slow as we're travelling at
+	
 	distanceX += dX;
 	distanceY += dY;
 
@@ -59,9 +64,11 @@ void SwerveModule::Update(float angle, float speed, float offset, float gyroValu
 		speed *= -1.0;
 	}
 	*/
+	
 	// printf("The motor should be at speed: %f\n", speed);
 	a_TurnMotor.Set((angle + offset) * ABSOLUTE_CONV_FACTOR);
-	a_DriveMotor.Set(speed * MAX_RPM); // argument is in rpms, as we configgurqyetsled the encoder codes per rev
+	a_DriveMotor.Set(speed * MAX_RPM); 
+	// native arg units are encoder delta / 0.1s, but we told the CANTalon our encodercodes per revolution and it uses RPM now
 	lastPos = currentPos;
 
 }
@@ -141,4 +148,5 @@ void SwerveModule::SetDrivePIDF(float driveP, float driveI, float driveD, float 
 void SwerveModule::SetIzone(float izone)
 {
 	a_DriveMotor.SetIzone(izone);
+	// just here as a reminder- this sets an area for I to accumulate outside of, so that it wouldn't accumulate if it's near target
 }
