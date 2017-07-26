@@ -225,34 +225,9 @@ void SwerveDrive::Update(float XIn, float YIn, float ZIn, float gyroValue)
 				flAngle *= -1.0;
 				brAngle *= -1.0;
 				blAngle *= -1.0;
-
-				// if theta < 0, add 360
-
-		        ////////////////////
-			    //    360 or 0    //
-				//        //      //
-				//		  //      //
-				//		  //      //
-				//270///////////90//
-				//        //      //
-				//        //      //
-				//        //      //
-				//  	 180     //
-				////////////////////
-
-
-				if(frAngle < 0) {
-					frAngle +=360;
-				}
-				if(flAngle < 0) {
-					flAngle += 360;
-				}
-				if(brAngle < 0) {
-					brAngle += 360;
-				}
-				if(blAngle < 0) {
-					blAngle += 360;
-				}
+				
+			// removed the part where the "wrapping" occurs is adjusted to the forward direction- 
+			// forward is the most common direction to drive in, so having the wrap anywhere near there is not a great idea
 		 */
 
 	} else if(controlType == CONTROL_TYPE_FL_TURN_KEY) {
@@ -561,45 +536,6 @@ void SwerveDrive::Update(float XIn, float YIn, float ZIn, float gyroValue)
 			blSpeed = 0;
 			brSpeed = 0;
 			DisableTwist();
-		}
-	} else if(controlType == CONTROL_TYPE_TANK_KEY) {
-		if(fabs(xInput) > 0.125) {
-			flAngle = -90.0;
-			frAngle = -90.0;
-			blAngle = -90.0;
-			brAngle = -90.0;
-
-			frSpeed = xInput;
-			flSpeed = xInput;
-			blSpeed = xInput;
-			brSpeed = xInput;
-		} else {
-			flAngle = 0;
-			frAngle = 0;
-			blAngle = 0;
-			brAngle = 0;
-
-			frSpeed = yInput - zInput;
-			flSpeed = yInput + zInput;
-			blSpeed = yInput + zInput;
-			brSpeed = yInput - zInput;
-
-			max = fabs(frSpeed);
-			if(fabs(flSpeed) > max) {
-				max = fabs(flSpeed);
-			}
-			if(fabs(blSpeed) > max) {
-				max = fabs(blSpeed);
-			}
-			if(fabs(brSpeed) > max) {
-				max = fabs(brSpeed);
-			}
-			if(max > 1) { // This is done so that if a speed greater than 1 is calculated, all are reduced proportionally
-				frSpeed /= max;
-				flSpeed /= max;
-				blSpeed /= max;
-				brSpeed /= max;
-			}
 		}
 	} else {
 		float setAngle = atan2(yInput, xInput) * 180 / M_PI;
